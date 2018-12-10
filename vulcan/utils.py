@@ -4,6 +4,9 @@ import uuid as _uuid
 import time
 import math
 
+class VulcanAPIException(Exception):
+    pass
+
 def now():
     return math.floor(time.time())
 
