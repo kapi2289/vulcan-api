@@ -10,7 +10,17 @@ class Vulcan(object):
     app_version = '18.10.1.433'
 
     def __init__(self, cert):
-        pass
+        self._cert = cert
+        self._session = requests.session()
+        self._headers = {
+            'User-Agent': 'MobileUserAgent',
+            'RequestCertificateKey': cert['CertyfikatKlucz'],
+            'Connection': 'close',
+        }
+        self._url = cert['AdresBazowyRestApi']
+        self._base_url = self._url + 'mobile-api/Uczen.v3.'
+        self._full_url = None
+        self.user = None
 
     @staticmethod
     def create(token, symbol, pin):
@@ -41,3 +51,34 @@ class Vulcan(object):
             return j['TokenCert']
         except:
             raise VulcanAPIException('Cannot create the certificate!')
+
+    def _payload(self, json):
+        payload = {
+            'RemoteMobileTimeKey': now() + 1,
+            'TimeKey': now(),
+            'RequestId': uuid(),
+            'RemoteMobileAppVersion': Vulcan.app_version,
+            'RemoteMobileAppName': Vulcan.app_name,
+        }
+        if json:
+            payload.update(json)
+        return payload
+
+    def _request(self, _type, url, params=None, data=None, json=None, as_json=True):
+        payload = self._payload(json)
+        if _type == 'GET':
+            r = self._session.get(url, params=params, data=data, json=payload, headers=self._headers)
+        elif _type == 'POST':
+            r = self._session.post(url, params=params, data=data, json=payload, headers=self._headers)
+        if as_json:
+            try:
+                return r.json()
+            except:
+                raise VulcanAPIException('Bad request')
+        return r
+
+    def _get(self, url, params=None, data=None, json=None, as_json=True):
+        return self._request(_type='GET', url=url, params=params, data=data, json=json, as_json=as_json)
+
+    def _post(self, url, params=None, data=None, json=None, as_json=True):
+        return self._request(_type='POST', url=url, params=params, data=data, json=json, as_json=as_json)
