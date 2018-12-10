@@ -22,6 +22,8 @@ class Vulcan(object):
         self._base_url = self._url + 'mobile-api/Uczen.v3.'
         self._full_url = None
         self.user = None
+        users = self.users()
+        self.change_user(users[0])
 
     @staticmethod
     def create(token, symbol, pin):
@@ -61,6 +63,11 @@ class Vulcan(object):
             'RemoteMobileAppVersion': Vulcan.app_version,
             'RemoteMobileAppName': Vulcan.app_name,
         }
+        if self.user:
+            payload['IdOkresKlasyfikacyjny'] = self.user['IdOkresKlasyfikacyjny']
+            payload['IdUczen'] = self.user['Id']
+            payload['IdOddzial'] = self.user['IdOddzial']
+            payload['LoginId'] = self.user['UzytkownikLoginId']
         if json:
             payload.update(json)
         return payload
@@ -87,3 +94,11 @@ class Vulcan(object):
 
     def _post(self, url, params=None, data=None, json=None, as_json=True):
         return self._request(_type='POST', url=url, params=params, data=data, json=json, as_json=as_json)
+
+    def users(self):
+        j = self._post(self._base_url + 'UczenStart/ListaUczniow')
+        return j['Data']
+
+    def change_user(self, user):
+        self.user = user
+        self._full_url = self._url + user['JednostkaSprawozdawczaSymbol'] + '/mobile-api/Uczen.v3.'
