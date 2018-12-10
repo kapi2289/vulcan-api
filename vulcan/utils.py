@@ -3,6 +3,9 @@
 import uuid as _uuid
 import time
 import math
+from OpenSSL import crypto
+import json
+import base64
 
 class VulcanAPIException(Exception):
     pass
@@ -15,3 +18,8 @@ def uuid():
 
 def find(_list, key, value):
     return next(i for i in _list if i[key] == value)
+
+def signature(cert, passphrase, data):
+    p12 = crypto.load_pkcs12(base64.b64decode(cert), passphrase)
+    sign = crypto.sign(p12.get_privatekey(), json.dumps(data), 'RSA-SHA1')
+    return base64.b64encode(sign).decode('utf-8')

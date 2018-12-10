@@ -8,6 +8,7 @@ class Vulcan(object):
 
     app_name = 'VULCAN-Android-ModulUcznia'
     app_version = '18.10.1.433'
+    cert_passphrase = 'CE75EA598C7743AD9B0B7328DED85B06'
 
     def __init__(self, cert):
         self._cert = cert
@@ -64,8 +65,12 @@ class Vulcan(object):
             payload.update(json)
         return payload
 
+    def _signature(self, json):
+        self._headers['RequestSignatureValue'] = signature(self._cert['CertyfikatPfx'], Vulcan.cert_passphrase, json)
+
     def _request(self, _type, url, params=None, data=None, json=None, as_json=True):
         payload = self._payload(json)
+        self._signature(payload)
         if _type == 'GET':
             r = self._session.get(url, params=params, data=data, json=payload, headers=self._headers)
         elif _type == 'POST':
