@@ -3,6 +3,8 @@
 from .utils import *
 import platform
 import requests
+from datetime import datetime
+from operator import itemgetter
 
 class Vulcan(object):
 
@@ -102,3 +104,14 @@ class Vulcan(object):
     def change_user(self, user):
         self.user = user
         self._full_url = self._url + user['JednostkaSprawozdawczaSymbol'] + '/mobile-api/Uczen.v3.'
+
+    def lesson_plan(self, date=None):
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime('%Y-%m-%d')
+        data = {
+            'DataPoczatkowa': date_str,
+            'DataKoncowa': date_str,
+        }
+        j = self._post(self._full_url + 'Uczen/PlanLekcjiZeZmianami', json=data)
+        return sorted(j['Data'], key=itemgetter('NumerLekcji'))
