@@ -4,9 +4,10 @@ from __future__ import unicode_literals
 
 from .vulcan import *
 
-__title__ = 'vulcan-api'
-__version__ = '0.0.1'
-__description__ = 'Vulcan E-journal API for Python'
+__title__ = 'vulcan'
+__version__ = '0.0.3'
+__description__ = 'API for Vulcan e-journal'
+__doc__ = __description__
 
 __copyright__ = 'Copyright 2018 - 2018 by Kacper Ziubryniewicz'
 __license__ = 'MIT'

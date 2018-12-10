@@ -1,0 +1,32 @@
+[build-system]
+requires = ["flit"]
+build-backend = "flit.buildapi"
+
+[tool.flit.metadata]
+module = "vulcan"
+dist-name = "vulcan-api"
+author = "Kacper Ziubryniewicz"
+author-email = "kapi2289@gmail.com"
+license = "MIT"
+description-file = "README.md"
+keywords = "Vulcan UONETPlus Dzienniczek API"
+home-page = "https://bitbucket.org/kapi2289/vulcan-api"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: Polish",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Education",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires = [
+    "requests",
+    "pyopenssl",
+]
+requires-python = ">=3.0, <4.0"
