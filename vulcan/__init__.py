@@ -2,6 +2,8 @@
 
 from __future__ import unicode_literals
 
+from .vulcan import *
+
 __title__ = 'vulcan-api'
 __version__ = '0.0.1'
 __description__ = 'Vulcan E-journal API for Python'
@@ -11,3 +13,7 @@ __license__ = 'MIT'
 
 __author__ = 'Kacper Ziubryniewicz'
 __email__ = 'kapi2289@gmail.com'
+
+__all__ = [
+    'Vulcan',
+]
