@@ -97,6 +97,10 @@ class Vulcan(object):
     def _post(self, url, params=None, data=None, json=None, as_json=True):
         return self._request(_type='POST', url=url, params=params, data=data, json=json, as_json=as_json)
 
+    def _get_dict(self):
+        j = self._post(self._full_url + 'Uczen/Slowniki')
+        return j['Data']
+
     def users(self):
         j = self._post(self._base_url + 'UczenStart/ListaUczniow')
         return j['Data']
@@ -104,6 +108,7 @@ class Vulcan(object):
     def change_user(self, user):
         self.user = user
         self._full_url = self._url + user['JednostkaSprawozdawczaSymbol'] + '/mobile-api/Uczen.v3.'
+        self._dict = self._get_dict()
 
     def lesson_plan(self, date=None):
         if not date:
@@ -114,4 +119,11 @@ class Vulcan(object):
             'DataKoncowa': date_str,
         }
         j = self._post(self._full_url + 'Uczen/PlanLekcjiZeZmianami', json=data)
-        return sorted(j['Data'], key=itemgetter('NumerLekcji'))
+        plan = sorted(j['Data'], key=itemgetter('NumerLekcji'))
+        for lesson in plan:
+            lesson['DzienObjekt'] = datetime.utcfromtimestamp(lesson['Dzien']).date()
+            lesson['PoraLekcji'] = find(self._dict['PoryLekcji'], 'Id', lesson['IdPoraLekcji'])
+            lesson['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', lesson['IdPrzedmiot'])
+            lesson['Pracownik'] = find(self._dict['Pracownicy'], 'Id', lesson['IdPracownik'])
+            lesson['PracownikWspomagajacy'] = find(self._dict['Pracownicy'], 'Id', lesson['IdPracownikWspomagajacy'])
+        return plan

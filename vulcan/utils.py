@@ -17,7 +17,7 @@ def uuid():
     return str(_uuid.uuid4())
 
 def find(_list, key, value):
-    return next(i for i in _list if i[key] == value)
+    return next((i for i in _list if i[key] == value), None)
 
 def signature(cert, passphrase, data):
     p12 = crypto.load_pkcs12(base64.b64decode(cert), passphrase)
