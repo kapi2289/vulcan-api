@@ -120,3 +120,4 @@ dmypy.json
 
 # Private data
 cert.json
+cert.pipelines.json
