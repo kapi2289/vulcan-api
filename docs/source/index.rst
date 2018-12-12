@@ -8,3 +8,4 @@ Guide
     :maxdepth: 2
 
     installation
+    register
