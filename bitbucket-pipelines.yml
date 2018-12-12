@@ -6,6 +6,7 @@ pipelines:
         caches:
           - pip
         script:
+          - cp -f /usr/share/zoneinfo/Europe/Warsaw /etc/localtime
           - pip install -U flit pytest
           - python -m flit install
           - python -m pytest
