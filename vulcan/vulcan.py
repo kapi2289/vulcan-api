@@ -121,9 +121,25 @@ class Vulcan(object):
         j = self._post(self._full_url + 'Uczen/PlanLekcjiZeZmianami', json=data)
         plan = sorted(j['Data'], key=itemgetter('NumerLekcji'))
         for lesson in plan:
-            lesson['DzienObjekt'] = datetime.utcfromtimestamp(lesson['Dzien']).date()
+            lesson['DzienObjekt'] = datetime.fromtimestamp(lesson['Dzien']).date()
             lesson['PoraLekcji'] = find(self._dict['PoryLekcji'], 'Id', lesson['IdPoraLekcji'])
             lesson['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', lesson['IdPrzedmiot'])
             lesson['Pracownik'] = find(self._dict['Pracownicy'], 'Id', lesson['IdPracownik'])
             lesson['PracownikWspomagajacy'] = find(self._dict['Pracownicy'], 'Id', lesson['IdPracownikWspomagajacy'])
         return plan
+
+    def tests(self, date=None):
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime('%Y-%m-%d')
+        data = {
+            'DataPoczatkowa': date_str,
+            'DataKoncowa': date_str,
+        }
+        j = self._post(self._full_url + 'Uczen/Sprawdziany', json=data)
+        tests = sorted(j['Data'], key=itemgetter('Data'))
+        for test in tests:
+            test['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', test['IdPrzedmiot'])
+            test['Pracownik'] = find(self._dict['Pracownicy'], 'Id', test['IdPracownik'])
+            test['DataObjekt'] = datetime.fromtimestamp(test['Data']).date()
+        return tests
