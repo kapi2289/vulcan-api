@@ -143,3 +143,19 @@ class Vulcan(object):
             test['Pracownik'] = find(self._dict['Pracownicy'], 'Id', test['IdPracownik'])
             test['DataObjekt'] = datetime.fromtimestamp(test['Data']).date()
         return tests
+
+    def homeworks(self, date=None):
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime('%Y-%m-%d')
+        data = {
+            'DataPoczatkowa': date_str,
+            'DataKoncowa': date_str,
+        }
+        j = self._post(self._full_url + 'Uczen/ZadaniaDomowe', json=data)
+        homeworks = sorted(j['Data'], key=itemgetter('Data'))
+        for homework in homeworks:
+            homework['DataObjekt'] = datetime.fromtimestamp(homework['Data']).date()
+            homework['Pracownik'] = find(self._dict['Pracownicy'], 'Id', homework['IdPracownik'])
+            homework['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', homework['IdPrzedmiot'])
+        return homeworks
