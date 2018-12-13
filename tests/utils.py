@@ -58,5 +58,20 @@ PARAMS_TESTS = [
     ]),
 ]
 
+PARAMS_HOMEWORKS = [
+    (date(2018, 10, 23), [
+        {
+            'Id': 305,
+            'IdPracownik': 100,
+            'IdPrzedmiot': 119,
+        },
+        {
+            'Id': 306,
+            'IdPracownik': 100,
+            'IdPrzedmiot': 119,
+        },
+    ]),
+]
+
 def load_variable(name):
     return environ.get(name)

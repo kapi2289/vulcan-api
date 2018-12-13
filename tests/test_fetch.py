@@ -45,3 +45,23 @@ def test_tests_private(client, date, _tests):
         _test = _tests[i]
         for k in _test:
             assert test[k] == _test[k]
+
+@pytest.mark.private
+@pytest.mark.online
+@pytest.mark.parametrize('date, _homeworks', PARAMS_HOMEWORKS)
+def test_homeworks(client, date, _homeworks):
+    homeworks = client.homeworks(date)
+    for homework in homeworks:
+        assert homework['DataObjekt'] == date
+        assert homework['IdPracownik'] == homework['Pracownik']['Id']
+        assert homework['IdPrzedmiot'] == homework['Przedmiot']['Id']
+
+@pytest.mark.private
+@pytest.mark.parametrize('date, _homeworks', PARAMS_HOMEWORKS)
+def test_homeworks_private(client, date, _homeworks):
+    homeworks = client.homeworks(date)
+    assert len(homeworks) == len(_homeworks)
+    for i, homework in enumerate(homeworks):
+        _homework = _homeworks[i]
+        for k in _homework:
+            assert homework[k] == _homework[k]
