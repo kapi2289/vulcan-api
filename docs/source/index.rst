@@ -1,11 +1,12 @@
 Welcome to Vulcan API's documentation!
 ======================================
 
-Guide
-^^^^^
+Quickstart
+^^^^^^^^^^
 
 .. toctree::
     :maxdepth: 2
 
-    installation
-    register
+    quickstart/installation
+    quickstart/register
+    quickstart/basic-usage
