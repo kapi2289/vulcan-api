@@ -4,6 +4,7 @@ pipelines:
   pull-requests:
     '**':
      - step:
+        name: Private testing
         deployment: test
         caches:
           - pip
