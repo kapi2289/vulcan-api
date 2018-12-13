@@ -18,3 +18,4 @@ Usage
     :maxdepth: 2
 
     usage/lesson-plan
+    usage/tests
