@@ -1,13 +1,14 @@
 image: python:3.7
 
 pipelines:
-  branches:
-    master:
+  pull-requests:
+    '**':
      - step:
+        deployment: test
         caches:
           - pip
         script:
           - cp -f /usr/share/zoneinfo/Europe/Warsaw /etc/localtime
           - pip install -U flit pytest
           - python -m flit install
-          - python -m pytest
+          - python -m pytest -m private --color=yes
