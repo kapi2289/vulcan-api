@@ -1,7 +1,7 @@
 Fetching the tests
 ==================
 
-To fetch the tests for a specific day, you can use ``tests`` method. If no arguments, returnes the tests for today.
+To fetch the tests for a specific day, you can use ``tests()`` method. If no arguments, returns the tests for today.
 
 .. code:: python
 
@@ -9,7 +9,7 @@ To fetch the tests for a specific day, you can use ``tests`` method. If no argum
 
     tests = client.tests(date.today())
 
-``tests`` returs a list of dicts
+``tests()`` returns a list of dicts.
 
 .. code:: python
 

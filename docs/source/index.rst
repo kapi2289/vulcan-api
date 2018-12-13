@@ -19,3 +19,4 @@ Usage
 
     usage/lesson-plan
     usage/tests
+    usage/homeworks

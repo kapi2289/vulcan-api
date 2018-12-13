@@ -1,7 +1,7 @@
 Fetching the lesson plan
 ========================
 
-You can use ``lesson_plan`` method to fetch the lesson plan for a specific day. If no arguments, gives the lesson plan for today.
+You can use ``lesson_plan()`` method to fetch the lesson plan for a specific day. If no arguments, gives the lesson plan for today.
 
 .. code::
 
@@ -9,11 +9,11 @@ You can use ``lesson_plan`` method to fetch the lesson plan for a specific day. 
 
     plan = client.lesson_plan(date.today())
 
-``lesson_plan`` returs a list of dicts
+``lesson_plan()`` returns a list of dicts.
 
 .. code:: python
 
-    >> print(plan[0])
+    >> plan[0]
 
     {
         'Dzien': 1544655600,
