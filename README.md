@@ -7,12 +7,12 @@ Python API for Vulcan e-journal system. It's based on the mobile app, so you nee
 
 ## Installation
 You can install `vulcan-api` by `pip`
-```
+```bash
 pip install vulcan-api
 ```
 
 Or manually
-```
+```bash
 pip install flit
 git clone https://bitbucket.org/kapi2289/vulcan-api.git
 cd vulcan-api
@@ -20,7 +20,7 @@ flit install
 ```
 
 ## Usage
-First, you need to register API as a mobile device on https://uonetplus.vulcan.net.pl/(symbol)
+First, you need to register API as a mobile device on https://uonetplus.vulcan.net.pl/symbol
 
 ![image](https://i.imgur.com/x03Aykd.png)
 
@@ -60,3 +60,5 @@ user = users[0]
 
 client.change_user(user)
 ```
+
+For further instructions go to the [documentation](https://vulcan-api.readthedocs.io/).
