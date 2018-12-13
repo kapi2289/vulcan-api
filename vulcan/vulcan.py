@@ -120,6 +120,7 @@ class Vulcan(object):
         }
         j = self._post(self._full_url + 'Uczen/PlanLekcjiZeZmianami', json=data)
         plan = sorted(j['Data'], key=itemgetter('NumerLekcji'))
+        plan = list(filter(lambda x: x['DzienTekst'] == date_str, plan))
         for lesson in plan:
             lesson['DzienObjekt'] = datetime.fromtimestamp(lesson['Dzien']).date()
             lesson['PoraLekcji'] = find(self._dict['PoryLekcji'], 'Id', lesson['IdPoraLekcji'])
@@ -138,6 +139,7 @@ class Vulcan(object):
         }
         j = self._post(self._full_url + 'Uczen/Sprawdziany', json=data)
         tests = sorted(j['Data'], key=itemgetter('Data'))
+        tests = list(filter(lambda x: x['DataTekst'] == date_str, tests))
         for test in tests:
             test['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', test['IdPrzedmiot'])
             test['Pracownik'] = find(self._dict['Pracownicy'], 'Id', test['IdPracownik'])
@@ -154,6 +156,7 @@ class Vulcan(object):
         }
         j = self._post(self._full_url + 'Uczen/ZadaniaDomowe', json=data)
         homeworks = sorted(j['Data'], key=itemgetter('Data'))
+        homeworks = list(filter(lambda x: x['DataTekst'] == date_str, homeworks))
         for homework in homeworks:
             homework['DataObjekt'] = datetime.fromtimestamp(homework['Data']).date()
             homework['Pracownik'] = find(self._dict['Pracownicy'], 'Id', homework['IdPracownik'])

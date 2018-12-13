@@ -31,6 +31,10 @@ requires = [
 ]
 requires-python = ">=3.0, <4.0"
 
+[tool.flit.metadata.requires-extra]
+dev = ["flit"]
+test = ["pytest"]
+
 [tool.flit.metadata.urls]
 Repository = "https://bitbucket.org/kapi2289/vulcan-api"
 Documentation = "https://vulcan-api.readthedocs.io/en/latest/"
