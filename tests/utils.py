@@ -36,5 +36,27 @@ PARAMS_LESSON_PLAN = [
     ])
 ]
 
+PARAMS_TESTS = [
+    (date(2018, 10, 5), [
+        {
+            'Id': 661,
+            'IdPrzedmiot': 177,
+            'IdPracownik': 87,
+        },
+    ]),
+    (date(2018, 10, 23), [
+        {
+            'Id': 798,
+            'IdPrzedmiot': 173,
+            'IdPracownik': 99,
+        },
+        {
+            'Id': 838,
+            'IdPrzedmiot': 172,
+            'IdPracownik': 92,
+        },
+    ]),
+]
+
 def load_variable(name):
     return environ.get(name)
