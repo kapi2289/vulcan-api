@@ -3,6 +3,7 @@
 import pytest
 from utils import *
 
+@pytest.mark.private
 @pytest.mark.parametrize('date, lessons', PARAMS_LESSON_PLAN)
 def test_lesson_plan(client, date, lessons):
     plan = client.lesson_plan(date)
