@@ -5,7 +5,7 @@ from utils import *
 
 @pytest.mark.private
 @pytest.mark.parametrize('date, lessons', PARAMS_LESSON_PLAN)
-def test_lesson_plan(client, date, lessons):
+def test_lesson_plan_private(client, date, lessons):
     plan = client.lesson_plan(date)
     assert len(plan) == len(lessons)
     for i, lesson in enumerate(plan):
@@ -17,3 +17,8 @@ def test_lesson_plan(client, date, lessons):
         assert lesson['IdPoraLekcji'] == lesson['PoraLekcji']['Id']
         assert lesson['IdPrzedmiot'] == lessons[i]['IdPrzedmiot']
         assert lesson['IdPracownik'] == lessons[i]['IdPracownik']
+
+@pytest.mark.online
+@pytest.mark.parametrize('date, lessons', PARAMS_LESSON_PLAN)
+def test_lesson_plan(client, date, lessons):
+        client.lesson_plan(date)
