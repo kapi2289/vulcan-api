@@ -10,3 +10,11 @@ Quickstart
     quickstart/installation
     quickstart/register
     quickstart/basic-usage
+
+Usage
+^^^^^
+
+.. toctree::
+    :maxdepth: 2
+
+    usage/lesson-plan
