@@ -120,4 +120,7 @@ dmypy.json
 
 # Private data
 cert.json
-cert.pipelines.json
+cert.travis.json
+
+# Visual Studio Code
+.vscode/

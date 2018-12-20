@@ -10,7 +10,7 @@ author-email = "kapi2289@gmail.com"
 license = "MIT"
 description-file = "README.md"
 keywords = "Vulcan UONETPlus Dzienniczek API"
-home-page = "https://bitbucket.org/kapi2289/vulcan-api"
+home-page = "https://github.com/kapi2289/vulcan-api"
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Development Status :: 3 - Alpha",
