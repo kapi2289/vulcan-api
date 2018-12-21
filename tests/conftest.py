@@ -7,7 +7,7 @@ from utils import *
 @pytest.mark.private
 @pytest.mark.online
 @pytest.fixture
-def client():
+def klient():
     cert = {k: load_variable(k) for k in [
         'CertyfikatPfx',
         'CertyfikatKluczSformatowanyTekst',
