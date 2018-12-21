@@ -24,11 +24,11 @@ class Vulcan(object):
         self._base_url = self._url + 'mobile-api/Uczen.v3.'
         self._full_url = None
         self.user = None
-        users = self.users()
-        self.change_user(users[0])
+        users = self.uczniowie()
+        self.ustaw_ucznia(users[0])
 
     @staticmethod
-    def create(token, symbol, pin):
+    def zarejestruj(token, symbol, pin):
         data = {
             'PIN': str(pin),
             'TokenKey': token,
@@ -101,19 +101,19 @@ class Vulcan(object):
         j = self._post(self._full_url + 'Uczen/Slowniki')
         return j['Data']
 
-    def users(self):
+    def uczniowie(self):
         j = self._post(self._base_url + 'UczenStart/ListaUczniow')
         return j['Data']
 
-    def change_user(self, user):
+    def ustaw_ucznia(self, user):
         self.user = user
         self._full_url = self._url + user['JednostkaSprawozdawczaSymbol'] + '/mobile-api/Uczen.v3.'
         self._dict = self._get_dict()
 
-    def lesson_plan(self, date=None):
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d')
+    def plan_lekcji(self, dzien=None):
+        if not dzien:
+            dzien = datetime.now()
+        date_str = dzien.strftime('%Y-%m-%d')
         data = {
             'DataPoczatkowa': date_str,
             'DataKoncowa': date_str,
@@ -129,10 +129,10 @@ class Vulcan(object):
             lesson['PracownikWspomagajacy'] = find(self._dict['Pracownicy'], 'Id', lesson['IdPracownikWspomagajacy'])
         return plan
 
-    def tests(self, date=None):
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d')
+    def sprawdziany(self, dzien=None):
+        if not dzien:
+            dzien = datetime.now()
+        date_str = dzien.strftime('%Y-%m-%d')
         data = {
             'DataPoczatkowa': date_str,
             'DataKoncowa': date_str,
@@ -146,10 +146,10 @@ class Vulcan(object):
             test['DataObjekt'] = datetime.fromtimestamp(test['Data']).date()
         return tests
 
-    def homeworks(self, date=None):
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d')
+    def zadania_domowe(self, dzien=None):
+        if not dzien:
+            dzien = datetime.now()
+        date_str = dzien.strftime('%Y-%m-%d')
         data = {
             'DataPoczatkowa': date_str,
             'DataKoncowa': date_str,
