@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import unicode_literals
 from .utils import *
 import platform
 import requests
@@ -7,28 +8,46 @@ from datetime import datetime
 from operator import itemgetter
 
 class Vulcan(object):
+    """
+    Loguje się do dzienniczka za pomocą wygenerowanego certyfikatu
+
+    :param certyfikat: Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.zarejestruj`
+    :type certyfikat: :class:`dict`
+    """
 
     app_name = 'VULCAN-Android-ModulUcznia'
     app_version = '18.10.1.433'
     cert_passphrase = 'CE75EA598C7743AD9B0B7328DED85B06'
 
-    def __init__(self, cert):
-        self._cert = cert
+    def __init__(self, certyfikat):
+        self._cert = certyfikat
         self._session = requests.session()
         self._headers = {
             'User-Agent': 'MobileUserAgent',
-            'RequestCertificateKey': cert['CertyfikatKlucz'],
+            'RequestCertificateKey': certyfikat['CertyfikatKlucz'],
             'Connection': 'close',
         }
-        self._url = cert['AdresBazowyRestApi']
+        self._url = certyfikat['AdresBazowyRestApi']
         self._base_url = self._url + 'mobile-api/Uczen.v3.'
         self._full_url = None
-        self.user = None
-        users = self.users()
-        self.change_user(users[0])
+        self.uczeń = None
+        uczniowie = self.uczniowie()
+        self.ustaw_ucznia(uczniowie[0])
 
     @staticmethod
-    def create(token, symbol, pin):
+    def zarejestruj(token, symbol, pin):
+        """
+        Rejestruje API jako nowe urządzenie mobilne
+
+        :param token: Token
+        :param symbol: Symbol/Nazwa instancji
+        :param pin: PIN
+        :return: Certyfikat
+        :type token: :class:`str`
+        :type symbol: :class:`str`
+        :type pin: :class:`str`
+        :rtype: :class:`dict`
+        """
         data = {
             'PIN': str(pin),
             'TokenKey': token,
@@ -65,11 +84,11 @@ class Vulcan(object):
             'RemoteMobileAppVersion': Vulcan.app_version,
             'RemoteMobileAppName': Vulcan.app_name,
         }
-        if self.user:
-            payload['IdOkresKlasyfikacyjny'] = self.user['IdOkresKlasyfikacyjny']
-            payload['IdUczen'] = self.user['Id']
-            payload['IdOddzial'] = self.user['IdOddzial']
-            payload['LoginId'] = self.user['UzytkownikLoginId']
+        if self.uczeń:
+            payload['IdOkresKlasyfikacyjny'] = self.uczeń['IdOkresKlasyfikacyjny']
+            payload['IdUczen'] = self.uczeń['Id']
+            payload['IdOddzial'] = self.uczeń['IdOddzial']
+            payload['LoginId'] = self.uczeń['UzytkownikLoginId']
         if json:
             payload.update(json)
         return payload
@@ -101,64 +120,100 @@ class Vulcan(object):
         j = self._post(self._full_url + 'Uczen/Slowniki')
         return j['Data']
 
-    def users(self):
+    def uczniowie(self):
+        """
+        Zwraca listę wszystkich uczniów należących do użytkownika
+
+        :returns: Listę uczniów
+        :rtype: :class:`list`
+        """
         j = self._post(self._base_url + 'UczenStart/ListaUczniow')
         return j['Data']
 
-    def change_user(self, user):
-        self.user = user
-        self._full_url = self._url + user['JednostkaSprawozdawczaSymbol'] + '/mobile-api/Uczen.v3.'
+    def ustaw_ucznia(self, uczeń):
+        """
+        Ustawia domyślnego ucznia
+
+        :param uczeń: Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
+        :type uczeń: :class:`dict`
+        """
+        self.uczeń = uczeń
+        self._full_url = self._url + uczeń['JednostkaSprawozdawczaSymbol'] + '/mobile-api/Uczen.v3.'
         self._dict = self._get_dict()
 
-    def lesson_plan(self, date=None):
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d')
+    def plan_lekcji(self, dzień=None):
+        """
+        Pobiera plan lekcji z danego dnia
+
+        :param dzień: Dzień z którego pobrać plan lekcji, jeśli puste pobiera z aktualnego dnia
+        :type dzień: :class:`datetime.date` or :class:`datetime.datetime`
+        :returns: Listę lekcji
+        :rtype: :class:`list`
+        """
+        if not dzień:
+            dzień = datetime.now()
+        dzień_str = dzień.strftime('%Y-%m-%d')
         data = {
-            'DataPoczatkowa': date_str,
-            'DataKoncowa': date_str,
+            'DataPoczatkowa': dzień_str,
+            'DataKoncowa': dzień_str,
         }
         j = self._post(self._full_url + 'Uczen/PlanLekcjiZeZmianami', json=data)
-        plan = sorted(j['Data'], key=itemgetter('NumerLekcji'))
-        plan = list(filter(lambda x: x['DzienTekst'] == date_str, plan))
-        for lesson in plan:
-            lesson['DzienObjekt'] = datetime.fromtimestamp(lesson['Dzien']).date()
-            lesson['PoraLekcji'] = find(self._dict['PoryLekcji'], 'Id', lesson['IdPoraLekcji'])
-            lesson['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', lesson['IdPrzedmiot'])
-            lesson['Pracownik'] = find(self._dict['Pracownicy'], 'Id', lesson['IdPracownik'])
-            lesson['PracownikWspomagajacy'] = find(self._dict['Pracownicy'], 'Id', lesson['IdPracownikWspomagajacy'])
-        return plan
+        plan_lekcji = sorted(j['Data'], key=itemgetter('NumerLekcji'))
+        plan_lekcji = list(filter(lambda x: x['DzienTekst'] == dzień_str, plan_lekcji))
+        for lekcja in plan_lekcji:
+            lekcja['DzienObjekt'] = datetime.fromtimestamp(lekcja['Dzien']).date()
+            lekcja['PoraLekcji'] = find(self._dict['PoryLekcji'], 'Id', lekcja['IdPoraLekcji'])
+            lekcja['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', lekcja['IdPrzedmiot'])
+            lekcja['Pracownik'] = find(self._dict['Pracownicy'], 'Id', lekcja['IdPracownik'])
+            lekcja['PracownikWspomagajacy'] = find(self._dict['Pracownicy'], 'Id', lekcja['IdPracownikWspomagajacy'])
+        return plan_lekcji
 
-    def tests(self, date=None):
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d')
+    def sprawdziany(self, dzień=None):
+        """
+        Pobiera sprawdziany z danego dnia
+
+        :param dzień: Dzień z którego pobrać sprawdziany, jeśli puste pobiera z aktualnego dnia
+        :type dzień: :class:`datetime.date` or :class:`datetime.datetime`
+        :returns: Listę sprawdzianów
+        :rtype: :class:`list`
+        """
+        if not dzień:
+            dzień = datetime.now()
+        dzień_str = dzień.strftime('%Y-%m-%d')
         data = {
-            'DataPoczatkowa': date_str,
-            'DataKoncowa': date_str,
+            'DataPoczatkowa': dzień_str,
+            'DataKoncowa': dzień_str,
         }
         j = self._post(self._full_url + 'Uczen/Sprawdziany', json=data)
-        tests = sorted(j['Data'], key=itemgetter('Data'))
-        tests = list(filter(lambda x: x['DataTekst'] == date_str, tests))
-        for test in tests:
-            test['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', test['IdPrzedmiot'])
-            test['Pracownik'] = find(self._dict['Pracownicy'], 'Id', test['IdPracownik'])
-            test['DataObjekt'] = datetime.fromtimestamp(test['Data']).date()
-        return tests
+        sprawdziany = sorted(j['Data'], key=itemgetter('Data'))
+        sprawdziany = list(filter(lambda x: x['DataTekst'] == dzień_str, sprawdziany))
+        for sprawdzian in sprawdziany:
+            sprawdzian['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', sprawdzian['IdPrzedmiot'])
+            sprawdzian['Pracownik'] = find(self._dict['Pracownicy'], 'Id', sprawdzian['IdPracownik'])
+            sprawdzian['DataObjekt'] = datetime.fromtimestamp(sprawdzian['Data']).date()
+        return sprawdziany
 
-    def homeworks(self, date=None):
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime('%Y-%m-%d')
+    def zadania_domowe(self, dzień=None):
+        """
+        Pobiera zadania domowe z danego dnia
+
+        :param dzień: Dzień z którego pobrać zadania domowe, jeśli puste pobiera z aktualnego dnia
+        :type dzień: :class:`datetime.date` or :class:`datetime.datetime`
+        :returns: Listę zadań domowych
+        :rtype: :class:`list`
+        """
+        if not dzień:
+            dzień = datetime.now()
+        dzień_str = dzień.strftime('%Y-%m-%d')
         data = {
-            'DataPoczatkowa': date_str,
-            'DataKoncowa': date_str,
+            'DataPoczatkowa': dzień_str,
+            'DataKoncowa': dzień_str,
         }
         j = self._post(self._full_url + 'Uczen/ZadaniaDomowe', json=data)
-        homeworks = sorted(j['Data'], key=itemgetter('Data'))
-        homeworks = list(filter(lambda x: x['DataTekst'] == date_str, homeworks))
-        for homework in homeworks:
-            homework['DataObjekt'] = datetime.fromtimestamp(homework['Data']).date()
-            homework['Pracownik'] = find(self._dict['Pracownicy'], 'Id', homework['IdPracownik'])
-            homework['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', homework['IdPrzedmiot'])
-        return homeworks
+        zadania_domowe = sorted(j['Data'], key=itemgetter('Data'))
+        zadania_domowe = list(filter(lambda x: x['DataTekst'] == dzień_str, zadania_domowe))
+        for zadanie_domowe in zadania_domowe:
+            zadanie_domowe['DataObjekt'] = datetime.fromtimestamp(zadanie_domowe['Data']).date()
+            zadanie_domowe['Pracownik'] = find(self._dict['Pracownicy'], 'Id', zadanie_domowe['IdPracownik'])
+            zadanie_domowe['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', zadanie_domowe['IdPrzedmiot'])
+        return zadania_domowe
