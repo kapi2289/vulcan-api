@@ -26,7 +26,8 @@ author = 'Kacper Ziubryniewicz'
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '0.1.1'
+import vulcan
+release = vulcan.__version__
 
 
 # -- General configuration ---------------------------------------------------
