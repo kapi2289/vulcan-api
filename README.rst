@@ -7,7 +7,7 @@ Vulcan API
 
 .. image:: https://img.shields.io/pypi/v/vulcan-api.svg
     :target: https://pypi.org/project/vulcan-api/
-    :alt: v0.1.2
+    :alt: v0.1.3
 
 .. image:: https://img.shields.io/pypi/pyversions/vulcan-api.svg
     :target: https://pypi.org/project/vulcan-api/
