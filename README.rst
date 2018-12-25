@@ -18,7 +18,7 @@ Opis
 Nieoficjalne API do dzienniczka elektronicznego UONET+ od firmy `Vulcan <https://vulcan.edu.pl/>`__. Działa na podstawie aplikacji mobilnej, więc możesz je
 zarejestrować jako urządzenie mobilne na stronie.
 
-.. image:: docs/source/_static/zarejestrowane.png
+.. image:: https://raw.githubusercontent.com/kapi2289/vulcan-api/master/docs/source/_static/zarejestrowane.png
 
 Instalacja
 ^^^^^^^^^^

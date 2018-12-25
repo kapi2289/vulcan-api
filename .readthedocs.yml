@@ -1,0 +1,5 @@
+python:
+  version: 3
+  requirements_file: docs/requirements.txt
+  setup_py_install: false
+  pip_install: false
