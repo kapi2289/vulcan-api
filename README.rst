@@ -7,11 +7,11 @@ Vulcan API
 
 .. image:: https://img.shields.io/pypi/v/vulcan-api.svg
     :target: https://pypi.org/project/vulcan-api/
-    :alt: v0.1.3
+    :alt: v0.1.4
 
 .. image:: https://img.shields.io/pypi/pyversions/vulcan-api.svg
     :target: https://pypi.org/project/vulcan-api/
-    :alt: Supported Python versions: 3
+    :alt: Supported Python versions: 3.4, 3.5, 3.6, 3.7
 
 Opis
 ^^^^
@@ -28,14 +28,13 @@ Możesz zainstalować ``vulcan-api`` za pomocą ``pip``
 
     $ pip install vulcan-api
 
-lub ręcznie przy użyciu `flit`
+lub
 
 .. code:: console
 
-    $ pip install flit
     $ git clone https://github.com/kapi2289/vulcan-api.git
     $ cd vulcan-api
-    $ python -m flit install
+    $ pip install .
 
 Dokumentacja
 ^^^^^^^^^^^^
