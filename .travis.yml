@@ -1,12 +1,13 @@
-sudo: false
+sudo: yes
 language: python
 python:
   - "3.4"
   - "3.5"
   - "3.6"
+  - "3.7"
+dist: xenial
 install:
-  - pip install flit
-  - python -m flit install
+  - pip install .
 before_script:
   - export TZ=Europe/Warsaw
 script:
