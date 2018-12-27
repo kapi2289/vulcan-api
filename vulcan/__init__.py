@@ -4,16 +4,8 @@ from __future__ import unicode_literals
 
 from .vulcan import *
 
-__title__ = 'vulcan'
 __version__ = '0.1.3'
-__description__ = 'API for Vulcan e-journal'
-__doc__ = __description__
-
-__copyright__ = 'Copyright 2018 - 2018 by Kacper Ziubryniewicz'
-__license__ = 'MIT'
-
-__author__ = 'Kacper Ziubryniewicz'
-__email__ = 'kapi2289@gmail.com'
+__doc__ = 'Nieoficjalne API do dzienniczka elektronicznego UONET+'
 
 __all__ = [
     'Vulcan',
