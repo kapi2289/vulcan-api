@@ -8,6 +8,7 @@ from utils import *
 @pytest.mark.parametrize('dzien, _zadania_domowe', PARAMS_HOMEWORKS)
 class TestZadaniaDomowe(object):
 
+    @pytest.mark.online
     def test(self, klient, dzien, _zadania_domowe):
         zadania_domowe = klient.zadania_domowe(dzien)
         for zadanie_domowe in zadania_domowe:
@@ -15,7 +16,6 @@ class TestZadaniaDomowe(object):
             assert zadanie_domowe['IdPracownik'] == zadanie_domowe['Pracownik']['Id']
             assert zadanie_domowe['IdPrzedmiot'] == zadanie_domowe['Przedmiot']['Id']
 
-    @pytest.mark.private
     def test_private(self, klient, dzien, _zadania_domowe):
         zadania_domowe = klient.zadania_domowe(dzien)
         assert len(zadania_domowe) == len(_zadania_domowe)
