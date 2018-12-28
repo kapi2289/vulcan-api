@@ -34,5 +34,5 @@ a następnie ustawić domyślnego za pomocą :func:`vulcan.Vulcan.ustaw_ucznia`
 
 .. code:: python
 
-    uczeń = uczniowie[0]
-    klient.ustaw_ucznia(uczeń)
+    uczen = uczniowie[0]
+    klient.ustaw_ucznia(uczen)

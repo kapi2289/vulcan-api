@@ -7,11 +7,9 @@ Możesz zainstalować ``vulcan-api`` za pomocą ``pip``
 
     $ pip install vulcan-api
 
-lub ręcznie przy użyciu ``flit``
+lub
 
 .. code:: console
-
-    $ pip install flit
     $ git clone https://github.com/kapi2289/vulcan-api.git
     $ cd vulcan-api
-    $ python -m flit install
+    $ pip install .
