@@ -7,11 +7,11 @@ Vulcan API
 
 .. image:: https://img.shields.io/pypi/v/vulcan-api.svg
     :target: https://pypi.org/project/vulcan-api/
-    :alt: v0.1.4
+    :alt: v0.2.0
 
 .. image:: https://img.shields.io/pypi/pyversions/vulcan-api.svg
     :target: https://pypi.org/project/vulcan-api/
-    :alt: Supported Python versions: 3.4, 3.5, 3.6, 3.7
+    :alt: Wspierane wersje Python: 2.7, 3.4, 3.5, 3.6, 3.7
 
 Opis
 ^^^^
