@@ -6,6 +6,8 @@ import platform
 import requests
 from datetime import datetime
 from operator import itemgetter
+import logging
+
 
 class Vulcan(object):
     """
@@ -19,7 +21,7 @@ class Vulcan(object):
     app_version = '18.10.1.433'
     cert_passphrase = 'CE75EA598C7743AD9B0B7328DED85B06'
 
-    def __init__(self, certyfikat):
+    def __init__(self, certyfikat, logging_level=logging.INFO):
         self._cert = certyfikat
         self._session = requests.session()
         self._headers = {
@@ -30,6 +32,9 @@ class Vulcan(object):
         self._url = certyfikat['AdresBazowyRestApi']
         self._base_url = self._url + 'mobile-api/Uczen.v3.'
         self._full_url = None
+
+        log.setLevel(logging_level)
+
         self.uczen = None
         uczniowie = self.uczniowie()
         self.ustaw_ucznia(uczniowie[0])

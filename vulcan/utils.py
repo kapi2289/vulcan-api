@@ -6,6 +6,10 @@ import math
 from OpenSSL import crypto
 import json
 import base64
+import logging
+
+
+log = logging.getLogger(__name__)
 
 class VulcanAPIException(Exception):
     pass
