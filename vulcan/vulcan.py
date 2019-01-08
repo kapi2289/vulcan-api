@@ -6,6 +6,8 @@ import platform
 import requests
 from datetime import datetime
 from operator import itemgetter
+import logging
+
 
 class Vulcan(object):
     """
@@ -19,7 +21,7 @@ class Vulcan(object):
     app_version = '18.10.1.433'
     cert_passphrase = 'CE75EA598C7743AD9B0B7328DED85B06'
 
-    def __init__(self, certyfikat):
+    def __init__(self, certyfikat, logging_level=None):
         self._cert = certyfikat
         self._session = requests.session()
         self._headers = {
@@ -30,9 +32,16 @@ class Vulcan(object):
         self._url = certyfikat['AdresBazowyRestApi']
         self._base_url = self._url + 'mobile-api/Uczen.v3.'
         self._full_url = None
+
+        if logging_level: Vulcan.set_logging_level(logging_level)
+
         self.uczen = None
         uczniowie = self.uczniowie()
         self.ustaw_ucznia(uczniowie[0])
+
+    @staticmethod
+    def set_logging_level(logging_level):
+        log.setLevel(logging_level)
 
     @staticmethod
     def zarejestruj(token, symbol, pin):
@@ -48,8 +57,11 @@ class Vulcan(object):
         :type pin: :class:`str`
         :rtype: :class:`dict`
         """
+        token = str(token).upper()
+        symbol = str(symbol).lower()
+        pin = str(pin)
         data = {
-            'PIN': str(pin),
+            'PIN': pin,
             'TokenKey': token,
             'AppVersion': Vulcan.app_version,
             'DeviceId': uuid(),
@@ -68,11 +80,20 @@ class Vulcan(object):
             'RequestMobileType': 'RegisterDevice',
             'User-Agent': 'MobileUserAgent',
         }
-        url = 'https://lekcjaplus.vulcan.net.pl/{}/mobile-api/Uczen.v3.UczenStart/Certyfikat'.format(symbol)
+        try:
+            base_url = get_base_url(token)
+        except KeyError:
+            raise VulcanAPIException('Niepoprawny token!')
+        url = '{}/{}/mobile-api/Uczen.v3.UczenStart/Certyfikat'.format(base_url, symbol)
+        log.info('Rejestrowanie...')
         try:
             r = requests.post(url, json=data, headers=headers)
             j = r.json()
-            return j['TokenCert']
+            log.debug(j)
+            cert = j['TokenCert']
+            assert cert
+            log.info('Zarejestrowano pomyślnie!')
+            return cert
         except:
             raise VulcanAPIException('Nie można utworzyć certyfikatu!')
 
