@@ -9,7 +9,11 @@ import base64
 import logging
 
 
-log = logging.getLogger(__name__)
+log = logging.getLogger('client')
+log.setLevel(logging.INFO)
+
+handler = logging.StreamHandler()
+log.addHandler(handler)
 
 class VulcanAPIException(Exception):
     pass
