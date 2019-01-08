@@ -57,9 +57,12 @@ class Vulcan(object):
         :type pin: :class:`str`
         :rtype: :class:`dict`
         """
+        token = str(token).upper()
+        symbol = str(symbol).lower()
+        pin = str(pin)
         data = {
-            'PIN': str(pin),
-            'TokenKey': str(token).upper(),
+            'PIN': pin,
+            'TokenKey': token,
             'AppVersion': Vulcan.app_version,
             'DeviceId': uuid(),
             'DeviceName': 'Vulcan API',
@@ -77,7 +80,11 @@ class Vulcan(object):
             'RequestMobileType': 'RegisterDevice',
             'User-Agent': 'MobileUserAgent',
         }
-        url = 'https://lekcjaplus.vulcan.net.pl/{}/mobile-api/Uczen.v3.UczenStart/Certyfikat'.format(symbol)
+        try:
+            base_url = get_base_url(token)
+        except KeyError:
+            raise VulcanAPIException('Niepoprawny token!')
+        url = '{}/{}/mobile-api/Uczen.v3.UczenStart/Certyfikat'.format(base_url, symbol)
         log.info('Rejestrowanie...')
         try:
             r = requests.post(url, json=data, headers=headers)
