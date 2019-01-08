@@ -50,7 +50,7 @@ class Vulcan(object):
         """
         data = {
             'PIN': str(pin),
-            'TokenKey': token,
+            'TokenKey': str(token).upper(),
             'AppVersion': Vulcan.app_version,
             'DeviceId': uuid(),
             'DeviceName': 'Vulcan API',
@@ -72,7 +72,9 @@ class Vulcan(object):
         try:
             r = requests.post(url, json=data, headers=headers)
             j = r.json()
-            return j['TokenCert']
+            cert = j['TokenCert']
+            assert cert
+            return cert
         except:
             raise VulcanAPIException('Nie można utworzyć certyfikatu!')
 
