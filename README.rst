@@ -3,15 +3,19 @@ Vulcan API
 
 .. image:: https://img.shields.io/pypi/l/vulcan-api.svg
     :target: https://github.com/kapi2289/vulcan-api/blob/master/LICENSE
-    :alt: MIT License
+    :alt: Licencja
 
 .. image:: https://img.shields.io/pypi/v/vulcan-api.svg
     :target: https://pypi.org/project/vulcan-api/
-    :alt: v0.2.0
+    :alt: Wersja
 
 .. image:: https://img.shields.io/pypi/pyversions/vulcan-api.svg
     :target: https://pypi.org/project/vulcan-api/
-    :alt: Wspierane wersje Python: 2.7, 3.4, 3.5, 3.6, 3.7
+    :alt: Wspierane wersje Python
+
+.. image:: https://travis-ci.com/kapi2289/vulcan-api.svg?branch=master
+    :target: https://travis-ci.com/kapi2289/vulcan-api
+    :alt: Status testów
 
 Opis
 ^^^^
