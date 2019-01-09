@@ -34,6 +34,7 @@ setup(
     install_requires=[
         'requests',
         'pyopenssl',
+        'aenum',
     ],
     extra_requires={
         "test": [

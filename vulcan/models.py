@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 
 import json
+import aenum
 
 
 class VulcanAPIException(Exception):
     pass
+
+
+class Plec(aenum.Enum):
+    KOBIETA = 0
+    MEZCZYZNA = 1
 
 
 class Uczen(object):
@@ -21,7 +27,7 @@ class Uczen(object):
     #: Pseudonim ucznia
     pseudonim: str = None
     #: Płeć ucznia
-    plec = None
+    plec: Plec = None
     #: Aktualny okres klasyfikacyjny ucznia
     okres = None
     #: Klasa ucznia
@@ -50,6 +56,7 @@ class Uczen(object):
         drugie_imie = j['Imie2'] if j.get('Imie2') else None
         nazwisko = j.get('Nazwisko')
         pseudonim = j.get('Pseudonim')
+        plec = Plec(j.get('UczenPlec'))
         return cls(
             id=id,
             nazwa=nazwa,
@@ -57,4 +64,5 @@ class Uczen(object):
             drugie_imie=drugie_imie,
             nazwisko=nazwisko,
             pseudonim=pseudonim,
+            plec=plec,
         )
