@@ -44,6 +44,32 @@ class Okres(object):
         )
 
 
+class Klasa(object):
+
+    def __init__(self, id=None, kod=None, poziom=None, symbol=None):
+        #: ID klasy
+        self.id = id
+        #: Kod klasy (np. '8A')
+        self.kod = kod
+        #: Poziom klasy (np. 8)
+        self.poziom = poziom
+        #: Symbol klasy (np. 'A')
+        self.symbol = symbol
+
+    @classmethod
+    def from_json(cls, j):
+        id = j.get('IdOddzial')
+        kod = j.get('OddzialKod')
+        poziom = j.get('OkresPoziom')
+        symbol = j.get('OddzialSymbol')
+        return cls(
+            id=id,
+            kod=kod,
+            poziom=poziom,
+            symbol=symbol,
+        )
+
+
 class Uczen(object):
 
     def __init__(self, id=None, nazwa=None, imie=None, drugie_imie=None, nazwisko=None,
@@ -74,11 +100,12 @@ class Uczen(object):
         id = j.get('Id')
         nazwa = j.get('UzytkownikNazwa')
         imie = j.get('Imie')
-        drugie_imie = j['Imie2'] if j.get('Imie2') else None
+        drugie_imie = j.get('Imie2') or None
         nazwisko = j.get('Nazwisko')
         pseudonim = j.get('Pseudonim')
         plec = Plec(j.get('UczenPlec'))
         okres = Okres.from_json(j)
+        klasa = Klasa.from_json(j)
         return cls(
             id=id,
             nazwa=nazwa,
@@ -88,4 +115,5 @@ class Uczen(object):
             pseudonim=pseudonim,
             plec=plec,
             okres=okres,
+            klasa=klasa,
         )
