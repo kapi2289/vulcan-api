@@ -15,19 +15,19 @@ class Plec(aenum.Enum):
 
 class Uczen(object):
     #: ID ucznia
-    id: int = None
+    id = None
     #: Nazwisko, imię oraz drugie imię ucznia
-    nazwa: str = None
+    nazwa = None
     #: Pierwsze imię ucznia
-    imie: str = None
+    imie = None
     #: Drugie imię ucznia
-    drugie_imie: str = None
+    drugie_imie = None
     #: Nazwisko ucznia
-    nazwisko: str = None
+    nazwisko = None
     #: Pseudonim ucznia
-    pseudonim: str = None
+    pseudonim = None
     #: Płeć ucznia
-    plec: Plec = None
+    plec = None
     #: Aktualny okres klasyfikacyjny ucznia
     okres = None
     #: Klasa ucznia
@@ -49,7 +49,7 @@ class Uczen(object):
         self.szkola = szkola
 
     @classmethod
-    def from_json(cls, j: dict):
+    def from_json(cls, j):
         id = j.get('Id')
         nazwa = j.get('UzytkownikNazwa')
         imie = j.get('Imie')
