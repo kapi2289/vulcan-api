@@ -14,38 +14,28 @@ class Plec(aenum.Enum):
 
 
 class Uczen(object):
-    #: ID ucznia
-    id = None
-    #: Nazwisko, imię oraz drugie imię ucznia
-    nazwa = None
-    #: Pierwsze imię ucznia
-    imie = None
-    #: Drugie imię ucznia
-    drugie_imie = None
-    #: Nazwisko ucznia
-    nazwisko = None
-    #: Pseudonim ucznia
-    pseudonim = None
-    #: Płeć ucznia
-    plec = None
-    #: Aktualny okres klasyfikacyjny ucznia
-    okres = None
-    #: Klasa ucznia
-    klasa = None
-    #: Szkoła ucznia
-    szkola = None
 
     def __init__(self, id=None, nazwa=None, imie=None, drugie_imie=None, nazwisko=None,
                     pseudonim=None, plec=None, okres=None, klasa=None, szkola=None):
+        #: ID ucznia
         self.id = id
+        #: Nazwisko, imię oraz drugie imię ucznia
         self.nazwa = nazwa
+        #: Pierwsze imię ucznia
         self.imie = imie
+        #: Drugie imię ucznia
         self.drugie_imie = drugie_imie
+        #: Nazwisko ucznia
         self.nazwisko = nazwisko
+        #: Pseudonim ucznia
         self.pseudonim = pseudonim
+        #: Płeć ucznia
         self.plec = plec
+        #: Aktualny okres klasyfikacyjny ucznia
         self.okres = okres
+        #: Klasa ucznia
         self.klasa = klasa
+        #: Szkoła ucznia
         self.szkola = szkola
 
     @classmethod
