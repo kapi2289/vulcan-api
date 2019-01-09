@@ -183,7 +183,7 @@ class Vulcan(object):
         plan_lekcji = sorted(j['Data'], key=itemgetter('NumerLekcji'))
         plan_lekcji = list(filter(lambda x: x['DzienTekst'] == dzien_str, plan_lekcji))
         for lekcja in plan_lekcji:
-            lekcja['DzienObjekt'] = datetime.fromtimestamp(lekcja['Dzien']).date()
+            lekcja['DzienObjekt'] = timestamp_to_date(lekcja['Dzien'])
             lekcja['PoraLekcji'] = find(self._dict['PoryLekcji'], 'Id', lekcja['IdPoraLekcji'])
             lekcja['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', lekcja['IdPrzedmiot'])
             lekcja['Pracownik'] = find(self._dict['Pracownicy'], 'Id', lekcja['IdPracownik'])
@@ -212,7 +212,7 @@ class Vulcan(object):
         for sprawdzian in sprawdziany:
             sprawdzian['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', sprawdzian['IdPrzedmiot'])
             sprawdzian['Pracownik'] = find(self._dict['Pracownicy'], 'Id', sprawdzian['IdPracownik'])
-            sprawdzian['DataObjekt'] = datetime.fromtimestamp(sprawdzian['Data']).date()
+            sprawdzian['DataObjekt'] = timestamp_to_date(sprawdzian['Data'])
         return sprawdziany
 
     def zadania_domowe(self, dzien=None):
@@ -235,7 +235,7 @@ class Vulcan(object):
         zadania_domowe = sorted(j['Data'], key=itemgetter('Data'))
         zadania_domowe = list(filter(lambda x: x['DataTekst'] == dzien_str, zadania_domowe))
         for zadanie_domowe in zadania_domowe:
-            zadanie_domowe['DataObjekt'] = datetime.fromtimestamp(zadanie_domowe['Data']).date()
+            zadanie_domowe['DataObjekt'] = timestamp_to_date(zadanie_domowe['Data'])
             zadanie_domowe['Pracownik'] = find(self._dict['Pracownicy'], 'Id', zadanie_domowe['IdPracownik'])
             zadanie_domowe['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', zadanie_domowe['IdPrzedmiot'])
         return zadania_domowe
