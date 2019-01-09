@@ -16,9 +16,6 @@ log.setLevel(logging.INFO)
 handler = logging.StreamHandler()
 log.addHandler(handler)
 
-class VulcanAPIException(Exception):
-    pass
-
 def now():
     return math.floor(time.time())
 
