@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from .utils import *
 import json
 import aenum
 
@@ -11,6 +12,36 @@ class VulcanAPIException(Exception):
 class Plec(aenum.Enum):
     KOBIETA = 0
     MEZCZYZNA = 1
+
+
+class Okres(object):
+
+    def __init__(self, id=None, poziom=None, numer=None, od=None, do=None):
+        #: ID okresu kwalifikacyjnego
+        self.id = id
+        #: Poziom (klasa) okresu kwalifikacyjnego
+        self.poziom = poziom
+        #: Liczba kolejna okresu kwalifikacyjnego
+        self.numer = numer
+        #: Data rozpoczęcia okresu kwalifikacyjnego
+        self.od = od
+        #: Data zakończenia okresu kwalifikacyjnego
+        self.do = do
+
+    @classmethod
+    def from_json(cls, j):
+        id = j.get('IdOkresKlasyfikacyjny')
+        poziom = j.get('OkresPoziom')
+        numer = j.get('OkresNumer')
+        od = timestamp_to_date(j['OkresDataOd']) if j.get('OkresDataOd') else None
+        do = timestamp_to_date(j['OkresDataDo']) if j.get('OkresDataDo') else None
+        return cls(
+            id=id,
+            poziom=poziom,
+            numer=numer,
+            od=od,
+            do=do,
+        )
 
 
 class Uczen(object):
@@ -47,6 +78,7 @@ class Uczen(object):
         nazwisko = j.get('Nazwisko')
         pseudonim = j.get('Pseudonim')
         plec = Plec(j.get('UczenPlec'))
+        okres = Okres.from_json(j)
         return cls(
             id=id,
             nazwa=nazwa,
@@ -55,4 +87,5 @@ class Uczen(object):
             nazwisko=nazwisko,
             pseudonim=pseudonim,
             plec=plec,
+            okres=okres,
         )
