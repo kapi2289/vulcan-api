@@ -10,11 +10,13 @@ class VulcanAPIException(Exception):
 
 
 class Plec(aenum.Enum):
+    """Płeć"""
     KOBIETA = 0
     MEZCZYZNA = 1
 
 
 class Okres(object):
+    """Okres kwalifikacyjny"""
 
     def __init__(self, id=None, poziom=None, numer=None, od=None, do=None):
         #: ID okresu kwalifikacyjnego
@@ -45,6 +47,7 @@ class Okres(object):
 
 
 class Klasa(object):
+    """Oddział (klasa)"""
 
     def __init__(self, id=None, kod=None, poziom=None, symbol=None):
         #: ID klasy
@@ -71,6 +74,7 @@ class Klasa(object):
 
 
 class Uczen(object):
+    """Uczeń"""
 
     def __init__(self, id=None, nazwa=None, imie=None, drugie_imie=None, nazwisko=None,
                     pseudonim=None, plec=None, okres=None, klasa=None, szkola=None):
