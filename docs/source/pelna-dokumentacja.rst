@@ -25,6 +25,9 @@ Modele
 .. autoclass:: vulcan.models.Przedmiot
     :members:
 
+.. autoclass:: vulcan.models.Pracownik
+    :members:
+
 .. autoclass:: vulcan.models.Lekcja
     :members:
 
