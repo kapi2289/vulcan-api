@@ -16,18 +16,22 @@ class Plec(aenum.Enum):
 
 
 class Okres(object):
-    """Okres kwalifikacyjny"""
+    """
+    Okres kwalifikacyjny
+
+    Attributes:
+        id (:class:`int`): ID okresu kwalifikacyjnego
+        poziom (:class:`int`): Poziom (klasa) okresu kwalifikacyjnego
+        numer (:class:`int`): Liczba kolejna okresu kwalifikacyjnego
+        od (:class:`datetime.date`): Data rozpoczęcia okresu kwalifikacyjnego
+        do (:class:`datetime.date`): Data zakończenia okresu kwalifikacyjnego
+    """
 
     def __init__(self, id=None, poziom=None, numer=None, od=None, do=None):
-        #: ID okresu kwalifikacyjnego
         self.id = id
-        #: Poziom (klasa) okresu kwalifikacyjnego
         self.poziom = poziom
-        #: Liczba kolejna okresu kwalifikacyjnego
         self.numer = numer
-        #: Data rozpoczęcia okresu kwalifikacyjnego
         self.od = od
-        #: Data zakończenia okresu kwalifikacyjnego
         self.do = do
 
     @classmethod
@@ -47,16 +51,20 @@ class Okres(object):
 
 
 class Klasa(object):
-    """Oddział (klasa)"""
+    """
+    Oddział (klasa)
+
+    Attributes:
+        id (:class:`int`): ID klasy
+        kod (:class:`str`): Kod klasy (np. `"8A"`)
+        poziom (:class:`int`): Poziom klasy (np. `8`)
+        symbol (:class:`str`): Symbol klasy (np. `"A"`)
+    """
 
     def __init__(self, id=None, kod=None, poziom=None, symbol=None):
-        #: ID klasy
         self.id = id
-        #: Kod klasy (np. '8A')
         self.kod = kod
-        #: Poziom klasy (np. 8)
         self.poziom = poziom
-        #: Symbol klasy (np. 'A')
         self.symbol = symbol
 
     @classmethod
@@ -74,29 +82,33 @@ class Klasa(object):
 
 
 class Uczen(object):
-    """Uczeń"""
+    """
+    Uczeń
+
+    Attributes:
+        id (:class:`int`): ID ucznia
+        nazwa (:class:`str`): Nazwisko, imię oraz drugie imię ucznia
+        imie (:class:`str`): Pierwsze imię ucznia
+        drugie_imie (:class:`str` or :class:`None`): Drugie imię ucznia
+        nazwisko (:class:`str`): Nazwisko ucznia
+        pseudonim (:class:`str` or :class:`None`): Pseudonim ucznia
+        plec (:class:`vulcan.models.Plec`): Płeć ucznia
+        okres (:class:`vulcan.models.Okres`): Aktualny okres klasyfikacyjny ucznia
+        klasa (:class:`vulcan.models.Klasa`): Klasa ucznia
+        szkola (): Szkoła ucznia
+    """
 
     def __init__(self, id=None, nazwa=None, imie=None, drugie_imie=None, nazwisko=None,
                     pseudonim=None, plec=None, okres=None, klasa=None, szkola=None):
-        #: ID ucznia
         self.id = id
-        #: Nazwisko, imię oraz drugie imię ucznia
         self.nazwa = nazwa
-        #: Pierwsze imię ucznia
         self.imie = imie
-        #: Drugie imię ucznia
         self.drugie_imie = drugie_imie
-        #: Nazwisko ucznia
         self.nazwisko = nazwisko
-        #: Pseudonim ucznia
         self.pseudonim = pseudonim
-        #: Płeć ucznia
         self.plec = plec
-        #: Aktualny okres klasyfikacyjny ucznia
         self.okres = okres
-        #: Klasa ucznia
         self.klasa = klasa
-        #: Szkoła ucznia
         self.szkola = szkola
 
     @classmethod

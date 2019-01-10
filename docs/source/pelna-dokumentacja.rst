@@ -4,11 +4,24 @@ Pełna dokumentacja
 Klient
 ^^^^^^
 
-.. automodule:: vulcan
+.. autoclass:: vulcan.Vulcan
     :members:
 
 Modele
 ^^^^^^
 
-.. automodule:: vulcan.models
+.. autoclass:: vulcan.models.Okres
     :members:
+
+.. autoclass:: vulcan.models.Klasa
+    :members:
+
+.. autoclass:: vulcan.models.Uczen
+    :members:
+
+Modele enum
+^^^^^^^^^^^
+
+.. autoclass:: vulcan.models.Plec
+    :members:
+    :undoc-members:

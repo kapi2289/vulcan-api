@@ -10,6 +10,7 @@ Możesz zainstalować ``vulcan-api`` za pomocą ``pip``
 lub
 
 .. code:: console
+
     $ git clone https://github.com/kapi2289/vulcan-api.git
     $ cd vulcan-api
     $ pip install .

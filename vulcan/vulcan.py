@@ -14,8 +14,8 @@ class Vulcan(object):
     """
     Loguje się do dzienniczka za pomocą wygenerowanego certyfikatu
 
-    :param certyfikat: Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.zarejestruj`
-    :type certyfikat: :class:`dict`
+    Args:
+        certyfikat (:class:`dict`): Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.zarejestruj`
     """
 
     app_name = 'VULCAN-Android-ModulUcznia'
@@ -49,14 +49,13 @@ class Vulcan(object):
         """
         Rejestruje API jako nowe urządzenie mobilne
 
-        :param token: Token
-        :param symbol: Symbol/Nazwa instancji
-        :param pin: PIN
-        :return: Certyfikat
-        :type token: :class:`str`
-        :type symbol: :class:`str`
-        :type pin: :class:`str`
-        :rtype: :class:`dict`
+        Args:
+            token (:class:`str`): Token
+            symbol (:class:`str`): Symbol/Nazwa instancji
+            pin (:class:`str`): Kod PIN
+
+        Returns:
+            :class:`dict`: Certyfikat
         """
         token = str(token).upper()
         symbol = str(symbol).lower()
@@ -146,8 +145,8 @@ class Vulcan(object):
         """
         Zwraca listę wszystkich uczniów należących do użytkownika
 
-        :returns: Listę uczniów
-        :rtype: :class:`list`
+        Returns:
+            :class:`list`: Listę uczniów
         """
         j = self._post(self._base_url + 'UczenStart/ListaUczniow')
         return j['Data']
@@ -156,8 +155,8 @@ class Vulcan(object):
         """
         Ustawia domyślnego ucznia
 
-        :param uczen: Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
-        :type uczen: :class:`dict`
+        Args:
+            uczen (:class:`dict`): Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
         """
         self.uczen = uczen
         self._full_url = self._url + uczen['JednostkaSprawozdawczaSymbol'] + '/mobile-api/Uczen.v3.'
@@ -167,10 +166,12 @@ class Vulcan(object):
         """
         Pobiera plan lekcji z danego dnia
 
-        :param dzien: Dzień z którego pobrać plan lekcji, jeśli puste pobiera z aktualnego dnia
-        :type dzien: :class:`datetime.date` or :class:`datetime.datetime`
-        :returns: Listę lekcji
-        :rtype: :class:`list`
+        Args:
+            dzien (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać plan
+                lekcji, jeśli puste pobiera z aktualnego dnia
+
+        Returns:
+            :class:`list`: Listę lekcji
         """
         if not dzien:
             dzien = datetime.now()
@@ -194,10 +195,12 @@ class Vulcan(object):
         """
         Pobiera sprawdziany z danego dnia
 
-        :param dzien: Dzień z którego pobrać sprawdziany, jeśli puste pobiera z aktualnego dnia
-        :type dzien: :class:`datetime.date` or :class:`datetime.datetime`
-        :returns: Listę sprawdzianów
-        :rtype: :class:`list`
+        Args:
+            dzien (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
+                sprawdziany, jeśli puste pobiera z aktualnego dnia
+
+        Returns:
+            :class:`list`: Listę sprawdzianów
         """
         if not dzien:
             dzien = datetime.now()
@@ -219,10 +222,12 @@ class Vulcan(object):
         """
         Pobiera zadania domowe z danego dnia
 
-        :param dzien: Dzień z którego pobrać zadania domowe, jeśli puste pobiera z aktualnego dnia
-        :type dzien: :class:`datetime.date` or :class:`datetime.datetime`
-        :returns: Listę zadań domowych
-        :rtype: :class:`list`
+        Args:
+            dzien (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
+                zadania domowe, jeśli puste pobiera z aktualnego dnia
+
+        Returns:
+            :class:`list`: Listę zadań domowych
         """
         if not dzien:
             dzien = datetime.now()
