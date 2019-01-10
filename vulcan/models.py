@@ -34,6 +34,9 @@ class Okres(object):
         self.od = od
         self.do = do
 
+    def __repr__(self):
+        return "<Okres od={!r} do={!r}>".format(str(self.od), str(self.do))
+
     @classmethod
     def from_json(cls, j):
         id = j.get('IdOkresKlasyfikacyjny')
@@ -67,6 +70,9 @@ class Klasa(object):
         self.poziom = poziom
         self.symbol = symbol
 
+    def __repr__(self):
+        return "<Klasa {!s}>".format(self.kod)
+
     @classmethod
     def from_json(cls, j):
         id = j.get('IdOddzial')
@@ -97,6 +103,9 @@ class Szkola(object):
         self.skrot = skrot
         self.nazwa = nazwa
         self.symbol = symbol
+
+    def __repr__(self):
+        return "<Szkola {!r}>".format(self.skrot)
 
     @classmethod
     def from_json(cls, j):
@@ -141,6 +150,9 @@ class Uczen(object):
         self.okres = okres
         self.klasa = klasa
         self.szkola = szkola
+
+    def __repr__(self):
+        return "<Uczen {!r}>".format(self.nazwa)
 
     @classmethod
     def from_json(cls, j):
