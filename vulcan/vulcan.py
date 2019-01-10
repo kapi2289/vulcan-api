@@ -40,6 +40,12 @@ class Vulcan(object):
         uczniowie = self.uczniowie()
         self.ustaw_ucznia(uczniowie[0])
 
+    """
+    Ustawia poziom logowania
+
+    Args:
+        logging_level (:class:`int`): Poziom logowania z modułu :module:`logging`
+    """
     @staticmethod
     def set_logging_level(logging_level):
         log.setLevel(logging_level)
