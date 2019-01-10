@@ -22,6 +22,9 @@ Modele
 .. autoclass:: vulcan.models.Uczen
     :members:
 
+.. autoclass:: vulcan.models.Przedmiot
+    :members:
+
 .. autoclass:: vulcan.models.Lekcja
     :members:
 

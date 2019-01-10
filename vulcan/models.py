@@ -180,6 +180,36 @@ class Uczen(object):
         )
 
 
+class Przedmiot(object):
+    """
+    Przedmiot
+
+    Attributes:
+        id (:class:`int`): ID przedmiotu
+        nazwa (:class:`str`): Pełna nazwa przedmiotu
+        kod (:class:`str`): Kod nazwy przedmiotu
+    """
+
+    def __init__(self, id=None, nazwa=None, kod=None):
+        self.id = id
+        self.nazwa = nazwa
+        self.kod = kod
+
+    def __repr__(self):
+        return "<Przedmiot {!r}>".format(self.nazwa)
+
+    @classmethod
+    def from_json(cls, j):
+        id = j.get('Id')
+        nazwa = j.get('Nazwa')
+        kod = j.get('Kod')
+        return cls(
+            id=id,
+            nazwa=nazwa,
+            kod=kod,
+        )
+
+
 class Lekcja(object):
     """
     Lekcja
@@ -187,7 +217,7 @@ class Lekcja(object):
     Attributes:
         numer (:class:`int`): Numer lekcji
         pora (): Informacje o porze lekcji
-        przedmiot (): Przedmiot na lekcji
+        przedmiot (:class:`vulcan.models.Przedmiot`): Przedmiot na lekcji
         dzien (:class:`datetime.date`): Data lekcji
     """
 
@@ -205,8 +235,10 @@ class Lekcja(object):
     @classmethod
     def from_json(cls, j):
         numer = j.get('NumerLekcji')
+        przedmiot = Przedmiot.from_json(j.get('Przedmiot'))
         dzien = timestamp_to_date(j.get('Dzien'))
         return cls(
             numer=numer,
+            przedmiot=przedmiot,
             dzien=dzien,
         )
