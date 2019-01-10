@@ -81,6 +81,37 @@ class Klasa(object):
         )
 
 
+class Szkola(object):
+    """
+    Szkoła
+
+    Attributes:
+        id (:class:`int`) ID szkoły
+        skrot (:class:`str`) Skrót nazwy szkoły
+        nazwa (:class:`str`) Pełna nazwa szkoły
+        symbol (:class:`str`) Symbol szkoły
+    """
+
+    def __init__(self, id=None, skrot=None, nazwa=None, symbol=None):
+        self.id = id
+        self.skrot = skrot
+        self.nazwa = nazwa
+        self.symbol = symbol
+
+    @classmethod
+    def from_json(cls, j):
+        id = j.get('IdJednostkaSprawozdawcza')
+        skrot = j.get('JednostkaSprawozdawczaSkrot')
+        nazwa = j.get('JednostkaSprawozdawczaNazwa')
+        symbol = j.get('JednostkaSprawozdawczaSymbol')
+        return cls(
+            id=id,
+            skrot=skrot,
+            nazwa=nazwa,
+            symbol=symbol,
+        )
+
+
 class Uczen(object):
     """
     Uczeń
@@ -95,7 +126,7 @@ class Uczen(object):
         plec (:class:`vulcan.models.Plec`): Płeć ucznia
         okres (:class:`vulcan.models.Okres`): Aktualny okres klasyfikacyjny ucznia
         klasa (:class:`vulcan.models.Klasa`): Klasa ucznia
-        szkola (): Szkoła ucznia
+        szkola (:class:`vulcan.models.Szkola`): Szkoła ucznia
     """
 
     def __init__(self, id=None, nazwa=None, imie=None, drugie_imie=None, nazwisko=None,
@@ -122,6 +153,7 @@ class Uczen(object):
         plec = Plec(j.get('UczenPlec'))
         okres = Okres.from_json(j)
         klasa = Klasa.from_json(j)
+        szkola = Szkola.from_json(j)
         return cls(
             id=id,
             nazwa=nazwa,
@@ -132,4 +164,5 @@ class Uczen(object):
             plec=plec,
             okres=okres,
             klasa=klasa,
+            szkola=szkola,
         )
