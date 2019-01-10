@@ -49,3 +49,7 @@ def timestamp_to_datetime(ts):
 
 def timestamp_to_date(ts):
     return timestamp_to_datetime(ts).date()
+
+def concat_hours_and_minutes(date, ts):
+    d = timestamp_to_date(ts)
+    return date.replace(hour=d.hour, minute=d.minute)

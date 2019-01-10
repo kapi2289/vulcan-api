@@ -35,7 +35,7 @@ class Okres(object):
         self.do = do
 
     def __repr__(self):
-        return "<Okres od={!r} do={!r}>".format(str(self.od), str(self.do))
+        return "<Okres: od={!r} do={!r}>".format(str(self.od), str(self.do))
 
     @classmethod
     def from_json(cls, j):
@@ -177,4 +177,36 @@ class Uczen(object):
             okres=okres,
             klasa=klasa,
             szkola=szkola,
+        )
+
+
+class Lekcja(object):
+    """
+    Lekcja
+
+    Attributes:
+        numer (:class:`int`): Numer lekcji
+        pora (): Informacje o porze lekcji
+        przedmiot (): Przedmiot na lekcji
+        dzien (:class:`datetime.date`): Data lekcji
+    """
+
+    def __init__(self, numer=None, pora=None, przedmiot=None, pracownik=None,
+                dzien=None, od=None, do=None):
+        self.numer = numer
+        self.pora =  pora
+        self.przedmiot = przedmiot
+        self.pracownik = pracownik
+        self.dzien = dzien
+
+    def __repr__(self):
+        return "<Lekcja {!s}>".format(self.numer)
+
+    @classmethod
+    def from_json(cls, j):
+        numer = j.get('NumerLekcji')
+        dzien = timestamp_to_date(j.get('Dzien'))
+        return cls(
+            numer=numer,
+            dzien=dzien,
         )
