@@ -42,6 +42,7 @@ release = vulcan.__version__
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
+    'sphinx.ext.todo',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -174,3 +175,8 @@ epub_title = project
 
 # A list of files that should not be packed into the epub file.
 epub_exclude_files = ['search.html']
+
+# -- Options for sphinx.ext.todo extension -----------------------------------
+
+# If this is True, todo and todolist produce output, else they produce nothing.
+todo_include_todos = True

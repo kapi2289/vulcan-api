@@ -34,9 +34,16 @@ Modele
 .. autoclass:: vulcan.models.Lekcja
     :members:
 
+.. autoclass:: vulcan.models.Sprawdzian
+    :members:
+
 Modele enum
 ^^^^^^^^^^^
 
 .. autoclass:: vulcan.models.Plec
+    :members:
+    :undoc-members:
+
+.. autoclass:: vulcan.models.RodzajSprawdzianu
     :members:
     :undoc-members:
