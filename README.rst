@@ -17,6 +17,10 @@ Vulcan API
     :target: https://travis-ci.com/kapi2289/vulcan-api
     :alt: Status testów
 
+.. image:: https://readthedocs.org/projects/vulcan-api/badge/?version=latest
+    :target: https://vulcan-api.readthedocs.io/pl/latest/?badge=latest
+    :alt: Status dokumentacji
+
 Opis
 ^^^^
 Nieoficjalne API do dzienniczka elektronicznego UONET+ od firmy `Vulcan <https://vulcan.edu.pl/>`__. Działa na podstawie aplikacji mobilnej, więc możesz je
