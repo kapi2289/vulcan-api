@@ -28,6 +28,9 @@ Modele
 .. autoclass:: vulcan.models.Pracownik
     :members:
 
+.. autoclass:: vulcan.models.Pora
+    :members:
+
 .. autoclass:: vulcan.models.Lekcja
     :members:
 
