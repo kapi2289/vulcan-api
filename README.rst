@@ -1,25 +1,19 @@
-Vulcan API
-##########
+.. raw:: html
 
-.. image:: https://img.shields.io/pypi/l/vulcan-api.svg
-    :target: https://github.com/kapi2289/vulcan-api/blob/master/LICENSE
-    :alt: Licencja
-
-.. image:: https://img.shields.io/pypi/v/vulcan-api.svg
-    :target: https://pypi.org/project/vulcan-api/
-    :alt: Wersja
-
-.. image:: https://img.shields.io/pypi/pyversions/vulcan-api.svg
-    :target: https://pypi.org/project/vulcan-api/
-    :alt: Wspierane wersje Python
-
-.. image:: https://travis-ci.com/kapi2289/vulcan-api.svg?branch=master
-    :target: https://travis-ci.com/kapi2289/vulcan-api
-    :alt: Status testów
-
-.. image:: https://readthedocs.org/projects/vulcan-api/badge/?version=latest
-    :target: https://vulcan-api.readthedocs.io/pl/latest/?badge=latest
-    :alt: Status dokumentacji
+    <p align="center"><img width="80" src="https://uonetplus-uczen.vulcan.net.pl/Scripts/Vulcan.Efeb.Opiekun/18_7_1_31673/app/resources/images/herb.svg"></p>
+    <h1 align="center">Vulcan API</h1>
+    <p align="center">
+    <a href="https://github.com/kapi2289/vulcan-api/blob/master/LICENSE"><img src="https://img.shields.io/pypi/l/vulcan-api.svg" alt="Licencja"></a>
+    <a href="https://pypi.org/project/vulcan-api/"><img src="https://img.shields.io/pypi/v/vulcan-api.svg" alt="Wersja"></a>
+    <a href="https://pypi.org/project/vulcan-api/"><img src="https://img.shields.io/pypi/pyversions/vulcan-api.svg" alt="Wspierane wersje Python"></a>
+    <a href="https://travis-ci.com/kapi2289/vulcan-api"><img src="https://travis-ci.com/kapi2289/vulcan-api.svg?branch=master" alt="Status testów"></a>
+    <a href="https://vulcan-api.readthedocs.io/pl/latest/?badge=latest"><img src="https://img.shields.io/readthedocs/vulcan-api.svg" alt="Status dokumentacji"></a>
+    </p>
+    <p align="center">
+    <a href="https://pypi.org/project/vulcan-api/"><img src="https://img.shields.io/pypi/dd/vulcan-api.svg" alt="Ilość pobrań dziennie"></a>
+    <a href="https://pypi.org/project/vulcan-api/"><img src="https://img.shields.io/pypi/dw/vulcan-api.svg" alt="Ilość pobrań tygodniowo"></a>
+    <a href="https://pypi.org/project/vulcan-api/"><img src="https://img.shields.io/pypi/dm/vulcan-api.svg" alt="Ilość pobrań miesięcznie"></a>
+    </p>
 
 Opis
 ^^^^
