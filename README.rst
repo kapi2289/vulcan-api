@@ -1,6 +1,6 @@
 .. raw:: html
 
-    <p align="center"><img width="80" src="https://uonetplus-uczen.vulcan.net.pl/Scripts/Vulcan.Efeb.Opiekun/18_7_2_31752/app/resources/images/herb.svg"></p>
+    <p align="center"><img width="80" src="https://uonetplus-uczen.vulcan.net.pl/Scripts/Vulcan.Efeb.Opiekun/18_7_3_31856/app/resources/images/herb.svg"></p>
     <h1 align="center">Vulcan API</h1>
     <p align="center">
     <a href="https://github.com/kapi2289/vulcan-api/blob/master/LICENSE"><img src="https://img.shields.io/pypi/l/vulcan-api.svg" alt="Licencja"></a>
