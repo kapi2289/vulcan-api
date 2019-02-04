@@ -11,6 +11,7 @@ class VulcanAPIException(Exception):
 
 class Plec(aenum.Enum):
     """Płeć"""
+
     KOBIETA = 0
     MEZCZYZNA = 1
 
@@ -22,6 +23,7 @@ class RodzajSprawdzianu(aenum.Enum):
     Todo:
         Dodać enum testu
     """
+
     SPRAWDZIAN = 1
     KARTKOWKA = 2
     PRACA_KLASOWA = 3
@@ -51,18 +53,12 @@ class Okres(object):
 
     @classmethod
     def from_json(cls, j):
-        id = j.get('IdOkresKlasyfikacyjny')
-        poziom = j.get('OkresPoziom')
-        numer = j.get('OkresNumer')
-        od = timestamp_to_date(j['OkresDataOd']) if j.get('OkresDataOd') else None
-        do = timestamp_to_date(j['OkresDataDo']) if j.get('OkresDataDo') else None
-        return cls(
-            id=id,
-            poziom=poziom,
-            numer=numer,
-            od=od,
-            do=do,
-        )
+        id = j.get("IdOkresKlasyfikacyjny")
+        poziom = j.get("OkresPoziom")
+        numer = j.get("OkresNumer")
+        od = timestamp_to_date(j["OkresDataOd"]) if j.get("OkresDataOd") else None
+        do = timestamp_to_date(j["OkresDataDo"]) if j.get("OkresDataDo") else None
+        return cls(id=id, poziom=poziom, numer=numer, od=od, do=do)
 
 
 class Klasa(object):
@@ -87,16 +83,11 @@ class Klasa(object):
 
     @classmethod
     def from_json(cls, j):
-        id = j.get('IdOddzial')
-        kod = j.get('OddzialKod')
-        poziom = j.get('OkresPoziom')
-        symbol = j.get('OddzialSymbol')
-        return cls(
-            id=id,
-            kod=kod,
-            poziom=poziom,
-            symbol=symbol,
-        )
+        id = j.get("IdOddzial")
+        kod = j.get("OddzialKod")
+        poziom = j.get("OkresPoziom")
+        symbol = j.get("OddzialSymbol")
+        return cls(id=id, kod=kod, poziom=poziom, symbol=symbol)
 
 
 class Szkola(object):
@@ -121,16 +112,11 @@ class Szkola(object):
 
     @classmethod
     def from_json(cls, j):
-        id = j.get('IdJednostkaSprawozdawcza')
-        skrot = j.get('JednostkaSprawozdawczaSkrot')
-        nazwa = j.get('JednostkaSprawozdawczaNazwa')
-        symbol = j.get('JednostkaSprawozdawczaSymbol')
-        return cls(
-            id=id,
-            skrot=skrot,
-            nazwa=nazwa,
-            symbol=symbol,
-        )
+        id = j.get("IdJednostkaSprawozdawcza")
+        skrot = j.get("JednostkaSprawozdawczaSkrot")
+        nazwa = j.get("JednostkaSprawozdawczaNazwa")
+        symbol = j.get("JednostkaSprawozdawczaSymbol")
+        return cls(id=id, skrot=skrot, nazwa=nazwa, symbol=symbol)
 
 
 class Uczen(object):
@@ -150,8 +136,19 @@ class Uczen(object):
         szkola (:class:`vulcan.models.Szkola`): Szkoła ucznia
     """
 
-    def __init__(self, id=None, nazwa=None, imie=None, drugie_imie=None, nazwisko=None,
-                    pseudonim=None, plec=None, okres=None, klasa=None, szkola=None):
+    def __init__(
+        self,
+        id=None,
+        nazwa=None,
+        imie=None,
+        drugie_imie=None,
+        nazwisko=None,
+        pseudonim=None,
+        plec=None,
+        okres=None,
+        klasa=None,
+        szkola=None,
+    ):
         self.id = id
         self.nazwa = nazwa
         self.imie = imie
@@ -168,13 +165,13 @@ class Uczen(object):
 
     @classmethod
     def from_json(cls, j):
-        id = j.get('Id')
-        nazwa = j.get('UzytkownikNazwa')
-        imie = j.get('Imie')
-        drugie_imie = j.get('Imie2') or None
-        nazwisko = j.get('Nazwisko')
-        pseudonim = j.get('Pseudonim')
-        plec = Plec(j.get('UczenPlec'))
+        id = j.get("Id")
+        nazwa = j.get("UzytkownikNazwa")
+        imie = j.get("Imie")
+        drugie_imie = j.get("Imie2") or None
+        nazwisko = j.get("Nazwisko")
+        pseudonim = j.get("Pseudonim")
+        plec = Plec(j.get("UczenPlec"))
         okres = Okres.from_json(j)
         klasa = Klasa.from_json(j)
         szkola = Szkola.from_json(j)
@@ -212,14 +209,10 @@ class Przedmiot(object):
 
     @classmethod
     def from_json(cls, j):
-        id = j.get('Id')
-        nazwa = j.get('Nazwa')
-        kod = j.get('Kod')
-        return cls(
-            id=id,
-            nazwa=nazwa,
-            kod=kod,
-        )
+        id = j.get("Id")
+        nazwa = j.get("Nazwa")
+        kod = j.get("Kod")
+        return cls(id=id, nazwa=nazwa, kod=kod)
 
 
 class Pracownik(object):
@@ -248,18 +241,12 @@ class Pracownik(object):
 
     @classmethod
     def from_json(cls, j):
-        id = j.get('Id')
-        imie = j.get('Imie')
-        nazwisko = j.get('Nazwisko')
-        kod = j.get('Kod')
-        login_id = j.get('LoginId')
-        return cls(
-            id=id,
-            imie=imie,
-            nazwisko=nazwisko,
-            kod=kod,
-            login_id=login_id,
-        )
+        id = j.get("Id")
+        imie = j.get("Imie")
+        nazwisko = j.get("Nazwisko")
+        kod = j.get("Kod")
+        login_id = j.get("LoginId")
+        return cls(id=id, imie=imie, nazwisko=nazwisko, kod=kod, login_id=login_id)
 
 
 class PoraLekcji(object):
@@ -272,6 +259,7 @@ class PoraLekcji(object):
         od (:class:`datetime.datetime`): Godzina i minuta rozpoczęcia lekcji
         do (:class:`datetime.datetime`): Godzina i minuta zakończenia lekcji
     """
+
     def __init__(self, id=None, numer=None, od=None, do=None):
         self.id = id
         self.numer = numer
@@ -279,21 +267,17 @@ class PoraLekcji(object):
         self.do = do
 
     def __repr__(self):
-        return "<PoraLekcji {!s}: od='{!s}:{:02d}' do='{!s}:{:02d}'>".format(self.numer, self.od.hour, self.od.minute,
-                                                                    self.do.hour, self.do.minute)
+        return "<PoraLekcji {!s}: od='{!s}:{:02d}' do='{!s}:{:02d}'>".format(
+            self.numer, self.od.hour, self.od.minute, self.do.hour, self.do.minute
+        )
 
     @classmethod
     def from_json(cls, j):
-        id = j.get('Id')
-        numer = j.get('Numer')
-        od = timestamp_to_datetime(j.get('Poczatek'))
-        do = timestamp_to_datetime(j.get('Koniec'))
-        return cls(
-            id=id,
-            numer=numer,
-            od=od,
-            do=do,
-        )
+        id = j.get("Id")
+        numer = j.get("Numer")
+        od = timestamp_to_datetime(j.get("Poczatek"))
+        do = timestamp_to_datetime(j.get("Koniec"))
+        return cls(id=id, numer=numer, od=od, do=do)
 
 
 class Lekcja(object):
@@ -309,10 +293,18 @@ class Lekcja(object):
         do (:class:`datetime.datetime`): Data i godzina zakończenia lekcji
     """
 
-    def __init__(self, numer=None, pora=None, przedmiot=None, pracownik=None,
-                dzien=None, od=None, do=None):
+    def __init__(
+        self,
+        numer=None,
+        pora=None,
+        przedmiot=None,
+        pracownik=None,
+        dzien=None,
+        od=None,
+        do=None,
+    ):
         self.numer = numer
-        self.pora =  pora
+        self.pora = pora
         self.przedmiot = przedmiot
         self.pracownik = pracownik
         self.dzien = dzien
@@ -320,18 +312,20 @@ class Lekcja(object):
         self.do = do
 
     def __repr__(self):
-        return "<Lekcja {!s}: przedmiot={!r} pracownik={!r}>".format(self.numer, self.przedmiot.nazwa, self.pracownik.nazwa)
+        return "<Lekcja {!s}: przedmiot={!r} pracownik={!r}>".format(
+            self.numer, self.przedmiot.nazwa, self.pracownik.nazwa
+        )
 
     @classmethod
     def from_json(cls, j):
-        numer = j.get('NumerLekcji')
-        pora = PoraLekcji.from_json(j.get('PoraLekcji'))
-        przedmiot = Przedmiot.from_json(j.get('Przedmiot'))
-        pracownik = Pracownik.from_json(j.get('Pracownik'))
-        dzien_datetime = timestamp_to_datetime(j.get('Dzien'))
+        numer = j.get("NumerLekcji")
+        pora = PoraLekcji.from_json(j.get("PoraLekcji"))
+        przedmiot = Przedmiot.from_json(j.get("Przedmiot"))
+        pracownik = Pracownik.from_json(j.get("Pracownik"))
+        dzien_datetime = timestamp_to_datetime(j.get("Dzien"))
         dzien = dzien_datetime.date()
-        od = concat_hours_and_minutes(dzien_datetime, j['PoraLekcji']['Poczatek'])
-        do = concat_hours_and_minutes(dzien_datetime, j['PoraLekcji']['Koniec'])
+        od = concat_hours_and_minutes(dzien_datetime, j["PoraLekcji"]["Poczatek"])
+        do = concat_hours_and_minutes(dzien_datetime, j["PoraLekcji"]["Koniec"])
         return cls(
             numer=numer,
             pora=pora,
@@ -356,8 +350,16 @@ class Sprawdzian(object):
         dzien (:class:`datetime.date`): Dzień sprawdzianu
     """
 
-    def __init__(self, id=None, rodzaj=None, przedmiot=None, pracownik=None,
-                klasa=None, opis=None, dzien=None):
+    def __init__(
+        self,
+        id=None,
+        rodzaj=None,
+        przedmiot=None,
+        pracownik=None,
+        klasa=None,
+        opis=None,
+        dzien=None,
+    ):
         self.id = id
         self.rodzaj = rodzaj
         self.przedmiot = przedmiot
@@ -370,12 +372,12 @@ class Sprawdzian(object):
 
     @classmethod
     def from_json(cls, j):
-        id = j.get('Id')
-        rodzaj = RodzajSprawdzianu(j.get('RodzajNumer'))
-        przedmiot = Przedmiot.from_json(j.get('Przedmiot'))
-        pracownik = Pracownik.from_json(j.get('Pracownik'))
-        opis = j.get('Opis')
-        dzien = timestamp_to_date(j.get('Data'))
+        id = j.get("Id")
+        rodzaj = RodzajSprawdzianu(j.get("RodzajNumer"))
+        przedmiot = Przedmiot.from_json(j.get("Przedmiot"))
+        pracownik = Pracownik.from_json(j.get("Pracownik"))
+        opis = j.get("Opis")
+        dzien = timestamp_to_date(j.get("Data"))
         return cls(
             id=id,
             rodzaj=rodzaj,

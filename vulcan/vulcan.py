@@ -47,6 +47,7 @@ class Vulcan(object):
     Args:
         logging_level (:class:`int`): Poziom logowania z modułu :module:`logging`
     """
+
     @staticmethod
     def set_logging_level(logging_level):
         log.setLevel(logging_level)

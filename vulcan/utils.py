@@ -56,11 +56,14 @@ def get_base_url(token):
     components = get_components()
     return components[code]
 
+
 def timestamp_to_datetime(ts):
     return pytz.utc.localize(datetime.utcfromtimestamp(ts)).astimezone(tz)
 
+
 def timestamp_to_date(ts):
     return timestamp_to_datetime(ts).date()
+
 
 def concat_hours_and_minutes(date, ts):
     d = timestamp_to_datetime(ts)
