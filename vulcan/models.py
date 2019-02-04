@@ -262,7 +262,7 @@ class Pracownik(object):
         )
 
 
-class Pora(object):
+class PoraLekcji(object):
     """
     Pora lekcji
 
@@ -279,7 +279,7 @@ class Pora(object):
         self.do = do
 
     def __repr__(self):
-        return "<Pora {!s}: od='{!s}:{:02d}' do='{!s}:{:02d}'>".format(self.numer, self.od.hour, self.od.minute,
+        return "<PoraLekcji {!s}: od='{!s}:{:02d}' do='{!s}:{:02d}'>".format(self.numer, self.od.hour, self.od.minute,
                                                                     self.do.hour, self.do.minute)
 
     @classmethod
@@ -302,7 +302,7 @@ class Lekcja(object):
 
     Attributes:
         numer (:class:`int`): Numer lekcji
-        pora (:class:`vulcan.models.Pora`): Informacje o porze lekcji
+        pora (:class:`vulcan.models.PoraLekcji`): Informacje o porze lekcji
         przedmiot (:class:`vulcan.models.Przedmiot`): Przedmiot na lekcji
         dzien (:class:`datetime.date`): Data lekcji
         od (:class:`datetime.datetime`): Data i godzina rozpoczęcia lekcji
@@ -325,7 +325,7 @@ class Lekcja(object):
     @classmethod
     def from_json(cls, j):
         numer = j.get('NumerLekcji')
-        pora = Pora.from_json(j.get('PoraLekcji'))
+        pora = PoraLekcji.from_json(j.get('PoraLekcji'))
         przedmiot = Przedmiot.from_json(j.get('Przedmiot'))
         pracownik = Pracownik.from_json(j.get('Pracownik'))
         dzien_datetime = timestamp_to_datetime(j.get('Dzien'))
