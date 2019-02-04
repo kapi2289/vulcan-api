@@ -7,6 +7,4 @@ from .vulcan import *
 __version__ = '0.2.1'
 __doc__ = 'Nieoficjalne API do dzienniczka elektronicznego UONET+'
 
-__all__ = [
-    'Vulcan',
-]
+__all__ = ['Vulcan']

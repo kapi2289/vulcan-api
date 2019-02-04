@@ -7,7 +7,6 @@ from utils import *
 @pytest.mark.private
 @pytest.mark.parametrize('dzien, _lekcje', PARAMS_LESSON_PLAN)
 class TestPlanLekcji(object):
-
     @pytest.mark.online
     def test(self, klient, dzien, _lekcje):
         lekcje = klient.plan_lekcji(dzien)

@@ -7,7 +7,6 @@ from utils import *
 @pytest.mark.private
 @pytest.mark.parametrize('dzien, _zadania_domowe', PARAMS_HOMEWORKS)
 class TestZadaniaDomowe(object):
-
     @pytest.mark.online
     def test(self, klient, dzien, _zadania_domowe):
         zadania_domowe = klient.zadania_domowe(dzien)

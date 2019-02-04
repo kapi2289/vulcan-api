@@ -14,6 +14,7 @@
 #
 import os
 import sys
+
 sys.path.insert(0, os.path.abspath('../..'))
 
 
@@ -27,6 +28,7 @@ author = 'Kacper Ziubryniewicz'
 version = ''
 # The full version, including alpha/beta/rc tags
 import vulcan
+
 release = vulcan.__version__
 
 
@@ -39,9 +41,7 @@ release = vulcan.__version__
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [
-    'sphinx.ext.autodoc',
-]
+extensions = ['sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -112,15 +112,12 @@ latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',
-
     # The font size ('10pt', '11pt' or '12pt').
     #
     # 'pointsize': '10pt',
-
     # Additional stuff for the LaTeX preamble.
     #
     # 'preamble': '',
-
     # Latex figure (float) alignment
     #
     # 'figure_align': 'htbp',
@@ -130,8 +127,13 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'VulcanAPI.tex', 'Vulcan API Documentation',
-     'Kacper Ziubryniewicz', 'manual'),
+    (
+        master_doc,
+        'VulcanAPI.tex',
+        'Vulcan API Documentation',
+        'Kacper Ziubryniewicz',
+        'manual',
+    )
 ]
 
 
@@ -139,10 +141,7 @@ latex_documents = [
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [
-    (master_doc, 'vulcanapi', 'Vulcan API Documentation',
-     [author], 1)
-]
+man_pages = [(master_doc, 'vulcanapi', 'Vulcan API Documentation', [author], 1)]
 
 
 # -- Options for Texinfo output ----------------------------------------------
@@ -151,9 +150,15 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'VulcanAPI', 'Vulcan API Documentation',
-     author, 'VulcanAPI', 'One line description of project.',
-     'Miscellaneous'),
+    (
+        master_doc,
+        'VulcanAPI',
+        'Vulcan API Documentation',
+        author,
+        'VulcanAPI',
+        'One line description of project.',
+        'Miscellaneous',
+    )
 ]
 
 

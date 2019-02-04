@@ -33,7 +33,8 @@ class Vulcan(object):
         self._base_url = self._url + 'mobile-api/Uczen.v3.'
         self._full_url = None
 
-        if logging_level: Vulcan.set_logging_level(logging_level)
+        if logging_level:
+            Vulcan.set_logging_level(logging_level)
 
         self.uczen = None
         uczniowie = self.uczniowie()
@@ -115,15 +116,21 @@ class Vulcan(object):
         return payload
 
     def _signature(self, json):
-        self._headers['RequestSignatureValue'] = signature(self._cert['CertyfikatPfx'], Vulcan.cert_passphrase, json)
+        self._headers['RequestSignatureValue'] = signature(
+            self._cert['CertyfikatPfx'], Vulcan.cert_passphrase, json
+        )
 
     def _request(self, _type, url, params=None, data=None, json=None, as_json=True):
         payload = self._payload(json)
         self._signature(payload)
         if _type == 'GET':
-            r = self._session.get(url, params=params, data=data, json=payload, headers=self._headers)
+            r = self._session.get(
+                url, params=params, data=data, json=payload, headers=self._headers
+            )
         elif _type == 'POST':
-            r = self._session.post(url, params=params, data=data, json=payload, headers=self._headers)
+            r = self._session.post(
+                url, params=params, data=data, json=payload, headers=self._headers
+            )
         if as_json:
             try:
                 return r.json()
@@ -132,10 +139,14 @@ class Vulcan(object):
         return r
 
     def _get(self, url, params=None, data=None, json=None, as_json=True):
-        return self._request(_type='GET', url=url, params=params, data=data, json=json, as_json=as_json)
+        return self._request(
+            _type='GET', url=url, params=params, data=data, json=json, as_json=as_json
+        )
 
     def _post(self, url, params=None, data=None, json=None, as_json=True):
-        return self._request(_type='POST', url=url, params=params, data=data, json=json, as_json=as_json)
+        return self._request(
+            _type='POST', url=url, params=params, data=data, json=json, as_json=as_json
+        )
 
     def _get_dict(self):
         j = self._post(self._full_url + 'Uczen/Slowniki')
@@ -159,7 +170,9 @@ class Vulcan(object):
         :type uczen: :class:`dict`
         """
         self.uczen = uczen
-        self._full_url = self._url + uczen['JednostkaSprawozdawczaSymbol'] + '/mobile-api/Uczen.v3.'
+        self._full_url = (
+            self._url + uczen['JednostkaSprawozdawczaSymbol'] + '/mobile-api/Uczen.v3.'
+        )
         self._dict = self._get_dict()
 
     def plan_lekcji(self, dzien=None):
@@ -174,19 +187,24 @@ class Vulcan(object):
         if not dzien:
             dzien = datetime.now()
         dzien_str = dzien.strftime('%Y-%m-%d')
-        data = {
-            'DataPoczatkowa': dzien_str,
-            'DataKoncowa': dzien_str,
-        }
+        data = {'DataPoczatkowa': dzien_str, 'DataKoncowa': dzien_str}
         j = self._post(self._full_url + 'Uczen/PlanLekcjiZeZmianami', json=data)
         plan_lekcji = sorted(j['Data'], key=itemgetter('NumerLekcji'))
         plan_lekcji = list(filter(lambda x: x['DzienTekst'] == dzien_str, plan_lekcji))
         for lekcja in plan_lekcji:
             lekcja['DzienObjekt'] = datetime.fromtimestamp(lekcja['Dzien']).date()
-            lekcja['PoraLekcji'] = find(self._dict['PoryLekcji'], 'Id', lekcja['IdPoraLekcji'])
-            lekcja['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', lekcja['IdPrzedmiot'])
-            lekcja['Pracownik'] = find(self._dict['Pracownicy'], 'Id', lekcja['IdPracownik'])
-            lekcja['PracownikWspomagajacy'] = find(self._dict['Pracownicy'], 'Id', lekcja['IdPracownikWspomagajacy'])
+            lekcja['PoraLekcji'] = find(
+                self._dict['PoryLekcji'], 'Id', lekcja['IdPoraLekcji']
+            )
+            lekcja['Przedmiot'] = find(
+                self._dict['Przedmioty'], 'Id', lekcja['IdPrzedmiot']
+            )
+            lekcja['Pracownik'] = find(
+                self._dict['Pracownicy'], 'Id', lekcja['IdPracownik']
+            )
+            lekcja['PracownikWspomagajacy'] = find(
+                self._dict['Pracownicy'], 'Id', lekcja['IdPracownikWspomagajacy']
+            )
         return plan_lekcji
 
     def sprawdziany(self, dzien=None):
@@ -201,16 +219,17 @@ class Vulcan(object):
         if not dzien:
             dzien = datetime.now()
         dzien_str = dzien.strftime('%Y-%m-%d')
-        data = {
-            'DataPoczatkowa': dzien_str,
-            'DataKoncowa': dzien_str,
-        }
+        data = {'DataPoczatkowa': dzien_str, 'DataKoncowa': dzien_str}
         j = self._post(self._full_url + 'Uczen/Sprawdziany', json=data)
         sprawdziany = sorted(j['Data'], key=itemgetter('Data'))
         sprawdziany = list(filter(lambda x: x['DataTekst'] == dzien_str, sprawdziany))
         for sprawdzian in sprawdziany:
-            sprawdzian['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', sprawdzian['IdPrzedmiot'])
-            sprawdzian['Pracownik'] = find(self._dict['Pracownicy'], 'Id', sprawdzian['IdPracownik'])
+            sprawdzian['Przedmiot'] = find(
+                self._dict['Przedmioty'], 'Id', sprawdzian['IdPrzedmiot']
+            )
+            sprawdzian['Pracownik'] = find(
+                self._dict['Pracownicy'], 'Id', sprawdzian['IdPracownik']
+            )
             sprawdzian['DataObjekt'] = datetime.fromtimestamp(sprawdzian['Data']).date()
         return sprawdziany
 
@@ -226,15 +245,20 @@ class Vulcan(object):
         if not dzien:
             dzien = datetime.now()
         dzien_str = dzien.strftime('%Y-%m-%d')
-        data = {
-            'DataPoczatkowa': dzien_str,
-            'DataKoncowa': dzien_str,
-        }
+        data = {'DataPoczatkowa': dzien_str, 'DataKoncowa': dzien_str}
         j = self._post(self._full_url + 'Uczen/ZadaniaDomowe', json=data)
         zadania_domowe = sorted(j['Data'], key=itemgetter('Data'))
-        zadania_domowe = list(filter(lambda x: x['DataTekst'] == dzien_str, zadania_domowe))
+        zadania_domowe = list(
+            filter(lambda x: x['DataTekst'] == dzien_str, zadania_domowe)
+        )
         for zadanie_domowe in zadania_domowe:
-            zadanie_domowe['DataObjekt'] = datetime.fromtimestamp(zadanie_domowe['Data']).date()
-            zadanie_domowe['Pracownik'] = find(self._dict['Pracownicy'], 'Id', zadanie_domowe['IdPracownik'])
-            zadanie_domowe['Przedmiot'] = find(self._dict['Przedmioty'], 'Id', zadanie_domowe['IdPrzedmiot'])
+            zadanie_domowe['DataObjekt'] = datetime.fromtimestamp(
+                zadanie_domowe['Data']
+            ).date()
+            zadanie_domowe['Pracownik'] = find(
+                self._dict['Pracownicy'], 'Id', zadanie_domowe['IdPracownik']
+            )
+            zadanie_domowe['Przedmiot'] = find(
+                self._dict['Przedmioty'], 'Id', zadanie_domowe['IdPrzedmiot']
+            )
         return zadania_domowe
