@@ -7,9 +7,6 @@ cache: pip
 install:
   - pip install .
 
-before_script:
-  - export TZ=Europe/Warsaw
-
 script:
   - pytest -m private
 
