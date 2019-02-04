@@ -13,7 +13,7 @@ with io.open(path.join(here, "README.rst"), "rt", encoding="utf8") as f:
     long_description = f.read()
 
 with io.open(path.join(here, "vulcan/__init__.py"), "rt", encoding="utf8") as f:
-    version = re.search(r"__version__ = \'(.*?)\'", f.read()).group(1)
+    version = re.search(r"__version__ = \"(.*?)\"", f.read()).group(1)
 
 setup(
     name="vulcan-api",
