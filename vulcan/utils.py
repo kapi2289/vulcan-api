@@ -10,7 +10,7 @@ import logging
 import requests
 
 
-log = logging.getLogger('client')
+log = logging.getLogger("client")
 log.setLevel(logging.INFO)
 
 handler = logging.StreamHandler()
@@ -34,16 +34,16 @@ def find(_list, key, value):
 
 
 def signature(cert, passphrase, data):
-    p12 = crypto.load_pkcs12(base64.b64decode(cert), passphrase.encode('utf-8'))
+    p12 = crypto.load_pkcs12(base64.b64decode(cert), passphrase.encode("utf-8"))
     sign = crypto.sign(
-        p12.get_privatekey(), json.dumps(data).encode('utf-8'), 'RSA-SHA1'
+        p12.get_privatekey(), json.dumps(data).encode("utf-8"), "RSA-SHA1"
     )
-    return base64.b64encode(sign).decode('utf-8')
+    return base64.b64encode(sign).decode("utf-8")
 
 
 def get_components():
-    r = requests.get('http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt')
-    components = (c.split(',') for c in r.text.split())
+    r = requests.get("http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt")
+    components = (c.split(",") for c in r.text.split())
     return {a[0]: a[1] for a in components}
 
 

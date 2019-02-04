@@ -12,10 +12,10 @@ def klient():
     cert = {
         k: load_variable(k)
         for k in [
-            'CertyfikatPfx',
-            'CertyfikatKluczSformatowanyTekst',
-            'CertyfikatKlucz',
-            'AdresBazowyRestApi',
+            "CertyfikatPfx",
+            "CertyfikatKluczSformatowanyTekst",
+            "CertyfikatKlucz",
+            "AdresBazowyRestApi",
         ]
     }
     yield Vulcan(cert)
