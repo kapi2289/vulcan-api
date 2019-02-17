@@ -3,6 +3,9 @@
 import pytest
 from vulcan import Vulcan
 from utils import *
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
 
 
 @pytest.mark.private
