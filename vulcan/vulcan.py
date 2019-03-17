@@ -123,7 +123,7 @@ class Vulcan(object):
 
     def _signature(self, json):
         self._headers["RequestSignatureValue"] = signature(
-            self._cert["CertyfikatPfx"], Vulcan.cert_passphrase, json
+            self._cert["CertyfikatPfx"], json
         )
 
     def _request(self, _type, url, params=None, data=None, json=None, as_json=True):
