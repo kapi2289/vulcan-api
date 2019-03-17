@@ -3,7 +3,7 @@
 import uuid as _uuid
 import time
 import math
-from OpenSSL import crypto
+from uonet_request_signer import sign_content
 import json
 import base64
 import logging
@@ -37,12 +37,8 @@ def find(_list, key, value):
     return next((i for i in _list if i[key] == value), None)
 
 
-def signature(cert, passphrase, data):
-    p12 = crypto.load_pkcs12(base64.b64decode(cert), passphrase.encode("utf-8"))
-    sign = crypto.sign(
-        p12.get_privatekey(), json.dumps(data).encode("utf-8"), "RSA-SHA1"
-    )
-    return base64.b64encode(sign).decode("utf-8")
+def signature(cert, data):
+    return sign_content("CE75EA598C7743AD9B0B7328DED85B06", cert, data)
 
 
 def get_components():

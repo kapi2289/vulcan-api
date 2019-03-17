@@ -20,7 +20,6 @@ class Vulcan(object):
 
     app_name = "VULCAN-Android-ModulUcznia"
     app_version = "18.10.1.433"
-    cert_passphrase = "CE75EA598C7743AD9B0B7328DED85B06"
 
     def __init__(self, certyfikat, logging_level=None):
         self._cert = certyfikat
