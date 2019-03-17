@@ -411,9 +411,5 @@ class ZadanieDomowe(object):
         opis = j.get("Opis")
         dzien = timestamp_to_date(j.get("Data"))
         return cls(
-            id=id,
-            pracownik=pracownik,
-            przedmiot=przedmiot,
-            opis=opis,
-            dzien=dzien,
+            id=id, pracownik=pracownik, przedmiot=przedmiot, opis=opis, dzien=dzien
         )
