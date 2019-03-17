@@ -382,3 +382,38 @@ class Sprawdzian(object):
             opis=opis,
             dzien=dzien,
         )
+
+
+class ZadanieDomowe(object):
+    """
+    Zadanie domowe
+
+    Attributes:
+        id (:class:`int`): ID zadania domowego
+        przedmiot (:class:`vulcan.models.Przedmiot`): Przedmiot, z którego jest zadane zadanie
+        pracownik (:class:`vulcan.models.Pracownik`): Pracownik szkoły, który wpisał to zadanie
+        opis (:class:`str`): Opis zadania domowego
+        dzien (:class:`datetime.date`): Dzień zadania domowego
+    """
+
+    def __init__(self, id=None, pracownik=None, przedmiot=None, opis=None, dzien=None):
+        self.id = id
+        self.pracownik = pracownik
+        self.przedmiot = przedmiot
+        self.opis = opis
+        self.dzien = dzien
+
+    @classmethod
+    def from_json(cls, j):
+        id = j.get("Id")
+        pracownik = Pracownik.from_json(j.get("Pracownik"))
+        przedmiot = Przedmiot.from_json(j.get("Przedmiot"))
+        opis = j.get("Opis")
+        dzien = timestamp_to_date(j.get("Data"))
+        return cls(
+            id=id,
+            pracownik=pracownik,
+            przedmiot=przedmiot,
+            opis=opis,
+            dzien=dzien,
+        )
