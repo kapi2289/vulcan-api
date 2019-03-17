@@ -8,6 +8,8 @@ import json
 import base64
 import logging
 import requests
+import pytz
+from datetime import datetime
 
 
 log = logging.getLogger("client")
@@ -15,6 +17,8 @@ log.setLevel(logging.INFO)
 
 handler = logging.StreamHandler()
 log.addHandler(handler)
+
+tz = pytz.timezone("Europe/Warsaw")
 
 
 class VulcanAPIException(Exception):
@@ -47,3 +51,16 @@ def get_base_url(token):
     code = token[0:3]
     components = get_components()
     return components[code]
+
+
+def timestamp_to_datetime(ts):
+    return pytz.utc.localize(datetime.utcfromtimestamp(ts)).astimezone(tz)
+
+
+def timestamp_to_date(ts):
+    return timestamp_to_datetime(ts).date()
+
+
+def concat_hours_and_minutes(date, ts):
+    d = timestamp_to_datetime(ts)
+    return date.replace(hour=d.hour, minute=d.minute)

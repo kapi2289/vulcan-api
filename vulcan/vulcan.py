@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 from .utils import *
+from .models import *
 import platform
 import requests
 from datetime import datetime
@@ -13,8 +14,8 @@ class Vulcan(object):
     """
     Loguje się do dzienniczka za pomocą wygenerowanego certyfikatu
 
-    :param certyfikat: Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.zarejestruj`
-    :type certyfikat: :class:`dict`
+    Args:
+        certyfikat (:class:`dict`): Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.zarejestruj`
     """
 
     app_name = "VULCAN-Android-ModulUcznia"
@@ -39,6 +40,13 @@ class Vulcan(object):
         uczniowie = self.uczniowie()
         self.ustaw_ucznia(uczniowie[0])
 
+    """
+    Ustawia poziom logowania
+
+    Args:
+        logging_level (:class:`int`): Poziom logowania z modułu :module:`logging`
+    """
+
     @staticmethod
     def set_logging_level(logging_level):
         log.setLevel(logging_level)
@@ -48,14 +56,13 @@ class Vulcan(object):
         """
         Rejestruje API jako nowe urządzenie mobilne
 
-        :param token: Token
-        :param symbol: Symbol/Nazwa instancji
-        :param pin: PIN
-        :return: Certyfikat
-        :type token: :class:`str`
-        :type symbol: :class:`str`
-        :type pin: :class:`str`
-        :rtype: :class:`dict`
+        Args:
+            token (:class:`str`): Token
+            symbol (:class:`str`): Symbol/Nazwa instancji
+            pin (:class:`str`): Kod PIN
+
+        Returns:
+            :class:`dict`: Certyfikat
         """
         token = str(token).upper()
         symbol = str(symbol).lower()
@@ -106,10 +113,10 @@ class Vulcan(object):
             "RemoteMobileAppName": Vulcan.app_name,
         }
         if self.uczen:
-            payload["IdOkresKlasyfikacyjny"] = self.uczen["IdOkresKlasyfikacyjny"]
-            payload["IdUczen"] = self.uczen["Id"]
-            payload["IdOddzial"] = self.uczen["IdOddzial"]
-            payload["LoginId"] = self.uczen["UzytkownikLoginId"]
+            payload["IdOkresKlasyfikacyjny"] = self.uczen.okres.id
+            payload["IdUczen"] = self.uczen.id
+            payload["IdOddzial"] = self.uczen.klasa.id
+            payload["LoginId"] = self.uczen.login_id
         if json:
             payload.update(json)
         return payload
@@ -155,33 +162,33 @@ class Vulcan(object):
         """
         Zwraca listę wszystkich uczniów należących do użytkownika
 
-        :returns: Listę uczniów
-        :rtype: :class:`list`
+        Returns:
+            :class:`list`: Listę uczniów
         """
         j = self._post(self._base_url + "UczenStart/ListaUczniow")
-        return j["Data"]
+        return list(map(lambda x: Uczen.from_json(x), j["Data"]))
 
     def ustaw_ucznia(self, uczen):
         """
         Ustawia domyślnego ucznia
 
-        :param uczen: Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
-        :type uczen: :class:`dict`
+        Args:
+            uczen (:class:`vulcan.models.Uczen`): Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
         """
         self.uczen = uczen
-        self._full_url = (
-            self._url + uczen["JednostkaSprawozdawczaSymbol"] + "/mobile-api/Uczen.v3."
-        )
+        self._full_url = self._url + uczen.szkola.symbol + "/mobile-api/Uczen.v3."
         self._dict = self._get_dict()
 
     def plan_lekcji(self, dzien=None):
         """
         Pobiera plan lekcji z danego dnia
 
-        :param dzien: Dzień z którego pobrać plan lekcji, jeśli puste pobiera z aktualnego dnia
-        :type dzien: :class:`datetime.date` or :class:`datetime.datetime`
-        :returns: Listę lekcji
-        :rtype: :class:`list`
+        Args:
+            dzien (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać plan
+                lekcji, jeśli puste pobiera z aktualnego dnia
+
+        Returns:
+            :class:`list`: Listę lekcji
         """
         if not dzien:
             dzien = datetime.now()
@@ -204,16 +211,18 @@ class Vulcan(object):
             lekcja["PracownikWspomagajacy"] = find(
                 self._dict["Pracownicy"], "Id", lekcja["IdPracownikWspomagajacy"]
             )
-        return plan_lekcji
+        return list(map(lambda x: Lekcja.from_json(x), plan_lekcji))
 
     def sprawdziany(self, dzien=None):
         """
         Pobiera sprawdziany z danego dnia
 
-        :param dzien: Dzień z którego pobrać sprawdziany, jeśli puste pobiera z aktualnego dnia
-        :type dzien: :class:`datetime.date` or :class:`datetime.datetime`
-        :returns: Listę sprawdzianów
-        :rtype: :class:`list`
+        Args:
+            dzien (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
+                sprawdziany, jeśli puste pobiera z aktualnego dnia
+
+        Returns:
+            :class:`list`: Listę sprawdzianów
         """
         if not dzien:
             dzien = datetime.now()
@@ -230,16 +239,18 @@ class Vulcan(object):
                 self._dict["Pracownicy"], "Id", sprawdzian["IdPracownik"]
             )
             sprawdzian["DataObjekt"] = datetime.fromtimestamp(sprawdzian["Data"]).date()
-        return sprawdziany
+        return list(map(lambda x: Sprawdzian.from_json(x), sprawdziany))
 
     def zadania_domowe(self, dzien=None):
         """
         Pobiera zadania domowe z danego dnia
 
-        :param dzien: Dzień z którego pobrać zadania domowe, jeśli puste pobiera z aktualnego dnia
-        :type dzien: :class:`datetime.date` or :class:`datetime.datetime`
-        :returns: Listę zadań domowych
-        :rtype: :class:`list`
+        Args:
+            dzien (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
+                zadania domowe, jeśli puste pobiera z aktualnego dnia
+
+        Returns:
+            :class:`list`: Listę zadań domowych
         """
         if not dzien:
             dzien = datetime.now()
@@ -260,4 +271,4 @@ class Vulcan(object):
             zadanie_domowe["Przedmiot"] = find(
                 self._dict["Przedmioty"], "Id", zadanie_domowe["IdPrzedmiot"]
             )
-        return zadania_domowe
+        return list(map(lambda x: ZadanieDomowe.from_json(x), zadania_domowe))

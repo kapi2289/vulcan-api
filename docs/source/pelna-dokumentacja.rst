@@ -1,5 +1,49 @@
 Pełna dokumentacja
 ==================
 
-.. automodule:: vulcan
+Klient
+^^^^^^
+
+.. autoclass:: vulcan.Vulcan
     :members:
+
+Modele
+^^^^^^
+
+.. autoclass:: vulcan.models.Okres
+    :members:
+
+.. autoclass:: vulcan.models.Klasa
+    :members:
+
+.. autoclass:: vulcan.models.Szkola
+    :members:
+
+.. autoclass:: vulcan.models.Uczen
+    :members:
+
+.. autoclass:: vulcan.models.Przedmiot
+    :members:
+
+.. autoclass:: vulcan.models.Pracownik
+    :members:
+
+.. autoclass:: vulcan.models.Pora
+    :members:
+
+.. autoclass:: vulcan.models.Lekcja
+    :members:
+
+.. autoclass:: vulcan.models.Sprawdzian
+    :members:
+
+Modele enum
+^^^^^^^^^^^
+
+.. autoclass:: vulcan.models.Plec
+    :members:
+    :undoc-members:
+
+.. autoclass:: vulcan.models.RodzajSprawdzianu
+    :members:
+    :undoc-members:
