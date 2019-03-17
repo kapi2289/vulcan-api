@@ -11,14 +11,13 @@ class TestSprawdziany(object):
     def test(self, klient, dzien, _sprawdziany):
         sprawdziany = klient.sprawdziany(dzien)
         for sprawdzian in sprawdziany:
-            assert sprawdzian["DataObjekt"] == dzien
-            assert sprawdzian["IdPrzedmiot"] == sprawdzian["Przedmiot"]["Id"]
-            assert sprawdzian["IdPracownik"] == sprawdzian["Pracownik"]["Id"]
+            assert sprawdzian.dzien == dzien
 
     def test_private(self, klient, dzien, _sprawdziany):
         sprawdziany = klient.sprawdziany(dzien)
         assert len(sprawdziany) == len(_sprawdziany)
         for i, sprawdzian in enumerate(sprawdziany):
             _sprawdzian = _sprawdziany[i]
-            for k in _sprawdzian:
-                assert sprawdzian[k] == _sprawdzian[k]
+            assert sprawdzian.id == _sprawdzian["Id"]
+            assert sprawdzian.przedmiot.id == _sprawdzian["IdPrzedmiot"]
+            assert sprawdzian.pracownik.id == _sprawdzian["IdPracownik"]

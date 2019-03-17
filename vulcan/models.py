@@ -135,6 +135,7 @@ class Uczen(object):
     def __init__(
         self,
         id=None,
+        login_id=None,
         nazwa=None,
         imie=None,
         drugie_imie=None,
@@ -146,6 +147,7 @@ class Uczen(object):
         szkola=None,
     ):
         self.id = id
+        self.login_id = login_id
         self.nazwa = nazwa
         self.imie = imie
         self.drugie_imie = drugie_imie
@@ -162,6 +164,7 @@ class Uczen(object):
     @classmethod
     def from_json(cls, j):
         id = j.get("Id")
+        login_id = j.get("UzytkownikLoginId")
         nazwa = j.get("UzytkownikNazwa")
         imie = j.get("Imie")
         drugie_imie = j.get("Imie2") or None
@@ -173,6 +176,7 @@ class Uczen(object):
         szkola = Szkola.from_json(j)
         return cls(
             id=id,
+            login_id=login_id,
             nazwa=nazwa,
             imie=imie,
             drugie_imie=drugie_imie,
@@ -402,6 +406,9 @@ class ZadanieDomowe(object):
         self.przedmiot = przedmiot
         self.opis = opis
         self.dzien = dzien
+
+    def __repr__(self):
+        return "<ZadanieDomowe przedmiot={!r}>".format(self.przedmiot.nazwa)
 
     @classmethod
     def from_json(cls, j):

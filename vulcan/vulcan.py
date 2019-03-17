@@ -114,10 +114,10 @@ class Vulcan(object):
             "RemoteMobileAppName": Vulcan.app_name,
         }
         if self.uczen:
-            payload["IdOkresKlasyfikacyjny"] = self.uczen["IdOkresKlasyfikacyjny"]
-            payload["IdUczen"] = self.uczen["Id"]
-            payload["IdOddzial"] = self.uczen["IdOddzial"]
-            payload["LoginId"] = self.uczen["UzytkownikLoginId"]
+            payload["IdOkresKlasyfikacyjny"] = self.uczen.okres.id
+            payload["IdUczen"] = self.uczen.id
+            payload["IdOddzial"] = self.uczen.klasa.id
+            payload["LoginId"] = self.uczen.login_id
         if json:
             payload.update(json)
         return payload
@@ -167,19 +167,17 @@ class Vulcan(object):
             :class:`list`: Listę uczniów
         """
         j = self._post(self._base_url + "UczenStart/ListaUczniow")
-        return j["Data"]
+        return list(map(lambda x: Uczen.from_json(x), j["Data"]))
 
     def ustaw_ucznia(self, uczen):
         """
         Ustawia domyślnego ucznia
 
         Args:
-            uczen (:class:`dict`): Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
+            uczen (:class:`vulcan.models.Uczen`): Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
         """
         self.uczen = uczen
-        self._full_url = (
-            self._url + uczen["JednostkaSprawozdawczaSymbol"] + "/mobile-api/Uczen.v3."
-        )
+        self._full_url = self._url + uczen.szkola.symbol + "/mobile-api/Uczen.v3."
         self._dict = self._get_dict()
 
     def plan_lekcji(self, dzien=None):
@@ -214,7 +212,7 @@ class Vulcan(object):
             lekcja["PracownikWspomagajacy"] = find(
                 self._dict["Pracownicy"], "Id", lekcja["IdPracownikWspomagajacy"]
             )
-        return plan_lekcji
+        return list(map(lambda x: Lekcja.from_json(x), plan_lekcji))
 
     def sprawdziany(self, dzien=None):
         """
@@ -242,7 +240,7 @@ class Vulcan(object):
                 self._dict["Pracownicy"], "Id", sprawdzian["IdPracownik"]
             )
             sprawdzian["DataObjekt"] = datetime.fromtimestamp(sprawdzian["Data"]).date()
-        return sprawdziany
+        return list(map(lambda x: Sprawdzian.from_json(x), sprawdziany))
 
     def zadania_domowe(self, dzien=None):
         """
@@ -274,4 +272,4 @@ class Vulcan(object):
             zadanie_domowe["Przedmiot"] = find(
                 self._dict["Przedmioty"], "Id", zadanie_domowe["IdPrzedmiot"]
             )
-        return zadania_domowe
+        return list(map(lambda x: ZadanieDomowe.from_json(x), zadania_domowe))
