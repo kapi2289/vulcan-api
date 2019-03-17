@@ -5,10 +5,6 @@ import json
 import aenum
 
 
-class VulcanAPIException(Exception):
-    pass
-
-
 class Plec(aenum.Enum):
     """Płeć"""
 
