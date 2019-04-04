@@ -10,10 +10,25 @@ Klient
 Modele
 ^^^^^^
 
-.. autoclass:: vulcan.models.Okres
+.. autoclass:: vulcan.models.Lekcja
     :members:
 
 .. autoclass:: vulcan.models.Klasa
+    :members:
+
+.. autoclass:: vulcan.models.Okres
+    :members:
+
+.. autoclass:: vulcan.models.Pracownik
+    :members:
+
+.. autoclass:: vulcan.models.Przedmiot
+    :members:
+
+.. autoclass:: vulcan.models.PoraLekcji
+    :members:
+
+.. autoclass:: vulcan.models.Sprawdzian
     :members:
 
 .. autoclass:: vulcan.models.Szkola
@@ -22,19 +37,7 @@ Modele
 .. autoclass:: vulcan.models.Uczen
     :members:
 
-.. autoclass:: vulcan.models.Przedmiot
-    :members:
-
-.. autoclass:: vulcan.models.Pracownik
-    :members:
-
-.. autoclass:: vulcan.models.Pora
-    :members:
-
-.. autoclass:: vulcan.models.Lekcja
-    :members:
-
-.. autoclass:: vulcan.models.Sprawdzian
+.. autoclass:: vulcan.models.ZadanieDomowe
     :members:
 
 Modele enum
