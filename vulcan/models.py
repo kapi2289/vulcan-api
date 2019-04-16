@@ -2,7 +2,7 @@
 
 import aenum
 
-from .utils import *
+from .utils import concat_hours_and_minutes, timestamp_to_date, timestamp_to_datetime
 
 
 class Plec(aenum.Enum):

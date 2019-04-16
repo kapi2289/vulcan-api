@@ -5,6 +5,7 @@ import math
 import time
 import uuid as _uuid
 from datetime import datetime
+from operator import itemgetter
 
 import pytz
 import requests
@@ -48,7 +49,10 @@ def get_components():
 def get_base_url(token):
     code = token[0:3]
     components = get_components()
-    return components[code]
+    try:
+        return components[code]
+    except KeyError:
+        raise VulcanAPIException("Niepoprawny token!")
 
 
 def timestamp_to_datetime(ts):
@@ -62,3 +66,8 @@ def timestamp_to_date(ts):
 def concat_hours_and_minutes(date, ts):
     d = timestamp_to_datetime(ts)
     return date.replace(hour=d.hour, minute=d.minute)
+
+
+def sort_and_filter_date(_list, date):
+    _list = sorted(_list, key=itemgetter("Data"))
+    return list(filter(lambda x: x["DataTekst"] == date, _list))

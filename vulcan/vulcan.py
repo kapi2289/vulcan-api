@@ -3,9 +3,13 @@
 from __future__ import unicode_literals
 
 import platform
+from datetime import datetime
 from operator import itemgetter
 
+import requests
+
 from .models import *
+from .utils import log, uuid, now, get_base_url, VulcanAPIException, find, signature, sort_and_filter_date
 
 
 class Vulcan(object):
@@ -22,14 +26,10 @@ class Vulcan(object):
     def __init__(self, certyfikat, logging_level=None):
         self._cert = certyfikat
         self._session = requests.session()
-        self._headers = {
-            "User-Agent": "MobileUserAgent",
-            "RequestCertificateKey": certyfikat["CertyfikatKlucz"],
-            "Connection": "close",
-        }
         self._url = certyfikat["AdresBazowyRestApi"]
         self._base_url = self._url + "mobile-api/Uczen.v3."
         self._full_url = None
+        self._dict = None
 
         if logging_level:
             Vulcan.set_logging_level(logging_level)
@@ -38,15 +38,15 @@ class Vulcan(object):
         uczniowie = self.uczniowie()
         self.ustaw_ucznia(uczniowie[0])
 
-    """
-    Ustawia poziom logowania
-
-    Args:
-        logging_level (:class:`int`): Poziom logowania z modułu :module:`logging`
-    """
-
     @staticmethod
     def set_logging_level(logging_level):
+        """
+        Ustawia poziom logowania
+
+        Args:
+            logging_level (:class:`int`): Poziom logowania z modułu :module:`logging`
+        """
+
         log.setLevel(logging_level)
 
     @staticmethod
@@ -62,9 +62,11 @@ class Vulcan(object):
         Returns:
             :class:`dict`: Certyfikat
         """
+
         token = str(token).upper()
         symbol = str(symbol).lower()
         pin = str(pin)
+
         data = {
             "PIN": pin,
             "TokenKey": token,
@@ -81,26 +83,25 @@ class Vulcan(object):
             "RemoteMobileAppVersion": Vulcan.app_version,
             "RemoteMobileAppName": Vulcan.app_name,
         }
+
         headers = {
             "RequestMobileType": "RegisterDevice",
             "User-Agent": "MobileUserAgent",
         }
-        try:
-            base_url = get_base_url(token)
-        except KeyError:
-            raise VulcanAPIException("Niepoprawny token!")
+
+        base_url = get_base_url(token)
         url = "{}/{}/mobile-api/Uczen.v3.UczenStart/Certyfikat".format(base_url, symbol)
+
         log.info("Rejestrowanie...")
-        try:
-            r = requests.post(url, json=data, headers=headers)
-            j = r.json()
-            log.debug(j)
-            cert = j["TokenCert"]
-            assert cert
-            log.info("Zarejestrowano pomyślnie!")
-            return cert
-        except:
-            raise VulcanAPIException("Nie można utworzyć certyfikatu!")
+
+        r = requests.post(url, json=data, headers=headers)
+        j = r.json()
+        log.debug(j)
+
+        cert = j["TokenCert"]
+        assert cert
+        log.info("Zarejestrowano pomyślnie!")
+        return cert
 
     def _payload(self, json):
         payload = {
@@ -110,50 +111,51 @@ class Vulcan(object):
             "RemoteMobileAppVersion": Vulcan.app_version,
             "RemoteMobileAppName": Vulcan.app_name,
         }
+
         if self.uczen:
             payload["IdOkresKlasyfikacyjny"] = self.uczen.okres.id
             payload["IdUczen"] = self.uczen.id
             payload["IdOddzial"] = self.uczen.klasa.id
             payload["LoginId"] = self.uczen.login_id
+
         if json:
             payload.update(json)
+
         return payload
 
-    def _signature(self, json):
-        self._headers["RequestSignatureValue"] = signature(
-            self._cert["CertyfikatPfx"], json
-        )
+    def _headers(self, json):
+        return {
+            "User-Agent": "MobileUserAgent",
+            "RequestCertificateKey": self._cert["CertyfikatKlucz"],
+            "Connection": "close",
+            "RequestSignatureValue": signature(
+                self._cert["CertyfikatPfx"], json
+            )
+        }
 
-    def _request(self, _type, url, params=None, data=None, json=None, as_json=True):
+    def _request(self, method, endpoint, json=None, as_json=True, **kwargs):
         payload = self._payload(json)
-        self._signature(payload)
-        if _type == "GET":
-            r = self._session.get(
-                url, params=params, data=data, json=payload, headers=self._headers
-            )
-        elif _type == "POST":
-            r = self._session.post(
-                url, params=params, data=data, json=payload, headers=self._headers
-            )
+        headers = self._headers(payload)
+        url = endpoint if endpoint.startswith("http") else self._full_url + endpoint
+
+        r = self._session.request(method, url, json=payload, headers=headers, **kwargs)
+
         if as_json:
             try:
                 return r.json()
-            except:
+            except ValueError:
                 raise VulcanAPIException("Wystąpił błąd.")
+
         return r
 
-    def _get(self, url, params=None, data=None, json=None, as_json=True):
-        return self._request(
-            _type="GET", url=url, params=params, data=data, json=json, as_json=as_json
-        )
+    def _get(self, endpoint, json=None, as_json=True, **kwargs):
+        return self._request("GET", endpoint, json=json, as_json=as_json, **kwargs)
 
-    def _post(self, url, params=None, data=None, json=None, as_json=True):
-        return self._request(
-            _type="POST", url=url, params=params, data=data, json=json, as_json=as_json
-        )
+    def _post(self, endpoint, json=None, as_json=True, **kwargs):
+        return self._request("POST", endpoint, json=json, as_json=as_json, **kwargs)
 
     def _get_dict(self):
-        j = self._post(self._full_url + "Uczen/Slowniki")
+        j = self._post("Uczen/Slowniki")
         return j["Data"]
 
     def uczniowie(self):
@@ -163,6 +165,7 @@ class Vulcan(object):
         Returns:
             :class:`list`: Listę uczniów
         """
+
         j = self._post(self._base_url + "UczenStart/ListaUczniow")
         return list(map(lambda x: Uczen.from_json(x), j["Data"]))
 
@@ -173,6 +176,7 @@ class Vulcan(object):
         Args:
             uczen (:class:`vulcan.models.Uczen`): Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
         """
+
         self.uczen = uczen
         self._full_url = self._url + uczen.szkola.symbol + "/mobile-api/Uczen.v3."
         self._dict = self._get_dict()
@@ -188,15 +192,22 @@ class Vulcan(object):
         Returns:
             :class:`list`: Listę lekcji
         """
+
         if not dzien:
             dzien = datetime.now()
         dzien_str = dzien.strftime("%Y-%m-%d")
-        data = {"DataPoczatkowa": dzien_str, "DataKoncowa": dzien_str}
-        j = self._post(self._full_url + "Uczen/PlanLekcjiZeZmianami", json=data)
+
+        data = {
+            "DataPoczatkowa": dzien_str,
+            "DataKoncowa": dzien_str,
+        }
+
+        j = self._post("Uczen/PlanLekcjiZeZmianami", json=data)
+
         plan_lekcji = sorted(j["Data"], key=itemgetter("NumerLekcji"))
         plan_lekcji = list(filter(lambda x: x["DzienTekst"] == dzien_str, plan_lekcji))
+
         for lekcja in plan_lekcji:
-            lekcja["DzienObjekt"] = datetime.fromtimestamp(lekcja["Dzien"]).date()
             lekcja["PoraLekcji"] = find(
                 self._dict["PoryLekcji"], "Id", lekcja["IdPoraLekcji"]
             )
@@ -209,6 +220,7 @@ class Vulcan(object):
             lekcja["PracownikWspomagajacy"] = find(
                 self._dict["Pracownicy"], "Id", lekcja["IdPracownikWspomagajacy"]
             )
+
         return list(map(lambda x: Lekcja.from_json(x), plan_lekcji))
 
     def sprawdziany(self, dzien=None):
@@ -225,10 +237,16 @@ class Vulcan(object):
         if not dzien:
             dzien = datetime.now()
         dzien_str = dzien.strftime("%Y-%m-%d")
-        data = {"DataPoczatkowa": dzien_str, "DataKoncowa": dzien_str}
-        j = self._post(self._full_url + "Uczen/Sprawdziany", json=data)
-        sprawdziany = sorted(j["Data"], key=itemgetter("Data"))
-        sprawdziany = list(filter(lambda x: x["DataTekst"] == dzien_str, sprawdziany))
+
+        data = {
+            "DataPoczatkowa": dzien_str,
+            "DataKoncowa": dzien_str,
+        }
+
+        j = self._post("Uczen/Sprawdziany", json=data)
+
+        sprawdziany = sort_and_filter_date(j["Data"], dzien_str)
+
         for sprawdzian in sprawdziany:
             sprawdzian["Przedmiot"] = find(
                 self._dict["Przedmioty"], "Id", sprawdzian["IdPrzedmiot"]
@@ -236,7 +254,7 @@ class Vulcan(object):
             sprawdzian["Pracownik"] = find(
                 self._dict["Pracownicy"], "Id", sprawdzian["IdPracownik"]
             )
-            sprawdzian["DataObjekt"] = datetime.fromtimestamp(sprawdzian["Data"]).date()
+
         return list(map(lambda x: Sprawdzian.from_json(x), sprawdziany))
 
     def zadania_domowe(self, dzien=None):
@@ -250,23 +268,26 @@ class Vulcan(object):
         Returns:
             :class:`list`: Listę zadań domowych
         """
+
         if not dzien:
             dzien = datetime.now()
         dzien_str = dzien.strftime("%Y-%m-%d")
-        data = {"DataPoczatkowa": dzien_str, "DataKoncowa": dzien_str}
-        j = self._post(self._full_url + "Uczen/ZadaniaDomowe", json=data)
-        zadania_domowe = sorted(j["Data"], key=itemgetter("Data"))
-        zadania_domowe = list(
-            filter(lambda x: x["DataTekst"] == dzien_str, zadania_domowe)
-        )
+
+        data = {
+            "DataPoczatkowa": dzien_str,
+            "DataKoncowa": dzien_str,
+        }
+
+        j = self._post("Uczen/ZadaniaDomowe", json=data)
+
+        zadania_domowe = sort_and_filter_date(j["Data"], dzien_str)
+
         for zadanie_domowe in zadania_domowe:
-            zadanie_domowe["DataObjekt"] = datetime.fromtimestamp(
-                zadanie_domowe["Data"]
-            ).date()
             zadanie_domowe["Pracownik"] = find(
                 self._dict["Pracownicy"], "Id", zadanie_domowe["IdPracownik"]
             )
             zadanie_domowe["Przedmiot"] = find(
                 self._dict["Przedmioty"], "Id", zadanie_domowe["IdPrzedmiot"]
             )
+
         return list(map(lambda x: ZadanieDomowe.from_json(x), zadania_domowe))
