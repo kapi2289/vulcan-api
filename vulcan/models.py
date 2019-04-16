@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from .utils import *
-import json
 import aenum
+
+from .utils import *
 
 
 class Plec(aenum.Enum):
@@ -133,18 +133,18 @@ class Uczen(object):
     """
 
     def __init__(
-        self,
-        id=None,
-        login_id=None,
-        nazwa=None,
-        imie=None,
-        drugie_imie=None,
-        nazwisko=None,
-        pseudonim=None,
-        plec=None,
-        okres=None,
-        klasa=None,
-        szkola=None,
+            self,
+            id=None,
+            login_id=None,
+            nazwa=None,
+            imie=None,
+            drugie_imie=None,
+            nazwisko=None,
+            pseudonim=None,
+            plec=None,
+            okres=None,
+            klasa=None,
+            szkola=None,
     ):
         self.id = id
         self.login_id = login_id
@@ -294,14 +294,14 @@ class Lekcja(object):
     """
 
     def __init__(
-        self,
-        numer=None,
-        pora=None,
-        przedmiot=None,
-        pracownik=None,
-        dzien=None,
-        od=None,
-        do=None,
+            self,
+            numer=None,
+            pora=None,
+            przedmiot=None,
+            pracownik=None,
+            dzien=None,
+            od=None,
+            do=None,
     ):
         self.numer = numer
         self.pora = pora
@@ -351,14 +351,14 @@ class Sprawdzian(object):
     """
 
     def __init__(
-        self,
-        id=None,
-        rodzaj=None,
-        przedmiot=None,
-        pracownik=None,
-        klasa=None,
-        opis=None,
-        dzien=None,
+            self,
+            id=None,
+            rodzaj=None,
+            przedmiot=None,
+            pracownik=None,
+            klasa=None,
+            opis=None,
+            dzien=None,
     ):
         self.id = id
         self.rodzaj = rodzaj

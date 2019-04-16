@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import unicode_literals
-from .utils import *
-from .models import *
+
 import platform
-import requests
-from datetime import datetime
 from operator import itemgetter
-import logging
+
+from .models import *
 
 
 class Vulcan(object):

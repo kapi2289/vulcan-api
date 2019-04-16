@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import uuid as _uuid
-import time
-import math
-from uonet_request_signer import sign_content
-import json
-import base64
 import logging
-import requests
-import pytz
+import math
+import time
+import uuid as _uuid
 from datetime import datetime
 
+import pytz
+import requests
+from uonet_request_signer import sign_content
 
 log = logging.getLogger("client")
 log.setLevel(logging.INFO)
