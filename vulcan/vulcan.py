@@ -9,7 +9,16 @@ from operator import itemgetter
 import requests
 
 from .models import *
-from .utils import log, uuid, now, get_base_url, VulcanAPIException, find, signature, sort_and_filter_date
+from .utils import (
+    log,
+    uuid,
+    now,
+    get_base_url,
+    VulcanAPIException,
+    find,
+    signature,
+    sort_and_filter_date,
+)
 
 
 class Vulcan(object):
@@ -128,9 +137,7 @@ class Vulcan(object):
             "User-Agent": "MobileUserAgent",
             "RequestCertificateKey": self._cert["CertyfikatKlucz"],
             "Connection": "close",
-            "RequestSignatureValue": signature(
-                self._cert["CertyfikatPfx"], json
-            )
+            "RequestSignatureValue": signature(self._cert["CertyfikatPfx"], json),
         }
 
     def _request(self, method, endpoint, json=None, as_json=True, **kwargs):
@@ -181,6 +188,31 @@ class Vulcan(object):
         self._full_url = self._url + uczen.szkola.symbol + "/mobile-api/Uczen.v3."
         self._dict = self._get_dict()
 
+    def oceny(self):
+        """
+        Pobiera oceny cząstkowe
+
+        Returns:
+            :class:`list`: Listę ocen cząstkowych
+        """
+
+        j = self._post("Uczen/Oceny")
+
+        oceny = j["Data"]
+
+        for ocena in oceny:
+            ocena["Przedmiot"] = find(
+                self._dict["Przedmioty"], "Id", ocena["IdPrzedmiot"]
+            )
+            ocena["Kategoria"] = find(
+                self._dict["KategorieOcen"], "Id", ocena["IdKategoria"]
+            )
+            ocena["Pracownik"] = find(
+                self._dict["Pracownicy"], "Id", ocena["IdPracownikD"]
+            )
+
+        return list(map(lambda x: Ocena.from_json(x), oceny))
+
     def plan_lekcji(self, dzien=None):
         """
         Pobiera plan lekcji z danego dnia
@@ -197,10 +229,7 @@ class Vulcan(object):
             dzien = datetime.now()
         dzien_str = dzien.strftime("%Y-%m-%d")
 
-        data = {
-            "DataPoczatkowa": dzien_str,
-            "DataKoncowa": dzien_str,
-        }
+        data = {"DataPoczatkowa": dzien_str, "DataKoncowa": dzien_str}
 
         j = self._post("Uczen/PlanLekcjiZeZmianami", json=data)
 
@@ -238,10 +267,7 @@ class Vulcan(object):
             dzien = datetime.now()
         dzien_str = dzien.strftime("%Y-%m-%d")
 
-        data = {
-            "DataPoczatkowa": dzien_str,
-            "DataKoncowa": dzien_str,
-        }
+        data = {"DataPoczatkowa": dzien_str, "DataKoncowa": dzien_str}
 
         j = self._post("Uczen/Sprawdziany", json=data)
 
@@ -273,10 +299,7 @@ class Vulcan(object):
             dzien = datetime.now()
         dzien_str = dzien.strftime("%Y-%m-%d")
 
-        data = {
-            "DataPoczatkowa": dzien_str,
-            "DataKoncowa": dzien_str,
-        }
+        data = {"DataPoczatkowa": dzien_str, "DataKoncowa": dzien_str}
 
         j = self._post("Uczen/ZadaniaDomowe", json=data)
 
