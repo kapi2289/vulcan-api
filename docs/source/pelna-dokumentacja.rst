@@ -13,7 +13,13 @@ Modele
 .. autoclass:: vulcan.models.Lekcja
     :members:
 
+.. autoclass:: vulcan.models.KategoriaOceny
+    :members:
+
 .. autoclass:: vulcan.models.Klasa
+    :members:
+
+.. autoclass:: vulcan.models.Ocena
     :members:
 
 .. autoclass:: vulcan.models.Okres
