@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-
 import pytest
-from vulcan import Vulcan
-from utils import *
 from dotenv import load_dotenv, find_dotenv
+
+from utils import *
+from vulcan import Vulcan
 
 load_dotenv(find_dotenv())
 

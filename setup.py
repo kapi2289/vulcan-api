@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
+import io
+import re
+from os import path
 
 from setuptools import setup
-
-from os import path
-import re
-import io
-
 
 here = path.abspath(path.dirname(__file__))
 

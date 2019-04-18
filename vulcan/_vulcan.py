@@ -8,8 +8,7 @@ from operator import itemgetter
 
 import requests
 
-from .models import *
-from .utils import (
+from ._utils import (
     log,
     uuid,
     now,
@@ -19,9 +18,10 @@ from .utils import (
     signature,
     sort_and_filter_date,
 )
+from .models import Uczen, Ocena, Lekcja, Sprawdzian, ZadanieDomowe
 
 
-class Vulcan(object):
+class Vulcan:
     """
     Loguje się do dzienniczka za pomocą wygenerowanego certyfikatu
 

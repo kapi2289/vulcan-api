@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
-from os import environ
 from datetime import date
+from os import environ
 
 PARAMS_LESSON_PLAN = [
     (

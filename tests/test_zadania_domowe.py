@@ -1,12 +1,11 @@
-# -*- coding: utf-8 -*-
-
 import pytest
+
 from utils import *
 
 
 @pytest.mark.private
 @pytest.mark.parametrize("dzien, _zadania_domowe", PARAMS_HOMEWORKS)
-class TestZadaniaDomowe(object):
+class TestZadaniaDomowe:
     @pytest.mark.online
     def test(self, klient, dzien, _zadania_domowe):
         zadania_domowe = klient.zadania_domowe(dzien)
