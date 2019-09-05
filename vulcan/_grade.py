@@ -83,7 +83,7 @@ class Ocena:
         if (j.get("Kategoria")):
             kategoria = KategoriaOceny.from_json(j.get("Kategoria"))
         else:
-            kategoria = ""
+            kategoria = None
         wpis = j.get("Wpis")
         wartosc = j.get("Wartosc")
         waga = j.get("WagaOceny")
