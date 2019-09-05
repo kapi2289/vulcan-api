@@ -198,20 +198,23 @@ class Vulcan:
 
         j = self._post("Uczen/Oceny")
 
-        oceny = j["Data"]
+        if j.get("Data"):
+            oceny = j["Data"]
 
-        for ocena in oceny:
-            ocena["Przedmiot"] = find(
-                self._dict["Przedmioty"], "Id", ocena["IdPrzedmiot"]
-            )
-            ocena["Kategoria"] = find(
-                self._dict["KategorieOcen"], "Id", ocena["IdKategoria"]
-            )
-            ocena["Pracownik"] = find(
-                self._dict["Pracownicy"], "Id", ocena["IdPracownikD"]
-            )
+            for ocena in oceny:
+                ocena["Przedmiot"] = find(
+                    self._dict["Przedmioty"], "Id", ocena["IdPrzedmiot"]
+                )
+                ocena["Kategoria"] = find(
+                    self._dict["KategorieOcen"], "Id", ocena["IdKategoria"]
+                )
+                ocena["Pracownik"] = find(
+                    self._dict["Pracownicy"], "Id", ocena["IdPracownikD"]
+                )
 
-        return list(map(lambda x: Ocena.from_json(x), oceny))
+            return list(map(lambda x: Ocena.from_json(x), oceny))
+        else:
+            return list()
 
     def plan_lekcji(self, dzien=None):
         """
@@ -233,24 +236,27 @@ class Vulcan:
 
         j = self._post("Uczen/PlanLekcjiZeZmianami", json=data)
 
-        plan_lekcji = sorted(j["Data"], key=itemgetter("NumerLekcji"))
-        plan_lekcji = list(filter(lambda x: x["DzienTekst"] == dzien_str, plan_lekcji))
+        if j.get("Data"):
+            plan_lekcji = sorted(j["Data"], key=itemgetter("NumerLekcji"))
+            plan_lekcji = list(filter(lambda x: x["DzienTekst"] == dzien_str, plan_lekcji))
 
-        for lekcja in plan_lekcji:
-            lekcja["PoraLekcji"] = find(
-                self._dict["PoryLekcji"], "Id", lekcja["IdPoraLekcji"]
-            )
-            lekcja["Przedmiot"] = find(
-                self._dict["Przedmioty"], "Id", lekcja["IdPrzedmiot"]
-            )
-            lekcja["Pracownik"] = find(
-                self._dict["Pracownicy"], "Id", lekcja["IdPracownik"]
-            )
-            lekcja["PracownikWspomagajacy"] = find(
-                self._dict["Pracownicy"], "Id", lekcja["IdPracownikWspomagajacy"]
-            )
+            for lekcja in plan_lekcji:
+                lekcja["PoraLekcji"] = find(
+                    self._dict["PoryLekcji"], "Id", lekcja["IdPoraLekcji"]
+                )
+                lekcja["Przedmiot"] = find(
+                    self._dict["Przedmioty"], "Id", lekcja["IdPrzedmiot"]
+                )
+                lekcja["Pracownik"] = find(
+                    self._dict["Pracownicy"], "Id", lekcja["IdPracownik"]
+                )
+                lekcja["PracownikWspomagajacy"] = find(
+                    self._dict["Pracownicy"], "Id", lekcja["IdPracownikWspomagajacy"]
+                )
 
-        return list(map(lambda x: Lekcja.from_json(x), plan_lekcji))
+            return list(map(lambda x: Lekcja.from_json(x), plan_lekcji))
+        else:
+            return list()
 
     def sprawdziany(self, dzien=None):
         """
@@ -271,17 +277,20 @@ class Vulcan:
 
         j = self._post("Uczen/Sprawdziany", json=data)
 
-        sprawdziany = sort_and_filter_date(j["Data"], dzien_str)
+        if j.get("Data"):
+            sprawdziany = sort_and_filter_date(j["Data"], dzien_str)
 
-        for sprawdzian in sprawdziany:
-            sprawdzian["Przedmiot"] = find(
-                self._dict["Przedmioty"], "Id", sprawdzian["IdPrzedmiot"]
-            )
-            sprawdzian["Pracownik"] = find(
-                self._dict["Pracownicy"], "Id", sprawdzian["IdPracownik"]
-            )
+            for sprawdzian in sprawdziany:
+                sprawdzian["Przedmiot"] = find(
+                    self._dict["Przedmioty"], "Id", sprawdzian["IdPrzedmiot"]
+                )
+                sprawdzian["Pracownik"] = find(
+                    self._dict["Pracownicy"], "Id", sprawdzian["IdPracownik"]
+                )
 
-        return list(map(lambda x: Sprawdzian.from_json(x), sprawdziany))
+            return list(map(lambda x: Sprawdzian.from_json(x), sprawdziany))
+        else:
+            return list()
 
     def zadania_domowe(self, dzien=None):
         """
@@ -303,14 +312,17 @@ class Vulcan:
 
         j = self._post("Uczen/ZadaniaDomowe", json=data)
 
-        zadania_domowe = sort_and_filter_date(j["Data"], dzien_str)
+        if j.get("Data"):
+            zadania_domowe = sort_and_filter_date(j["Data"], dzien_str)
 
-        for zadanie_domowe in zadania_domowe:
-            zadanie_domowe["Pracownik"] = find(
-                self._dict["Pracownicy"], "Id", zadanie_domowe["IdPracownik"]
-            )
-            zadanie_domowe["Przedmiot"] = find(
-                self._dict["Przedmioty"], "Id", zadanie_domowe["IdPrzedmiot"]
-            )
+            for zadanie_domowe in zadania_domowe:
+                zadanie_domowe["Pracownik"] = find(
+                    self._dict["Pracownicy"], "Id", zadanie_domowe["IdPracownik"]
+                )
+                zadanie_domowe["Przedmiot"] = find(
+                    self._dict["Przedmioty"], "Id", zadanie_domowe["IdPrzedmiot"]
+                )
 
-        return list(map(lambda x: ZadanieDomowe.from_json(x), zadania_domowe))
+            return list(map(lambda x: ZadanieDomowe.from_json(x), zadania_domowe))
+        else:
+            return list()
