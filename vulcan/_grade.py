@@ -80,7 +80,7 @@ class Ocena:
         id = j.get("Id")
         pracownik = Pracownik.from_json(j.get("Pracownik"))
         przedmiot = Przedmiot.from_json(j.get("Przedmiot"))
-        if (j.get("Kategoria")):
+        if j.get("Kategoria"):
             kategoria = KategoriaOceny.from_json(j["Kategoria"])
         else:
             kategoria = None
