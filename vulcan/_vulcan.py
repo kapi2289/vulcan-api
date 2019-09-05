@@ -211,7 +211,11 @@ class Vulcan:
                 self._dict["Pracownicy"], "Id", ocena["IdPracownikD"]
             )
 
-        return list(map(lambda x: Ocena.from_json(x), oceny))
+        l = []
+        for ocena in oceny:
+            l.append(ocena)
+
+        return l
 
     def plan_lekcji(self, dzien=None):
         """
