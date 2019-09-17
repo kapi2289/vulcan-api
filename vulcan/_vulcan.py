@@ -149,6 +149,7 @@ class Vulcan:
 
         if as_json:
             try:
+                log.debug(r.text)
                 return r.json()
             except ValueError:
                 raise VulcanAPIException("Wystąpił błąd.")
