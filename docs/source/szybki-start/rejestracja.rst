@@ -24,5 +24,5 @@ A następnie zapisz certyfikat do pliku
 
 .. code:: python
 
-    with open('cert.json') as f:
+    with open('cert.json', 'w') as f:
         f.write(json.dumps(certyfikat))
