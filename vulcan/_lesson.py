@@ -45,6 +45,8 @@ class Lekcja:
         dzien (:class:`datetime.date`): Data lekcji
         od (:class:`datetime.datetime`): Data i godzina rozpoczęcia lekcji
         do (:class:`datetime.datetime`): Data i godzina zakończenia lekcji
+        sala (:class:`string`): Sala w której odbywa się lekcja
+        grupa (:class:`string`): Grupa która odbywa lekcję
     """
 
     def __init__(
@@ -56,6 +58,8 @@ class Lekcja:
         dzien=None,
         od=None,
         do=None,
+        sala=None,
+        grupa=None,
     ):
         self.numer = numer
         self.pora = pora
@@ -64,15 +68,19 @@ class Lekcja:
         self.dzien = dzien
         self.od = od
         self.do = do
+        self.sala = sala
+        self.grupa = grupa
 
     def __repr__(self):
-        return "<Lekcja {!s}: przedmiot={!r} pracownik={!r}>".format(
-            self.numer, self.przedmiot.nazwa, self.pracownik.nazwa
+        return "<Lekcja {!s}: przedmiot={!r} pracownik={!r} sala={!r}>".format(
+            self.numer, self.przedmiot.nazwa, self.pracownik.nazwa, self.sala
         )
 
     @classmethod
     def from_json(cls, j):
         numer = j.get("NumerLekcji")
+        sala = j.get("Sala")
+        grupa = j.get("PodzialSkrot")
         pora = PoraLekcji.from_json(j.get("PoraLekcji"))
         przedmiot = Przedmiot.from_json(j.get("Przedmiot"))
         pracownik = Pracownik.from_json(j.get("Pracownik"))
@@ -82,6 +90,8 @@ class Lekcja:
         do = concat_hours_and_minutes(dzien_datetime, j["PoraLekcji"]["Koniec"])
         return cls(
             numer=numer,
+            sala=sala,
+            grupa=grupa,
             pora=pora,
             przedmiot=przedmiot,
             pracownik=pracownik,
