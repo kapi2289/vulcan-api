@@ -1,6 +1,6 @@
 import pytest
 
-from utils import *
+from .utils import *
 
 
 @pytest.mark.private
@@ -10,7 +10,6 @@ class TestPlanLekcji:
     def test(self, klient, dzien, _lekcje):
         lekcje = klient.plan_lekcji(dzien)
         for i, lekcja in enumerate(lekcje):
-            assert lekcja.numer == i + 1
             assert lekcja.dzien == dzien
 
     def test_private(self, klient, dzien, _lekcje):

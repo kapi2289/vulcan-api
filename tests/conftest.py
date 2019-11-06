@@ -1,8 +1,8 @@
 import pytest
 from dotenv import load_dotenv, find_dotenv
 
-from utils import *
 from vulcan import Vulcan
+from .utils import *
 
 load_dotenv(find_dotenv())
 
