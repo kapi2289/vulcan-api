@@ -15,22 +15,20 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath("../.."))
+import vulcan
 
+sys.path.insert(0, os.path.abspath("../.."))
 
 # -- Project information -----------------------------------------------------
 
 project = "Vulcan API"
-copyright = "2018, Kacper Ziubryniewicz"
+copyright = "2019, Kacper Ziubryniewicz"
 author = "Kacper Ziubryniewicz"
 
 # The short X.Y version
 version = ""
 # The full version, including alpha/beta/rc tags
-import vulcan
-
 release = vulcan.__version__
-
 
 # -- General configuration ---------------------------------------------------
 
@@ -70,7 +68,6 @@ exclude_patterns = []
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
 
-
 # -- Options for HTML output -------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
@@ -105,7 +102,6 @@ html_static_path = ["_static"]
 # Output file base name for HTML help builder.
 htmlhelp_basename = "VulcanAPIdoc"
 
-
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
@@ -136,13 +132,11 @@ latex_documents = [
     )
 ]
 
-
 # -- Options for manual page output ------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [(master_doc, "vulcanapi", "Vulcan API Documentation", [author], 1)]
-
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -160,7 +154,6 @@ texinfo_documents = [
         "Miscellaneous",
     )
 ]
-
 
 # -- Options for Epub output -------------------------------------------------
 
