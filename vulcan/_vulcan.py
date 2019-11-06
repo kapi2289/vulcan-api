@@ -239,7 +239,9 @@ class Vulcan:
 
         if j.get("Data"):
             plan_lekcji = sorted(j["Data"], key=itemgetter("NumerLekcji"))
-            plan_lekcji = list(filter(lambda x: x["DzienTekst"] == dzien_str, plan_lekcji))
+            plan_lekcji = list(
+                filter(lambda x: x["DzienTekst"] == dzien_str, plan_lekcji)
+            )
 
             for lekcja in plan_lekcji:
                 lekcja["PoraLekcji"] = find(
