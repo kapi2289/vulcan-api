@@ -166,6 +166,9 @@ class Vulcan:
         j = self._post("Uczen/Slowniki")
         return j["Data"]
 
+    def _get_dict_value(self, _id, dict_key):
+        return find(self._dict[dict_key], "Id", _id)
+
     def uczniowie(self):
         """
         Zwraca listę wszystkich uczniów należących do użytkownika
@@ -203,14 +206,14 @@ class Vulcan:
             oceny = j["Data"]
 
             for ocena in oceny:
-                ocena["Przedmiot"] = find(
-                    self._dict["Przedmioty"], "Id", ocena["IdPrzedmiot"]
+                ocena["Przedmiot"] = self._get_dict_value(
+                    ocena["IdPrzedmiot"], "Przedmioty"
                 )
-                ocena["Kategoria"] = find(
-                    self._dict["KategorieOcen"], "Id", ocena["IdKategoria"]
+                ocena["Kategoria"] = self._get_dict_value(
+                    ocena["IdKategoria"], "KategorieOcen"
                 )
-                ocena["Pracownik"] = find(
-                    self._dict["Pracownicy"], "Id", ocena["IdPracownikD"]
+                ocena["Pracownik"] = self._get_dict_value(
+                    ocena["IdPracownikD"], "Pracownicy"
                 )
 
             return list(map(lambda x: Ocena.from_json(x), oceny))
@@ -244,17 +247,17 @@ class Vulcan:
             )
 
             for lekcja in plan_lekcji:
-                lekcja["PoraLekcji"] = find(
-                    self._dict["PoryLekcji"], "Id", lekcja["IdPoraLekcji"]
+                lekcja["PoraLekcji"] = self._get_dict_value(
+                    lekcja["IdPoraLekcji"], "PoryLekcji"
                 )
-                lekcja["Przedmiot"] = find(
-                    self._dict["Przedmioty"], "Id", lekcja["IdPrzedmiot"]
+                lekcja["Przedmiot"] = self._get_dict_value(
+                    lekcja["IdPrzedmiot"], "Przedmioty"
                 )
-                lekcja["Pracownik"] = find(
-                    self._dict["Pracownicy"], "Id", lekcja["IdPracownik"]
+                lekcja["Pracownik"] = self._get_dict_value(
+                    lekcja["IdPracownik"], "Pracownicy"
                 )
-                lekcja["PracownikWspomagajacy"] = find(
-                    self._dict["Pracownicy"], "Id", lekcja["IdPracownikWspomagajacy"]
+                lekcja["PracownikWspomagajacy"] = self._get_dict_value(
+                    lekcja["IdPracownikWspomagajacy"], "Pracownicy"
                 )
 
             return list(map(lambda x: Lekcja.from_json(x), plan_lekcji))
@@ -284,11 +287,11 @@ class Vulcan:
             sprawdziany = sort_and_filter_date(j["Data"], dzien_str)
 
             for sprawdzian in sprawdziany:
-                sprawdzian["Przedmiot"] = find(
-                    self._dict["Przedmioty"], "Id", sprawdzian["IdPrzedmiot"]
+                sprawdzian["Przedmiot"] = self._get_dict_value(
+                    sprawdzian["IdPrzedmiot"], "Przedmioty"
                 )
-                sprawdzian["Pracownik"] = find(
-                    self._dict["Pracownicy"], "Id", sprawdzian["IdPracownik"]
+                sprawdzian["Pracownik"] = self._get_dict_value(
+                    sprawdzian["IdPracownik"], "Pracownicy"
                 )
 
             return list(map(lambda x: Sprawdzian.from_json(x), sprawdziany))
@@ -319,11 +322,11 @@ class Vulcan:
             zadania_domowe = sort_and_filter_date(j["Data"], dzien_str)
 
             for zadanie_domowe in zadania_domowe:
-                zadanie_domowe["Pracownik"] = find(
-                    self._dict["Pracownicy"], "Id", zadanie_domowe["IdPracownik"]
+                zadanie_domowe["Pracownik"] = self._get_dict_value(
+                    zadanie_domowe["IdPracownik"], "Pracownicy"
                 )
-                zadanie_domowe["Przedmiot"] = find(
-                    self._dict["Przedmioty"], "Id", zadanie_domowe["IdPrzedmiot"]
+                zadanie_domowe["Przedmiot"] = self._get_dict_value(
+                    zadanie_domowe["IdPrzedmiot"], "Przedmioty"
                 )
 
             return list(map(lambda x: ZadanieDomowe.from_json(x), zadania_domowe))
