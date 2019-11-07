@@ -32,7 +32,7 @@ def uuid():
     return str(_uuid.uuid4())
 
 
-def find(_list, key, value):
+def find(_list, value, key="Id"):
     return next((i for i in _list if i[key] == value), None)
 
 

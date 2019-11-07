@@ -7,6 +7,7 @@ from operator import itemgetter
 import requests
 from related import to_model
 
+from _dictionaries import Dictionaries
 from ._exam import Exam
 from ._grade import Grade
 from ._homework import Homework
@@ -18,7 +19,6 @@ from ._utils import (
     now,
     get_base_url,
     VulcanAPIException,
-    find,
     signature,
     sort_and_filter_date,
 )
@@ -167,10 +167,7 @@ class Vulcan:
 
     def _get_dict(self):
         j = self._post("Uczen/Slowniki")
-        return j.get("Data", [])
-
-    def _get_dict_value(self, _id, dict_key):
-        return find(self._dict.get(dict_key, []), "Id", _id)
+        return to_model(Dictionaries, j.get("Data"))
 
     def get_students(self):
         """
@@ -208,11 +205,9 @@ class Vulcan:
         j = self._post("Uczen/Oceny")
 
         for grade in j.get("Data", []):
-            grade["teacher"] = self._get_dict_value(grade["IdPracownikD"], "Pracownicy")
-            grade["subject"] = self._get_dict_value(grade["IdPrzedmiot"], "Przedmioty")
-            grade["category"] = self._get_dict_value(
-                grade["IdKategoria"], "KategorieOcen"
-            )
+            grade["teacher"] = self._dict.get_teacher(grade["IdPracownikD"])
+            grade["subject"] = self._dict.get_subject(grade["IdPrzedmiot"])
+            grade["category"] = self._dict.get_category(grade["IdKategoria"])
 
             yield to_model(Grade, grade)
 
@@ -240,13 +235,9 @@ class Vulcan:
         lessons = list(filter(lambda x: x["DzienTekst"] == date_str, lessons))
 
         for lesson in lessons:
-            lesson["time"] = self._get_dict_value(lesson["IdPoraLekcji"], "PoryLekcji")
-            lesson["teacher"] = self._get_dict_value(
-                lesson["IdPracownik"], "Pracownicy"
-            )
-            lesson["subject"] = self._get_dict_value(
-                lesson["IdPrzedmiot"], "Przedmioty"
-            )
+            lesson["time"] = self._dict.get_lesson_time(lesson["IdPoraLekcji"])
+            lesson["teacher"] = self._dict.get_teacher(lesson["IdPracownik"])
+            lesson["subject"] = self._dict.get_subject(lesson["IdPrzedmiot"])
 
             yield to_model(Lesson, lesson)
 
@@ -272,8 +263,8 @@ class Vulcan:
         exams = sort_and_filter_date(j.get("Data", []), date_str)
 
         for exam in exams:
-            exam["teacher"] = self._get_dict_value(exam["IdPracownik"], "Pracownicy")
-            exam["subject"] = self._get_dict_value(exam["IdPrzedmiot"], "Przedmioty")
+            exam["teacher"] = self._dict.get_teacher(exam["IdPracownik"])
+            exam["subject"] = self._dict.get_subject(exam["IdPrzedmiot"])
 
             yield to_model(Exam, exam)
 
@@ -300,11 +291,7 @@ class Vulcan:
         homework_list = sort_and_filter_date(j.get("Data", []), date_str)
 
         for homework in homework_list:
-            homework["teacher"] = self._get_dict_value(
-                homework["IdPracownik"], "Pracownicy"
-            )
-            homework["subject"] = self._get_dict_value(
-                homework["IdPrzedmiot"], "Przedmioty"
-            )
+            homework["teacher"] = self._dict.get_teacher(homework["IdPracownik"])
+            homework["subject"] = self._dict.get_subject(homework["IdPrzedmiot"])
 
             yield to_model(Homework, homework)
