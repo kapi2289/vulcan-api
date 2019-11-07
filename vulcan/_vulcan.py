@@ -48,7 +48,7 @@ class Vulcan:
 
         self.student = None
         self.students = self.get_students()
-        self.set_student(self.students[0])
+        self.set_student(next(self.students))
 
     @staticmethod
     def set_logging_level(logging_level):
@@ -182,9 +182,8 @@ class Vulcan:
 
         j = self._post(self._base_url + "UczenStart/ListaUczniow")
 
-        return list(
-            map(lambda x: to_model(Student, Student.format_json(x)), j.get("Data", []))
-        )
+        for student in j.get("Data", []):
+            yield to_model(Student, Student.format_json(student))
 
     def set_student(self, student):
         """
@@ -208,23 +207,14 @@ class Vulcan:
 
         j = self._post("Uczen/Oceny")
 
-        if j.get("Data"):
-            grades = j["Data"]
+        for grade in j.get("Data", []):
+            grade["teacher"] = self._get_dict_value(grade["IdPracownikD"], "Pracownicy")
+            grade["subject"] = self._get_dict_value(grade["IdPrzedmiot"], "Przedmioty")
+            grade["category"] = self._get_dict_value(
+                grade["IdKategoria"], "KategorieOcen"
+            )
 
-            for grade in grades:
-                grade["teacher"] = self._get_dict_value(
-                    grade["IdPracownikD"], "Pracownicy"
-                )
-                grade["subject"] = self._get_dict_value(
-                    grade["IdPrzedmiot"], "Przedmioty"
-                )
-                grade["category"] = self._get_dict_value(
-                    grade["IdKategoria"], "KategorieOcen"
-                )
-
-            return list(map(lambda x: to_model(Grade, x), grades))
-        else:
-            return list()
+            yield to_model(Grade, grade)
 
     def get_lessons(self, date=None):
         """
@@ -246,24 +236,19 @@ class Vulcan:
 
         j = self._post("Uczen/PlanLekcjiZeZmianami", json=data)
 
-        if j.get("Data"):
-            lessons = sorted(j["Data"], key=itemgetter("NumerLekcji"))
-            lessons = list(filter(lambda x: x["DzienTekst"] == date_str, lessons))
+        lessons = sorted(j.get("Data", []), key=itemgetter("NumerLekcji"))
+        lessons = list(filter(lambda x: x["DzienTekst"] == date_str, lessons))
 
-            for lesson in lessons:
-                lesson["time"] = self._get_dict_value(
-                    lesson["IdPoraLekcji"], "PoryLekcji"
-                )
-                lesson["teacher"] = self._get_dict_value(
-                    lesson["IdPracownik"], "Pracownicy"
-                )
-                lesson["subject"] = self._get_dict_value(
-                    lesson["IdPrzedmiot"], "Przedmioty"
-                )
+        for lesson in lessons:
+            lesson["time"] = self._get_dict_value(lesson["IdPoraLekcji"], "PoryLekcji")
+            lesson["teacher"] = self._get_dict_value(
+                lesson["IdPracownik"], "Pracownicy"
+            )
+            lesson["subject"] = self._get_dict_value(
+                lesson["IdPrzedmiot"], "Przedmioty"
+            )
 
-            return list(map(lambda x: to_model(Lesson, x), lessons))
-        else:
-            return list()
+            yield to_model(Lesson, lesson)
 
     def get_exams(self, date=None):
         """
@@ -284,20 +269,13 @@ class Vulcan:
 
         j = self._post("Uczen/Sprawdziany", json=data)
 
-        if j.get("Data"):
-            exams = sort_and_filter_date(j["Data"], date_str)
+        exams = sort_and_filter_date(j.get("Data", []), date_str)
 
-            for exam in exams:
-                exam["teacher"] = self._get_dict_value(
-                    exam["IdPracownik"], "Pracownicy"
-                )
-                exam["subject"] = self._get_dict_value(
-                    exam["IdPrzedmiot"], "Przedmioty"
-                )
+        for exam in exams:
+            exam["teacher"] = self._get_dict_value(exam["IdPracownik"], "Pracownicy")
+            exam["subject"] = self._get_dict_value(exam["IdPrzedmiot"], "Przedmioty")
 
-            return list(map(lambda x: to_model(Exam, x), exams))
-        else:
-            return list()
+            yield to_model(Exam, exam)
 
     def get_homework(self, date=None):
         """
@@ -319,17 +297,14 @@ class Vulcan:
 
         j = self._post("Uczen/ZadaniaDomowe", json=data)
 
-        if j.get("Data"):
-            homework_list = sort_and_filter_date(j["Data"], date_str)
+        homework_list = sort_and_filter_date(j.get("Data", []), date_str)
 
-            for homework in homework_list:
-                homework["teacher"] = self._get_dict_value(
-                    homework["IdPracownik"], "Pracownicy"
-                )
-                homework["subject"] = self._get_dict_value(
-                    homework["IdPrzedmiot"], "Przedmioty"
-                )
+        for homework in homework_list:
+            homework["teacher"] = self._get_dict_value(
+                homework["IdPracownik"], "Pracownicy"
+            )
+            homework["subject"] = self._get_dict_value(
+                homework["IdPrzedmiot"], "Przedmioty"
+            )
 
-            return list(map(lambda x: to_model(Homework, x), homework_list))
-        else:
-            return list()
+            yield to_model(Homework, homework)

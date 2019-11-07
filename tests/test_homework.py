@@ -15,7 +15,6 @@ class TestHomework:
 
     def test_private(self, client, date, homework_expected_list):
         homework_list = client.get_homework(date)
-        assert len(homework_list) == len(homework_expected_list)
 
         for i, homework in enumerate(homework_list):
             homework_expected = homework_expected_list[i]

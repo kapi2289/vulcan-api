@@ -15,7 +15,6 @@ class TestExams:
 
     def test_private(self, client, date, exams_expected):
         exams = client.get_exams(date)
-        assert len(exams) == len(exams_expected)
 
         for i, exam in enumerate(exams):
             exam_expected = exams_expected[i]
