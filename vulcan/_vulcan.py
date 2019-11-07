@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from __future__ import unicode_literals
 
 import platform
@@ -31,16 +29,16 @@ class Vulcan:
     Loguje się do dzienniczka za pomocą wygenerowanego certyfikatu
 
     Args:
-        certyfikat (:class:`dict`): Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.zarejestruj`
+        certificate (:class:`dict`): Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.zarejestruj`
     """
 
-    app_name = "VULCAN-Android-ModulUcznia"
-    app_version = "18.10.1.433"
+    APP_NAME = "VULCAN-Android-ModulUcznia"
+    APP_VERSION = "18.10.1.433"
 
-    def __init__(self, certyfikat, logging_level=None):
-        self._cert = certyfikat
+    def __init__(self, certificate, logging_level=None):
+        self._cert = certificate
         self._session = requests.session()
-        self._url = certyfikat["AdresBazowyRestApi"]
+        self._url = certificate["AdresBazowyRestApi"]
         self._base_url = self._url + "mobile-api/Uczen.v3."
         self._full_url = None
         self._dict = None
@@ -48,9 +46,9 @@ class Vulcan:
         if logging_level:
             Vulcan.set_logging_level(logging_level)
 
-        self.uczen = None
-        uczniowie = self.uczniowie()
-        self.ustaw_ucznia(uczniowie[0])
+        self.student = None
+        self.students = self.get_students()
+        self.set_student(self.students[0])
 
     @staticmethod
     def set_logging_level(logging_level):
@@ -64,7 +62,7 @@ class Vulcan:
         log.setLevel(logging_level)
 
     @staticmethod
-    def zarejestruj(token, symbol, pin):
+    def register(token, symbol, pin):
         """
         Rejestruje API jako nowe urządzenie mobilne
 
@@ -84,7 +82,7 @@ class Vulcan:
         data = {
             "PIN": pin,
             "TokenKey": token,
-            "AppVersion": Vulcan.app_version,
+            "AppVersion": Vulcan.APP_VERSION,
             "DeviceId": uuid(),
             "DeviceName": "Vulcan API",
             "DeviceNameUser": "",
@@ -94,8 +92,8 @@ class Vulcan:
             "RemoteMobileTimeKey": now() + 1,
             "TimeKey": now(),
             "RequestId": uuid(),
-            "RemoteMobileAppVersion": Vulcan.app_version,
-            "RemoteMobileAppName": Vulcan.app_name,
+            "RemoteMobileAppVersion": Vulcan.APP_VERSION,
+            "RemoteMobileAppName": Vulcan.APP_NAME,
         }
 
         headers = {
@@ -106,15 +104,15 @@ class Vulcan:
         base_url = get_base_url(token)
         url = "{}/{}/mobile-api/Uczen.v3.UczenStart/Certyfikat".format(base_url, symbol)
 
-        log.info("Rejestrowanie...")
+        log.info("Registering...")
 
         r = requests.post(url, json=data, headers=headers)
         j = r.json()
         log.debug(j)
 
         cert = j["TokenCert"]
-        assert cert
-        log.info("Zarejestrowano pomyślnie!")
+        log.info("Registered successfully!")
+
         return cert
 
     def _payload(self, json):
@@ -122,15 +120,15 @@ class Vulcan:
             "RemoteMobileTimeKey": now() + 1,
             "TimeKey": now(),
             "RequestId": uuid(),
-            "RemoteMobileAppVersion": Vulcan.app_version,
-            "RemoteMobileAppName": Vulcan.app_name,
+            "RemoteMobileAppVersion": Vulcan.APP_VERSION,
+            "RemoteMobileAppName": Vulcan.APP_NAME,
         }
 
-        if self.uczen:
-            payload["IdOkresKlasyfikacyjny"] = self.uczen.period.id
-            payload["IdUczen"] = self.uczen.id
-            payload["IdOddzial"] = self.uczen.class_.id
-            payload["LoginId"] = self.uczen.login_id
+        if self.student:
+            payload["IdOkresKlasyfikacyjny"] = self.student.period.id
+            payload["IdUczen"] = self.student.id
+            payload["IdOddzial"] = self.student.class_.id
+            payload["LoginId"] = self.student.login_id
 
         if json:
             payload.update(json)
@@ -157,7 +155,7 @@ class Vulcan:
                 log.debug(r.text)
                 return r.json()
             except ValueError:
-                raise VulcanAPIException("Wystąpił błąd.")
+                raise VulcanAPIException("An unexpected exception occurred.")
 
         return r
 
@@ -169,12 +167,12 @@ class Vulcan:
 
     def _get_dict(self):
         j = self._post("Uczen/Slowniki")
-        return j["Data"]
+        return j.get("Data", [])
 
     def _get_dict_value(self, _id, dict_key):
-        return find(self._dict[dict_key], "Id", _id)
+        return find(self._dict.get(dict_key, []), "Id", _id)
 
-    def uczniowie(self):
+    def get_students(self):
         """
         Zwraca listę wszystkich uczniów należących do użytkownika
 
@@ -184,21 +182,23 @@ class Vulcan:
 
         j = self._post(self._base_url + "UczenStart/ListaUczniow")
 
-        return list(map(lambda x: to_model(Student, Student.format_json(x)), j["Data"]))
+        return list(
+            map(lambda x: to_model(Student, Student.format_json(x)), j.get("Data", []))
+        )
 
-    def ustaw_ucznia(self, uczen):
+    def set_student(self, student):
         """
         Ustawia domyślnego ucznia
 
         Args:
-            uczen (:class:`vulcan.models.Uczen`): Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
+            uczen (:class:`vulcan.Student`): Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
         """
 
-        self.uczen = uczen
-        self._full_url = self._url + uczen.school.symbol + "/mobile-api/Uczen.v3."
+        self.student = student
+        self._full_url = self._url + student.school.symbol + "/mobile-api/Uczen.v3."
         self._dict = self._get_dict()
 
-    def oceny(self):
+    def get_grades(self):
         """
         Pobiera oceny cząstkowe
 
@@ -209,129 +209,127 @@ class Vulcan:
         j = self._post("Uczen/Oceny")
 
         if j.get("Data"):
-            oceny = j["Data"]
+            grades = j["Data"]
 
-            for ocena in oceny:
-                ocena["teacher"] = self._get_dict_value(
-                    ocena["IdPracownikD"], "Pracownicy"
+            for grade in grades:
+                grade["teacher"] = self._get_dict_value(
+                    grade["IdPracownikD"], "Pracownicy"
                 )
-                ocena["subject"] = self._get_dict_value(
-                    ocena["IdPrzedmiot"], "Przedmioty"
+                grade["subject"] = self._get_dict_value(
+                    grade["IdPrzedmiot"], "Przedmioty"
                 )
-                ocena["category"] = self._get_dict_value(
-                    ocena["IdKategoria"], "KategorieOcen"
+                grade["category"] = self._get_dict_value(
+                    grade["IdKategoria"], "KategorieOcen"
                 )
 
-            return list(map(lambda x: to_model(Grade, x), oceny))
+            return list(map(lambda x: to_model(Grade, x), grades))
         else:
             return list()
 
-    def plan_lekcji(self, dzien=None):
+    def get_lessons(self, date=None):
         """
         Pobiera plan lekcji z danego dnia
 
         Args:
-            dzien (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać plan
+            date (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać plan
                 lekcji, jeśli puste pobiera z aktualnego dnia
 
         Returns:
             :class:`list`: Listę lekcji
         """
 
-        if not dzien:
-            dzien = datetime.now()
-        dzien_str = dzien.strftime("%Y-%m-%d")
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime("%Y-%m-%d")
 
-        data = {"DataPoczatkowa": dzien_str, "DataKoncowa": dzien_str}
+        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
 
         j = self._post("Uczen/PlanLekcjiZeZmianami", json=data)
 
         if j.get("Data"):
-            plan_lekcji = sorted(j["Data"], key=itemgetter("NumerLekcji"))
-            plan_lekcji = list(
-                filter(lambda x: x["DzienTekst"] == dzien_str, plan_lekcji)
-            )
+            lessons = sorted(j["Data"], key=itemgetter("NumerLekcji"))
+            lessons = list(filter(lambda x: x["DzienTekst"] == date_str, lessons))
 
-            for lekcja in plan_lekcji:
-                lekcja["time"] = self._get_dict_value(
-                    lekcja["IdPoraLekcji"], "PoryLekcji"
+            for lesson in lessons:
+                lesson["time"] = self._get_dict_value(
+                    lesson["IdPoraLekcji"], "PoryLekcji"
                 )
-                lekcja["teacher"] = self._get_dict_value(
-                    lekcja["IdPracownik"], "Pracownicy"
+                lesson["teacher"] = self._get_dict_value(
+                    lesson["IdPracownik"], "Pracownicy"
                 )
-                lekcja["subject"] = self._get_dict_value(
-                    lekcja["IdPrzedmiot"], "Przedmioty"
+                lesson["subject"] = self._get_dict_value(
+                    lesson["IdPrzedmiot"], "Przedmioty"
                 )
 
-            return list(map(lambda x: to_model(Lesson, x), plan_lekcji))
+            return list(map(lambda x: to_model(Lesson, x), lessons))
         else:
             return list()
 
-    def sprawdziany(self, dzien=None):
+    def get_exams(self, date=None):
         """
         Pobiera sprawdziany z danego dnia
 
         Args:
-            dzien (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
+            date (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
                 sprawdziany, jeśli puste pobiera z aktualnego dnia
 
         Returns:
             :class:`list`: Listę sprawdzianów
         """
-        if not dzien:
-            dzien = datetime.now()
-        dzien_str = dzien.strftime("%Y-%m-%d")
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime("%Y-%m-%d")
 
-        data = {"DataPoczatkowa": dzien_str, "DataKoncowa": dzien_str}
+        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
 
         j = self._post("Uczen/Sprawdziany", json=data)
 
         if j.get("Data"):
-            sprawdziany = sort_and_filter_date(j["Data"], dzien_str)
+            exams = sort_and_filter_date(j["Data"], date_str)
 
-            for sprawdzian in sprawdziany:
-                sprawdzian["teacher"] = self._get_dict_value(
-                    sprawdzian["IdPracownik"], "Pracownicy"
+            for exam in exams:
+                exam["teacher"] = self._get_dict_value(
+                    exam["IdPracownik"], "Pracownicy"
                 )
-                sprawdzian["subject"] = self._get_dict_value(
-                    sprawdzian["IdPrzedmiot"], "Przedmioty"
+                exam["subject"] = self._get_dict_value(
+                    exam["IdPrzedmiot"], "Przedmioty"
                 )
 
-            return list(map(lambda x: to_model(Exam, x), sprawdziany))
+            return list(map(lambda x: to_model(Exam, x), exams))
         else:
             return list()
 
-    def zadania_domowe(self, dzien=None):
+    def get_homework(self, date=None):
         """
         Pobiera zadania domowe z danego dnia
 
         Args:
-            dzien (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
+            date (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
                 zadania domowe, jeśli puste pobiera z aktualnego dnia
 
         Returns:
             :class:`list`: Listę zadań domowych
         """
 
-        if not dzien:
-            dzien = datetime.now()
-        dzien_str = dzien.strftime("%Y-%m-%d")
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime("%Y-%m-%d")
 
-        data = {"DataPoczatkowa": dzien_str, "DataKoncowa": dzien_str}
+        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
 
         j = self._post("Uczen/ZadaniaDomowe", json=data)
 
         if j.get("Data"):
-            zadania_domowe = sort_and_filter_date(j["Data"], dzien_str)
+            homework_list = sort_and_filter_date(j["Data"], date_str)
 
-            for zadanie_domowe in zadania_domowe:
-                zadanie_domowe["teacher"] = self._get_dict_value(
-                    zadanie_domowe["IdPracownik"], "Pracownicy"
+            for homework in homework_list:
+                homework["teacher"] = self._get_dict_value(
+                    homework["IdPracownik"], "Pracownicy"
                 )
-                zadanie_domowe["subject"] = self._get_dict_value(
-                    zadanie_domowe["IdPrzedmiot"], "Przedmioty"
+                homework["subject"] = self._get_dict_value(
+                    homework["IdPrzedmiot"], "Przedmioty"
                 )
 
-            return list(map(lambda x: to_model(Homework, x), zadania_domowe))
+            return list(map(lambda x: to_model(Homework, x), homework_list))
         else:
             return list()

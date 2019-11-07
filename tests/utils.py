@@ -15,7 +15,7 @@ PARAMS_LESSON_PLAN = [
     )
 ]
 
-PARAMS_TESTS = [
+PARAMS_EXAMS = [
     (date(2019, 9, 25), [{"Id": 2118, "IdPrzedmiot": 118, "IdPracownik": 94}]),
     (
         date(2019, 10, 24),
@@ -26,7 +26,7 @@ PARAMS_TESTS = [
     ),
 ]
 
-PARAMS_HOMEWORKS = [
+PARAMS_HOMEWORK_LIST = [
     (
         date(2019, 9, 24),
         [
