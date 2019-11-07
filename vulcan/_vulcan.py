@@ -7,7 +7,13 @@ from datetime import datetime
 from operator import itemgetter
 
 import requests
+from related import to_model
 
+from ._exam import Exam
+from ._grade import Grade
+from ._homework import Homework
+from ._lesson import Lesson
+from ._student import Student
 from ._utils import (
     log,
     uuid,
@@ -18,7 +24,6 @@ from ._utils import (
     signature,
     sort_and_filter_date,
 )
-from .models import Uczen, Ocena, Lekcja, Sprawdzian, ZadanieDomowe
 
 
 class Vulcan:
@@ -122,9 +127,9 @@ class Vulcan:
         }
 
         if self.uczen:
-            payload["IdOkresKlasyfikacyjny"] = self.uczen.okres.id
+            payload["IdOkresKlasyfikacyjny"] = self.uczen.period.id
             payload["IdUczen"] = self.uczen.id
-            payload["IdOddzial"] = self.uczen.klasa.id
+            payload["IdOddzial"] = self.uczen.class_.id
             payload["LoginId"] = self.uczen.login_id
 
         if json:
@@ -178,7 +183,8 @@ class Vulcan:
         """
 
         j = self._post(self._base_url + "UczenStart/ListaUczniow")
-        return list(map(lambda x: Uczen.from_json(x), j["Data"]))
+
+        return list(map(lambda x: to_model(Student, Student.format_json(x)), j["Data"]))
 
     def ustaw_ucznia(self, uczen):
         """
@@ -189,7 +195,7 @@ class Vulcan:
         """
 
         self.uczen = uczen
-        self._full_url = self._url + uczen.szkola.symbol + "/mobile-api/Uczen.v3."
+        self._full_url = self._url + uczen.school.symbol + "/mobile-api/Uczen.v3."
         self._dict = self._get_dict()
 
     def oceny(self):
@@ -206,17 +212,17 @@ class Vulcan:
             oceny = j["Data"]
 
             for ocena in oceny:
-                ocena["Przedmiot"] = self._get_dict_value(
-                    ocena["IdPrzedmiot"], "Przedmioty"
-                )
-                ocena["Kategoria"] = self._get_dict_value(
-                    ocena["IdKategoria"], "KategorieOcen"
-                )
-                ocena["Pracownik"] = self._get_dict_value(
+                ocena["teacher"] = self._get_dict_value(
                     ocena["IdPracownikD"], "Pracownicy"
                 )
+                ocena["subject"] = self._get_dict_value(
+                    ocena["IdPrzedmiot"], "Przedmioty"
+                )
+                ocena["category"] = self._get_dict_value(
+                    ocena["IdKategoria"], "KategorieOcen"
+                )
 
-            return list(map(lambda x: Ocena.from_json(x), oceny))
+            return list(map(lambda x: to_model(Grade, x), oceny))
         else:
             return list()
 
@@ -247,20 +253,17 @@ class Vulcan:
             )
 
             for lekcja in plan_lekcji:
-                lekcja["PoraLekcji"] = self._get_dict_value(
+                lekcja["time"] = self._get_dict_value(
                     lekcja["IdPoraLekcji"], "PoryLekcji"
                 )
-                lekcja["Przedmiot"] = self._get_dict_value(
-                    lekcja["IdPrzedmiot"], "Przedmioty"
-                )
-                lekcja["Pracownik"] = self._get_dict_value(
+                lekcja["teacher"] = self._get_dict_value(
                     lekcja["IdPracownik"], "Pracownicy"
                 )
-                lekcja["PracownikWspomagajacy"] = self._get_dict_value(
-                    lekcja["IdPracownikWspomagajacy"], "Pracownicy"
+                lekcja["subject"] = self._get_dict_value(
+                    lekcja["IdPrzedmiot"], "Przedmioty"
                 )
 
-            return list(map(lambda x: Lekcja.from_json(x), plan_lekcji))
+            return list(map(lambda x: to_model(Lesson, x), plan_lekcji))
         else:
             return list()
 
@@ -287,14 +290,14 @@ class Vulcan:
             sprawdziany = sort_and_filter_date(j["Data"], dzien_str)
 
             for sprawdzian in sprawdziany:
-                sprawdzian["Przedmiot"] = self._get_dict_value(
-                    sprawdzian["IdPrzedmiot"], "Przedmioty"
-                )
-                sprawdzian["Pracownik"] = self._get_dict_value(
+                sprawdzian["teacher"] = self._get_dict_value(
                     sprawdzian["IdPracownik"], "Pracownicy"
                 )
+                sprawdzian["subject"] = self._get_dict_value(
+                    sprawdzian["IdPrzedmiot"], "Przedmioty"
+                )
 
-            return list(map(lambda x: Sprawdzian.from_json(x), sprawdziany))
+            return list(map(lambda x: to_model(Exam, x), sprawdziany))
         else:
             return list()
 
@@ -322,13 +325,13 @@ class Vulcan:
             zadania_domowe = sort_and_filter_date(j["Data"], dzien_str)
 
             for zadanie_domowe in zadania_domowe:
-                zadanie_domowe["Pracownik"] = self._get_dict_value(
+                zadanie_domowe["teacher"] = self._get_dict_value(
                     zadanie_domowe["IdPracownik"], "Pracownicy"
                 )
-                zadanie_domowe["Przedmiot"] = self._get_dict_value(
+                zadanie_domowe["subject"] = self._get_dict_value(
                     zadanie_domowe["IdPrzedmiot"], "Przedmioty"
                 )
 
-            return list(map(lambda x: ZadanieDomowe.from_json(x), zadania_domowe))
+            return list(map(lambda x: to_model(Homework, x), zadania_domowe))
         else:
             return list()

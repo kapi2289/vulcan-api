@@ -10,12 +10,12 @@ class TestPlanLekcji:
     def test(self, klient, dzien, _lekcje):
         lekcje = klient.plan_lekcji(dzien)
         for i, lekcja in enumerate(lekcje):
-            assert lekcja.dzien == dzien
+            assert lekcja.date == dzien
 
     def test_private(self, klient, dzien, _lekcje):
         lekcje = klient.plan_lekcji(dzien)
         assert len(lekcje) == len(_lekcje)
         for i, lekcja in enumerate(lekcje):
             _lekcja = _lekcje[i]
-            assert lekcja.przedmiot.id == _lekcja["IdPrzedmiot"]
-            assert lekcja.pracownik.id == _lekcja["IdPracownik"]
+            assert lekcja.subject.id == _lekcja["IdPrzedmiot"]
+            assert lekcja.teacher.id == _lekcja["IdPracownik"]

@@ -10,7 +10,7 @@ with io.open(path.join(here, "README.md"), "rt", encoding="utf8") as f:
     long_description = f.read()
 
 with io.open(path.join(here, "vulcan/__init__.py"), "rt", encoding="utf8") as f:
-    version = re.search(r"__version__ = \"(.*?)\"", f.read()).group(1)
+    version = re.search(r"__version__ = \"(.*?)\"", str(f.read())).group(1)
 
 setup(
     name="vulcan-api",
@@ -26,7 +26,14 @@ setup(
     url="https://github.com/kapi2289/vulcan-api",
     project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
     python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,<4.0",
-    install_requires=["requests", "pyopenssl", "uonet-request-signer", "pytz", "aenum"],
+    install_requires=[
+        "requests",
+        "pyopenssl",
+        "uonet-request-signer",
+        "pytz",
+        "aenum",
+        "related",
+    ],
     extras_require={"testing": ["pytest", "python-dotenv"]},
     classifiers=[
         "License :: OSI Approved :: MIT License",

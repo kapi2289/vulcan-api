@@ -10,7 +10,7 @@ class TestSprawdziany:
     def test(self, klient, dzien, _sprawdziany):
         sprawdziany = klient.sprawdziany(dzien)
         for sprawdzian in sprawdziany:
-            assert sprawdzian.dzien == dzien
+            assert sprawdzian.date == dzien
 
     def test_private(self, klient, dzien, _sprawdziany):
         sprawdziany = klient.sprawdziany(dzien)
@@ -18,5 +18,5 @@ class TestSprawdziany:
         for i, sprawdzian in enumerate(sprawdziany):
             _sprawdzian = _sprawdziany[i]
             assert sprawdzian.id == _sprawdzian["Id"]
-            assert sprawdzian.przedmiot.id == _sprawdzian["IdPrzedmiot"]
-            assert sprawdzian.pracownik.id == _sprawdzian["IdPracownik"]
+            assert sprawdzian.subject.id == _sprawdzian["IdPrzedmiot"]
+            assert sprawdzian.teacher.id == _sprawdzian["IdPracownik"]

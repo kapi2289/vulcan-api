@@ -17,6 +17,8 @@ log.addHandler(handler)
 
 tz = pytz.timezone("Europe/Warsaw")
 
+TIME_FORMAT_H_M = "%H:%M"
+
 
 class VulcanAPIException(Exception):
     pass
@@ -69,3 +71,7 @@ def concat_hours_and_minutes(date, ts):
 def sort_and_filter_date(_list, date):
     _list = sorted(_list, key=itemgetter("Data"))
     return list(filter(lambda x: x["DataTekst"] == date, _list))
+
+
+def dict_only(d, keys):
+    return {key: d.get(key) for key in d.keys() & set(keys)}
