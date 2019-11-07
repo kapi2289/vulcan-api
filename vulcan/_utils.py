@@ -2,7 +2,6 @@ import logging
 import math
 import time
 import uuid as _uuid
-from datetime import datetime
 from operator import itemgetter
 
 import pytz
@@ -53,19 +52,6 @@ def get_base_url(token):
         return components[code]
     except KeyError:
         raise VulcanAPIException("Niepoprawny token!")
-
-
-def timestamp_to_datetime(ts):
-    return pytz.utc.localize(datetime.utcfromtimestamp(ts)).astimezone(tz)
-
-
-def timestamp_to_date(ts):
-    return timestamp_to_datetime(ts).date()
-
-
-def concat_hours_and_minutes(date, ts):
-    d = timestamp_to_datetime(ts)
-    return date.replace(hour=d.hour, minute=d.minute)
 
 
 def sort_and_filter_date(_list, date):

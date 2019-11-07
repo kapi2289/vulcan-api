@@ -241,6 +241,30 @@ class Vulcan:
 
             yield to_model(Lesson, lesson)
 
+    def _get_exams(self, date, model):
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime("%Y-%m-%d")
+
+        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
+
+        if isinstance(model, Exam):
+            endpoint = "Uczen/Sprawdziany"
+        elif isinstance(model, Homework):
+            endpoint = "Uczen/ZadaniaDomowe"
+        else:
+            return
+
+        j = self._post(endpoint, json=data)
+
+        exams = sort_and_filter_date(j.get("Data", []), date_str)
+
+        for exam in exams:
+            exam["teacher"] = self._dict.get_teacher(exam["IdPracownik"])
+            exam["subject"] = self._dict.get_subject(exam["IdPrzedmiot"])
+
+            yield to_model(model, exam)
+
     def get_exams(self, date=None):
         """
         Pobiera sprawdziany z danego dnia
@@ -252,21 +276,7 @@ class Vulcan:
         Returns:
             :class:`list`: Listę sprawdzianów
         """
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime("%Y-%m-%d")
-
-        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
-
-        j = self._post("Uczen/Sprawdziany", json=data)
-
-        exams = sort_and_filter_date(j.get("Data", []), date_str)
-
-        for exam in exams:
-            exam["teacher"] = self._dict.get_teacher(exam["IdPracownik"])
-            exam["subject"] = self._dict.get_subject(exam["IdPrzedmiot"])
-
-            yield to_model(Exam, exam)
+        return self._get_exams(date=date, model=Exam)
 
     def get_homework(self, date=None):
         """
@@ -279,19 +289,4 @@ class Vulcan:
         Returns:
             :class:`list`: Listę zadań domowych
         """
-
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime("%Y-%m-%d")
-
-        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
-
-        j = self._post("Uczen/ZadaniaDomowe", json=data)
-
-        homework_list = sort_and_filter_date(j.get("Data", []), date_str)
-
-        for homework in homework_list:
-            homework["teacher"] = self._dict.get_teacher(homework["IdPracownik"])
-            homework["subject"] = self._dict.get_subject(homework["IdPrzedmiot"])
-
-            yield to_model(Homework, homework)
+        return self._get_exams(date=date, model=Homework)
