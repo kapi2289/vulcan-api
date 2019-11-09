@@ -7,46 +7,31 @@ from operator import itemgetter
 import requests
 from related import to_model
 
-from _dictionaries import Dictionaries
+from ._api import Api
+from ._dictionaries import Dictionaries
 from ._exam import Exam
 from ._grade import Grade
 from ._homework import Homework
 from ._lesson import Lesson
 from ._student import Student
-from ._utils import (
-    log,
-    uuid,
-    now,
-    get_base_url,
-    VulcanAPIException,
-    signature,
-    sort_and_filter_date,
-)
+from ._utils import log, uuid, now, get_base_url, sort_and_filter_date
 
 
-class Vulcan:
+class Vulcan(Api):
     """
     Loguje się do dzienniczka za pomocą wygenerowanego certyfikatu
 
     Args:
-        certificate (:class:`dict`): Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.zarejestruj`
+        certificate (:class:`dict`): Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.register`
     """
 
-    APP_NAME = "VULCAN-Android-ModulUcznia"
-    APP_VERSION = "18.10.1.433"
-
     def __init__(self, certificate, logging_level=None):
-        self._cert = certificate
-        self._session = requests.session()
-        self._url = certificate["AdresBazowyRestApi"]
-        self._base_url = self._url + "mobile-api/Uczen.v3."
-        self._full_url = None
+        super(Vulcan, self).__init__(certificate)
         self._dict = None
 
         if logging_level:
             Vulcan.set_logging_level(logging_level)
 
-        self.student = None
         self.students = self.get_students()
         self.set_student(next(self.students))
 
@@ -114,56 +99,6 @@ class Vulcan:
         log.info("Registered successfully!")
 
         return cert
-
-    def _payload(self, json):
-        payload = {
-            "RemoteMobileTimeKey": now() + 1,
-            "TimeKey": now(),
-            "RequestId": uuid(),
-            "RemoteMobileAppVersion": Vulcan.APP_VERSION,
-            "RemoteMobileAppName": Vulcan.APP_NAME,
-        }
-
-        if self.student:
-            payload["IdOkresKlasyfikacyjny"] = self.student.period.id
-            payload["IdUczen"] = self.student.id
-            payload["IdOddzial"] = self.student.class_.id
-            payload["LoginId"] = self.student.login_id
-
-        if json:
-            payload.update(json)
-
-        return payload
-
-    def _headers(self, json):
-        return {
-            "User-Agent": "MobileUserAgent",
-            "RequestCertificateKey": self._cert["CertyfikatKlucz"],
-            "Connection": "close",
-            "RequestSignatureValue": signature(self._cert["CertyfikatPfx"], json),
-        }
-
-    def _request(self, method, endpoint, json=None, as_json=True, **kwargs):
-        payload = self._payload(json)
-        headers = self._headers(payload)
-        url = endpoint if endpoint.startswith("http") else self._full_url + endpoint
-
-        r = self._session.request(method, url, json=payload, headers=headers, **kwargs)
-
-        if as_json:
-            try:
-                log.debug(r.text)
-                return r.json()
-            except ValueError:
-                raise VulcanAPIException("An unexpected exception occurred.")
-
-        return r
-
-    def _get(self, endpoint, json=None, as_json=True, **kwargs):
-        return self._request("GET", endpoint, json=json, as_json=as_json, **kwargs)
-
-    def _post(self, endpoint, json=None, as_json=True, **kwargs):
-        return self._request("POST", endpoint, json=json, as_json=as_json, **kwargs)
 
     def _get_dict(self):
         j = self._post("Uczen/Slowniki")
