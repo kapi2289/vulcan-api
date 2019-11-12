@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import io
 import re
 from os import path
@@ -25,7 +27,7 @@ setup(
     license="MIT",
     url="https://github.com/kapi2289/vulcan-api",
     project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
-    python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,<4.0",
+    python_requires=">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<4.0",
     install_requires=[
         "requests",
         "pyopenssl",
@@ -44,7 +46,6 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
-        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",

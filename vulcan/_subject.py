@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from related import IntegerField, StringField, immutable
 
 

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from related import immutable, SequenceField, to_model
 
 from ._utils import find

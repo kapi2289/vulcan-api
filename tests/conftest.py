@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import pytest
 from dotenv import load_dotenv, find_dotenv
 

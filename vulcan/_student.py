@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from aenum import Enum, unique
 from related import IntegerField, immutable, StringField, ChildField, to_model
 
