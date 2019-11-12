@@ -1,6 +1,6 @@
 import pytest
 
-from utils import PARAMS_LESSON_PLAN
+from .utils import PARAMS_LESSON_PLAN
 
 
 @pytest.mark.private

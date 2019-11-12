@@ -5,7 +5,8 @@ from related import (
     FloatField,
     DateTimeField,
     ChildField,
-    to_model)
+    to_model,
+)
 
 from ._subject import Subject
 from ._teacher import Teacher

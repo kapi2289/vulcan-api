@@ -7,7 +7,6 @@ from ._utils import now, uuid, signature, VulcanAPIException, log, APP_NAME, APP
 
 
 class Api:
-
     def __init__(self, certificate):
         self._session = requests.session()
         self.cert = to_model(Certificate, certificate)
@@ -68,5 +67,7 @@ class Api:
 
     def set_student(self, student):
         self.student = student
-        self.full_url = self.cert.base_url + student.school.symbol + "/mobile-api/Uczen.v3."
+        self.full_url = (
+            self.cert.base_url + student.school.symbol + "/mobile-api/Uczen.v3."
+        )
         self.dict = Dictionaries.get(self)

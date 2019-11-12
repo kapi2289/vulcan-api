@@ -1,6 +1,13 @@
 from datetime import datetime
 
-from related import IntegerField, StringField, DateField, ChildField, immutable, to_model
+from related import (
+    IntegerField,
+    StringField,
+    DateField,
+    ChildField,
+    immutable,
+    to_model,
+)
 
 from ._subject import Subject
 from ._teacher import Teacher

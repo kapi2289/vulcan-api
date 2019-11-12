@@ -1,7 +1,14 @@
 from datetime import datetime
 
 from aenum import Enum, unique
-from related import immutable, IntegerField, StringField, ChildField, DateField, to_model
+from related import (
+    immutable,
+    IntegerField,
+    StringField,
+    ChildField,
+    DateField,
+    to_model,
+)
 
 from ._subject import Subject
 from ._teacher import Teacher
