@@ -1,8 +1,11 @@
+from datetime import datetime
+
 from aenum import Enum, unique
-from related import immutable, IntegerField, StringField, ChildField, DateField
+from related import immutable, IntegerField, StringField, ChildField, DateField, to_model
 
 from ._subject import Subject
 from ._teacher import Teacher
+from ._utils import sort_and_filter_date
 
 
 @unique
@@ -40,3 +43,21 @@ class Exam:
 
     teacher = ChildField(Teacher, required=False)
     subject = ChildField(Subject, required=False)
+
+    @classmethod
+    def get(cls, api, date):
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime("%Y-%m-%d")
+
+        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
+
+        j = api.post("Uczen/Sprawdziany", json=data)
+
+        exams = sort_and_filter_date(j.get("Data", []), date_str)
+
+        for exam in exams:
+            exam["teacher"] = api.dict.get_teacher(exam["IdPracownik"])
+            exam["subject"] = api.dict.get_subject(exam["IdPrzedmiot"])
+
+            yield to_model(cls, exam)

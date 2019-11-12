@@ -1,5 +1,5 @@
 from aenum import Enum, unique
-from related import IntegerField, immutable, StringField, ChildField
+from related import IntegerField, immutable, StringField, ChildField, to_model
 
 from ._class import Class
 from ._period import Period
@@ -56,3 +56,10 @@ class Student:
         json["class_"] = Class.only_keys(json)
         json["school"] = School.only_keys(json)
         return json
+
+    @classmethod
+    def get(cls, api):
+        j = api.post(api.base_url + "UczenStart/ListaUczniow")
+
+        for student in j.get("Data", []):
+            yield to_model(cls, cls.format_json(student))

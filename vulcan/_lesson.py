@@ -1,4 +1,5 @@
 from datetime import datetime
+from operator import itemgetter
 
 from related import (
     IntegerField,
@@ -7,7 +8,7 @@ from related import (
     StringField,
     DateField,
     ChildField,
-)
+    to_model)
 
 from ._subject import Subject
 from ._teacher import Teacher
@@ -65,3 +66,23 @@ class Lesson:
     @property
     def to(self):
         return datetime.combine(self.date, self.time.to)
+
+    @classmethod
+    def get(cls, api, date):
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime("%Y-%m-%d")
+
+        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
+
+        j = api.post("Uczen/PlanLekcjiZeZmianami", json=data)
+
+        lessons = sorted(j.get("Data", []), key=itemgetter("NumerLekcji"))
+        lessons = list(filter(lambda x: x["DzienTekst"] == date_str, lessons))
+
+        for lesson in lessons:
+            lesson["time"] = api.dict.get_lesson_time(lesson["IdPoraLekcji"])
+            lesson["teacher"] = api.dict.get_teacher(lesson["IdPracownik"])
+            lesson["subject"] = api.dict.get_subject(lesson["IdPrzedmiot"])
+
+            yield to_model(cls, lesson)

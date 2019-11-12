@@ -5,7 +5,7 @@ from related import (
     FloatField,
     DateTimeField,
     ChildField,
-)
+    to_model)
 
 from ._subject import Subject
 from ._teacher import Teacher
@@ -56,3 +56,14 @@ class Grade:
     teacher = ChildField(Teacher, required=False)
     subject = ChildField(Subject, required=False)
     category = ChildField(GradeCategory, required=False)
+
+    @classmethod
+    def get(cls, api):
+        j = api.post("Uczen/Oceny")
+
+        for grade in j.get("Data", []):
+            grade["teacher"] = api.dict.get_teacher(grade["IdPracownikD"])
+            grade["subject"] = api.dict.get_subject(grade["IdPrzedmiot"])
+            grade["category"] = api.dict.get_category(grade["IdKategoria"])
+
+            yield to_model(cls, grade)

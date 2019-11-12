@@ -8,6 +8,9 @@ import pytz
 import requests
 from uonet_request_signer import sign_content
 
+APP_NAME = "VULCAN-Android-ModulUcznia"
+APP_VERSION = "18.10.1.433"
+
 log = logging.getLogger("client")
 log.setLevel(logging.INFO)
 

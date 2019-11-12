@@ -1,18 +1,19 @@
 import requests
+from related import to_model
 
-from ._utils import now, uuid, signature, VulcanAPIException, log
+from ._certificate import Certificate
+from ._dictionaries import Dictionaries
+from ._utils import now, uuid, signature, VulcanAPIException, log, APP_NAME, APP_VERSION
 
 
 class Api:
-    APP_NAME = "VULCAN-Android-ModulUcznia"
-    APP_VERSION = "18.10.1.433"
 
     def __init__(self, certificate):
         self._session = requests.session()
-        self._cert = certificate
-        self._url = certificate["AdresBazowyRestApi"]
-        self._base_url = self._url + "mobile-api/Uczen.v3."
-        self._full_url = None
+        self.cert = to_model(Certificate, certificate)
+        self.base_url = self.cert.base_url + "mobile-api/Uczen.v3."
+        self.full_url = None
+        self.dict = None
         self.student = None
 
     def _payload(self, json):
@@ -20,8 +21,8 @@ class Api:
             "RemoteMobileTimeKey": now() + 1,
             "TimeKey": now(),
             "RequestId": uuid(),
-            "RemoteMobileAppVersion": Api.APP_VERSION,
-            "RemoteMobileAppName": Api.APP_NAME,
+            "RemoteMobileAppVersion": APP_VERSION,
+            "RemoteMobileAppName": APP_NAME,
         }
 
         if self.student:
@@ -38,15 +39,15 @@ class Api:
     def _headers(self, json):
         return {
             "User-Agent": "MobileUserAgent",
-            "RequestCertificateKey": self._cert["CertyfikatKlucz"],
+            "RequestCertificateKey": self.cert.key,
             "Connection": "close",
-            "RequestSignatureValue": signature(self._cert["CertyfikatPfx"], json),
+            "RequestSignatureValue": signature(self.cert.pfx, json),
         }
 
     def _request(self, method, endpoint, json=None, as_json=True, **kwargs):
         payload = self._payload(json)
         headers = self._headers(payload)
-        url = endpoint if endpoint.startswith("http") else self._full_url + endpoint
+        url = endpoint if endpoint.startswith("http") else self.full_url + endpoint
 
         r = self._session.request(method, url, json=payload, headers=headers, **kwargs)
 
@@ -59,8 +60,13 @@ class Api:
 
         return r
 
-    def _get(self, endpoint, json=None, as_json=True, **kwargs):
+    def get(self, endpoint, json=None, as_json=True, **kwargs):
         return self._request("GET", endpoint, json=json, as_json=as_json, **kwargs)
 
-    def _post(self, endpoint, json=None, as_json=True, **kwargs):
+    def post(self, endpoint, json=None, as_json=True, **kwargs):
         return self._request("POST", endpoint, json=json, as_json=as_json, **kwargs)
+
+    def set_student(self, student):
+        self.student = student
+        self.full_url = self.cert.base_url + student.school.symbol + "/mobile-api/Uczen.v3."
+        self.dict = Dictionaries.get(self)

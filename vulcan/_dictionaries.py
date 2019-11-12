@@ -1,6 +1,6 @@
-from related import immutable, SequenceField
+from related import immutable, SequenceField, to_model
 
-from _utils import find
+from ._utils import find
 
 
 @immutable
@@ -33,3 +33,8 @@ class Dictionaries:
 
     def get_attendance_type(self, _id):
         return find(self.attendance_types, _id)
+
+    @classmethod
+    def get(cls, api):
+        j = api.post("Uczen/Slowniki")
+        return to_model(cls, j.get("Data"))
