@@ -17,7 +17,8 @@ class Vulcan:
     Logs in to the e-register using generated certificate
 
     Args:
-        certificate (:class:`dict`): Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.register`
+        certificate (:class:`vulcan._certificate.Certificate`): Certificate generated
+            using :func:`vulcan.Vulcan.register`
     """
 
     def __init__(self, certificate, logging_level=None):
@@ -60,7 +61,7 @@ class Vulcan:
         Yields students that are assigned to the account
 
         Yields:
-            :class:`vulcan.Student`
+            :class:`vulcan._student.Student`
         """
         return Student.get(self._api)
 
@@ -69,7 +70,7 @@ class Vulcan:
         Sets the default student
 
         Args:
-            student (:class:`vulcan.Student`): Student from :func:`vulcan.Vulcan.get_students`
+            student (:class:`vulcan._student.Student`): Student from :func:`vulcan.Vulcan.get_students`
         """
         self._api.set_student(student)
 
@@ -78,7 +79,7 @@ class Vulcan:
         Fetches student grades
 
         Yields:
-            :class:`vulcan.Grade`
+            :class:`vulcan._grade.Grade`
         """
         return Grade.get(self._api)
 
@@ -91,7 +92,7 @@ class Vulcan:
                 it's using the today date
 
         Yields:
-            :class:`vulcan.Lesson`
+            :class:`vulcan._lesson.Lesson`
         """
         return Lesson.get(self._api, date)
 
@@ -104,7 +105,7 @@ class Vulcan:
                 it's using the today date
 
         Yields:
-            :class:`vulcan.Exam`
+            :class:`vulcan._exam.Exam`
         """
         return Exam.get(self._api, date)
 
@@ -117,6 +118,6 @@ class Vulcan:
                 it's using the today date
 
         Yields:
-            :class:`vulcan.Homework`
+            :class:`vulcan._homework.Homework`
         """
         return Homework.get(self._api, date)
