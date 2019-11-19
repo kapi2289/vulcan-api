@@ -8,13 +8,13 @@ from ._utils import dict_only
 @immutable
 class School:
     """
-    Szkoła
+    School
 
     Attributes:
-        id (:class:`int`) ID szkoły
-        name (:class:`str`) Pełna nazwa szkoły
-        short (:class:`str`) Skrót nazwy szkoły
-        symbol (:class:`str`) Symbol szkoły
+        id (:class:`int`) School ID
+        name (:class:`str`) School full name
+        short (:class:`str`) Short name of the school
+        symbol (:class:`str`) School symbol
     """
 
     id = IntegerField(key="IdJednostkaSprawozdawcza")

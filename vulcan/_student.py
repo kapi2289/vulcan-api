@@ -10,7 +10,7 @@ from ._school import School
 
 @unique
 class Gender(Enum):
-    """Płeć"""
+    """Studen gender"""
 
     WOMAN = 0
     MAN = 1
@@ -19,20 +19,20 @@ class Gender(Enum):
 @immutable
 class Student:
     """
-    Uczeń
+    Student
 
     Attributes:
-        id (:class:`int`): ID ucznia
-        login_id (:class:`int`) ID zalogowanego konta rodzica lub ucznia
-        first_name (:class:`str`): Pierwsze imię ucznia
-        second_name (:class:`str` or :class:`None`): Drugie imię ucznia
-        last_name (:class:`str`): Nazwisko ucznia
-        name (:class:`str`): Imię, drugie imię oraz nazwisko ucznia
-        gender (:class:`vulcan.Gender`): Płeć ucznia
-        nick (:class:`str`): Pseudonim ucznia
-        period (:class:`vulcan.Period`): Aktualny okres klasyfikacyjny ucznia
-        class_ (:class:`vulcan.Class`): Klasa ucznia
-        school (:class:`vulcan.School`): Szkoła ucznia
+        id (:class:`int`): Student ID
+        login_id (:class:`int`) ID of the logged user
+        first_name (:class:`str`): Student first name
+        second_name (:class:`str` or :class:`None`): Student second name
+        last_name (:class:`str`): Student last name (surname)
+        name (:class:`str`): Student full name
+        gender (:class:`vulcan._student.Gender`): Student gender
+        nickname (:class:`str`): Student nickname
+        period (:class:`vulcan._period.Period`): Current student class period
+        class_ (:class:`vulcan._class.Class`): Student class
+        school (:class:`vulcan._school.School`): Student school
     """
 
     id = IntegerField(key="Id")
@@ -41,7 +41,7 @@ class Student:
     second_name = StringField(key="Imie2")
     last_name = StringField(key="Nazwisko")
     gender = ChildField(Gender, key="UczenPlec")
-    nick = StringField(key="Pseudonim", required=False)
+    nickname = StringField(key="Pseudonim", required=False)
 
     period = ChildField(Period, required=False)
     class_ = ChildField(Class, required=False)

@@ -1,8 +1,8 @@
-Dokumentacja Vulcan API
-=======================
+Vulcan API docs
+===============
 
 .. toctree::
     :maxdepth: 2
 
-    szybki-start
-    pelna-dokumentacja
+    getting-started
+    full-docs

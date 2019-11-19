@@ -20,10 +20,10 @@ from ._utils import sort_and_filter_date
 @unique
 class ExamType(Enum):
     """
-    Rodzaj sprawdzianu
+    Exam type
 
     Todo:
-        Dodać enum testu
+        Add test enum
     """
 
     EXAM = 1
@@ -34,15 +34,15 @@ class ExamType(Enum):
 @immutable
 class Exam:
     """
-    Sprawdzian, test, praca klasowa lub kartkówka
+    Exam, test, short test or class test
 
     Attributes:
-        id (:class:`int`): ID sprawdzianu
-        type (:class:`vulcan.models.ExamType`): Rodzaj sprawdzianu
-        description (:class:`str`): Opis sprawdzianu
-        date (:class:`datetime.date`): Dzień sprawdzianu
-        teacher (:class:`vulcan.models.Teacher`): Nauczyciel, który wpisał sprawdzian
-        subject (:class:`vulcan.models.Subject`): Przedmiot, z którego jest sprawdzian
+        id (:class:`int`): Exam ID
+        type (:class:`vulcan._exam.ExamType`): Exam type
+        description (:class:`str`): Exam description
+        date (:class:`datetime.date`): Exam date
+        teacher (:class:`vulcan._teacher.Teacher`): Teacher, who added the exam
+        subject (:class:`vulcan._subject.Subject`): Subject, from which is the exam
     """
 
     id = IntegerField(key="Id")

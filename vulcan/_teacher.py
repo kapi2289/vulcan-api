@@ -6,15 +6,15 @@ from related import immutable, IntegerField, StringField
 @immutable
 class Teacher:
     """
-    Nauczyciel lub pracownik szkoły
+    School teacher or employee
 
     Attributes:
-        id (:class:`int`): ID pracownika
-        first_name (:class:`str`): Imię pracownika
-        last_name (:class:`str`): Nazwisko pracownika
-        name (:class:`str`): Imię oraz nazwisko pracownika
-        short (:class:`str`): Kod (skrót) pracownika
-        login_id (:class:`int`): ID konta pracownika
+        id (:class:`int`): Teacher ID
+        first_name (:class:`str`): Teacher first name
+        last_name (:class:`str`): Teacher last name (surname)
+        name (:class:`str`): Teacher full name
+        short (:class:`str`): Code (short name) of the teacher
+        login_id (:class:`int`): Teacher account ID
     """
 
     id = IntegerField(key="Id")

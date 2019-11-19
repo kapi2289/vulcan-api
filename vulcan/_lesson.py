@@ -21,13 +21,13 @@ from ._utils import TIME_FORMAT_H_M
 @immutable
 class LessonTime:
     """
-    Pora lekcji
+    Lesson time
 
     Attributes:
-        id (:class:`int`): ID pory lekcji
-        number (:class:`int`): Numer kolejny pory lekcji
-        from_ (:class:`datetime.time`): Godzina i minuta rozpoczęcia lekcji
-        to (:class:`datetime.time`): Godzina i minuta zakończenia lekcji
+        id (:class:`int`): Lesson time ID
+        number (:class:`int`): Lesson number
+        from_ (:class:`datetime.time`): Lesson start time
+        to (:class:`datetime.time`): Lesson end time
     """
 
     id = IntegerField(key="Id")
@@ -39,18 +39,18 @@ class LessonTime:
 @immutable
 class Lesson:
     """
-    Lekcja
+    Lesson
 
     Attributes:
-        number (:class:`int`): Numer lekcji
-        room (:class:`string`): Sala, w której odbywa się lekcja
-        group (:class:`string`): Grupa która odbywa lekcję
-        date (:class:`datetime.date`): Data lekcji
-        from_ (:class:`datetime.datetime`): Data i godzina rozpoczęcia lekcji
-        to (:class:`datetime.datetime`): Data i godzina zakończenia lekcji
-        time (:class:`vulcan.LessonTime`): Informacje o porze lekcji
-        teacher (:class:`vulcan.Teacher`): Nauczyciel prowadzący lekcję
-        subject (:class:`vulcan.Subject`): Przedmiot na lekcji
+        number (:class:`int`): Lesson number
+        room (:class:`string`): Classroom, in which is the lesson
+        group (:class:`string`): Group, that has the lesson
+        date (:class:`datetime.date`): Lesson date
+        from_ (:class:`datetime.datetime`): Lesson start date and time
+        to (:class:`datetime.datetime`): Lesson end date and time
+        time (:class:`vulcan._lesson.LessonTime`): Information about the lesson time
+        teacher (:class:`vulcan._teacher.Teacher`): Teacher of the lesson
+        subject (:class:`vulcan._subject.Subject`): Subject on the lesson
     """
 
     number = IntegerField(key="NumerLekcji")

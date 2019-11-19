@@ -8,14 +8,14 @@ from ._utils import dict_only
 @immutable
 class Period:
     """
-    Okres kwalifikacyjny
+    School year period
 
     Attributes:
-        id (:class:`int`): ID okresu kwalifikacyjnego
-        number (:class:`int`): Liczba kolejna okresu kwalifikacyjnego
-        level (:class:`int`): Poziom (klasa) okresu kwalifikacyjnego
-        from_ (:class:`datetime.date`): Data rozpoczęcia okresu kwalifikacyjnego
-        to (:class:`datetime.date`): Data zakończenia okresu kwalifikacyjnego
+        id (:class:`int`): Period ID
+        number (:class:`int`): Number of the period
+        level (:class:`int`): Level (class level) of the period
+        from_ (:class:`datetime.date`): Period start date
+        to (:class:`datetime.date`): Period end date
     """
 
     id = IntegerField(key="IdOkresKlasyfikacyjny")

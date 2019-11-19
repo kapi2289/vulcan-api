@@ -19,14 +19,14 @@ from ._utils import sort_and_filter_date
 @immutable
 class Homework:
     """
-    Zadanie domowe
+    Homework
 
     Attributes:
-        id (:class:`int`): ID zadania domowego
-        description (:class:`str`): Opis zadania domowego
-        date (:class:`datetime.date`): Data zadania domowego
-        teacher (:class:`vulcan.models.Teacher`): Nauczyciel, który wpisał to zadanie
-        subject (:class:`vulcan.models.Subject`): Przedmiot, z którego jest zadane zadanie
+        id (:class:`int`): Homework ID
+        description (:class:`str`): Homework description
+        date (:class:`datetime.date`): Homework deadline date
+        teacher (:class:`vulcan._teacher.Teacher`): Teacher, who added the homework
+        subject (:class:`vulcan._subject.Subject`): Subject, from which is the homework
     """
 
     id = IntegerField(key="Id")

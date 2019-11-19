@@ -8,13 +8,11 @@ from ._utils import dict_only
 @immutable
 class Class:
     """
-    Oddział (klasa)
-
     Attributes:
-        id (:class:`int`): ID klasy
-        level (:class:`int`): Poziom klasy (np. `8`)
-        name (:class:`str`): Nazwa klasy (np. `"8A"`)
-        symbol (:class:`str`): Symbol klasy (np. `"A"`)
+        id (:class:`int`): Class ID
+        level (:class:`int`): Class level (eg. `8`)
+        name (:class:`str`): Class name (eg. `"8A"`)
+        symbol (:class:`str`): Class symbol (eg. `"A"`)
     """
 
     id = IntegerField(key="IdOddzial")

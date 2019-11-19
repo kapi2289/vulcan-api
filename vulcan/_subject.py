@@ -6,12 +6,12 @@ from related import IntegerField, StringField, immutable
 @immutable
 class Subject:
     """
-    Przedmiot
+    School subject
 
     Attributes:
-        id (:class:`int`): ID przedmiotu
-        name (:class:`str`): Pełna nazwa przedmiotu
-        short (:class:`str`): Skrót nazwy przedmiotu
+        id (:class:`int`): Subject ID
+        name (:class:`str`): Subject full name
+        short (:class:`str`): Short name of the subject
     """
 
     id = IntegerField(key="Id")

@@ -17,12 +17,12 @@ from ._teacher import Teacher
 @immutable
 class GradeCategory:
     """
-    Kategoria oceny
+    Grade category
 
     Attributes:
-        id (:class:`id`): Id kategorii
-        name (:class:`str`): Pełna nazwa kategorii
-        short (:class:`str`): Kod (skrót) nazwy kategorii
+        id (:class:`id`): Category ID
+        name (:class:`str`): Full category name
+        short (:class:`str`): Short name of the category
     """
 
     id = IntegerField(key="Id")
@@ -33,19 +33,19 @@ class GradeCategory:
 @immutable
 class Grade:
     """
-    Ocena cząstkowa
+    Grade
 
     Attributes:
-        id (:class:`int`): ID oceny
-        content (:class:`str`): Wpis oceny
-        value (:class:`float`): Wartość oceny (przydaytna do obliczania średniej)
-        weight (:class:`float`): Waga oceny
-        description (:class:`str`): Opis oceny
-        date (:class:`datetime.datetime`): Data wpisania oceny
-        last_modification_date (:class:`datetime.datetime`): Data ostatniej modyfikacji oceny
-        teacher (:class:`vulcan.models.Teacher`): Nauczyciel, który wpisał ocenę
-        subject (:class:`vulcan.models.Subject`): Przedmiot, z którego dostano ocenę
-        category (:class:`vulcan.models.GradeCategory`): Kategoria oceny
+        id (:class:`int`): Grade ID
+        content (:class:`str`): Grade content
+        value (:class:`float`): Grade value (you can use it to calculate the average)
+        weight (:class:`float`): Grade weight
+        description (:class:`str`): Grade description
+        date (:class:`datetime.datetime`): Grade creation date
+        last_modification_date (:class:`datetime.datetime`): Last grade modification date
+        teacher (:class:`vulcan._teacher.Teacher`): Teacher, who added the grade
+        subject (:class:`vulcan._subject.Subject`): Subject, from which student received the grade
+        category (:class:`vulcan._grade.GradeCategory`): Grade category
     """
 
     id = IntegerField(key="Id")

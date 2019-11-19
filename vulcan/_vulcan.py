@@ -14,14 +14,14 @@ from ._utils import log
 
 class Vulcan:
     """
-    Loguje się do dzienniczka za pomocą wygenerowanego certyfikatu
+    Logs in to the e-register using generated certificate
 
     Args:
         certificate (:class:`dict`): Certyfikat wygenerowany za pomocą :func:`vulcan.Vulcan.register`
     """
 
     def __init__(self, certificate, logging_level=None):
-        self.api = Api(certificate)
+        self._api = Api(certificate)
 
         if logging_level:
             Vulcan.set_logging_level(logging_level)
@@ -32,10 +32,10 @@ class Vulcan:
     @staticmethod
     def set_logging_level(logging_level):
         """
-        Ustawia poziom logowania
+        Sets the default logging level
 
         Args:
-            logging_level (:class:`int`): Poziom logowania z modułu :module:`logging`
+            logging_level (:class:`int`): Logging level from :module:`logging` module
         """
 
         log.setLevel(logging_level)
@@ -43,80 +43,80 @@ class Vulcan:
     @staticmethod
     def register(token, symbol, pin):
         """
-        Rejestruje API jako nowe urządzenie mobilne
+        Registers API as a new mobile device
 
         Args:
             token (:class:`str`): Token
-            symbol (:class:`str`): Symbol/Nazwa instancji
-            pin (:class:`str`): Kod PIN
+            symbol (:class:`str`): Symbol
+            pin (:class:`str`): PIN code
 
         Returns:
-            :class:`dict`: Certyfikat
+            :class:`vulcan.Certificate`: Generated certificate, that you need to save
         """
         return Certificate.get(token, symbol, pin)
 
     def get_students(self):
         """
-        Zwraca listę wszystkich uczniów należących do użytkownika
+        Yields students that are assigned to the account
 
-        Returns:
-            :class:`list`: Listę uczniów
+        Yields:
+            :class:`vulcan.Student`
         """
-        return Student.get(self.api)
+        return Student.get(self._api)
 
     def set_student(self, student):
         """
-        Ustawia domyślnego ucznia
+        Sets the default student
 
         Args:
-            uczen (:class:`vulcan.Student`): Jeden z uczniów zwróconych przez :func:`vulcan.Vulcan.uczniowie`
+            student (:class:`vulcan.Student`): Student from :func:`vulcan.Vulcan.get_students`
         """
-        self.api.set_student(student)
+        self._api.set_student(student)
 
     def get_grades(self):
         """
-        Pobiera oceny cząstkowe
+        Fetches student grades
 
-        Returns:
-            :class:`list`: Listę ocen cząstkowych
+        Yields:
+            :class:`vulcan.Grade`
         """
-        return Grade.get(self.api)
+        return Grade.get(self._api)
 
     def get_lessons(self, date=None):
         """
-        Pobiera plan lekcji z danego dnia
+        Fetches lessons from the given date
 
         Args:
-            date (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać plan
-                lekcji, jeśli puste pobiera z aktualnego dnia
+            date (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
+                it's using the today date
 
-        Returns:
-            :class:`list`: Listę lekcji
+        Yields:
+            :class:`vulcan.Lesson`
         """
-        return Lesson.get(self.api, date)
+        return Lesson.get(self._api, date)
 
     def get_exams(self, date=None):
         """
-        Pobiera sprawdziany z danego dnia
+        Fetches exams from the given date
 
         Args:
-            date (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
-                sprawdziany, jeśli puste pobiera z aktualnego dnia
+            date (:class:`datetime.date`): Date, from which to fetch exams, if not provided
+                it's using the today date
 
-        Returns:
-            :class:`list`: Listę sprawdzianów
+        Yields:
+            :class:`vulcan.Exam`
         """
-        return Exam.get(self.api, date)
+        return Exam.get(self._api, date)
 
     def get_homework(self, date=None):
         """
-        Pobiera zadania domowe z danego dnia
+        Fetches homework from the given date
 
         Args:
-            date (:class:`datetime.date` or :class:`datetime.datetime`): Dzień z którego pobrać
-                zadania domowe, jeśli puste pobiera z aktualnego dnia
+            date (:class:`datetime.date`): Date, from which to fetch exams, if not provided
+                it's using the today date
 
-        Returns:
-            :class:`list`: Listę zadań domowych
+        Yields:
+            :class:`vulcan.Homework`
         """
-        return Homework.get(self.api, date)
+        return Homework.get(self._api, date)
