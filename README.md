@@ -12,22 +12,21 @@
     <a href="https://pypi.org/project/vulcan-api/"><img src="https://img.shields.io/pypi/dm/vulcan-api.svg" alt="Ilość pobrań miesięcznie"></a>
 </p>
 
-## Opis
+## Description
 
-Nieoficjalne API do dzienniczka elektronicznego UONET+ od firmy [Vulcan](https://vulcan.edu.pl/). Działa na podstawie aplikacji mobilnej, więc możesz je
-zarejestrować jako urządzenie mobilne na stronie.
+Unofficial API for UONET+ e-register from [Vulcan](https://vulcan.edu.pl/). It's using the mobile API so you can register it as a mobile devide.
 
-![](https://raw.githubusercontent.com/kapi2289/vulcan-api/master/docs/source/_static/zarejestrowane.png)
+![](https://raw.githubusercontent.com/kapi2289/vulcan-api/master/docs/source/_static/registered.png)
 
-## Instalacja
+## Installation
 
-Możesz zainstalować `vulcan-api` za pomocą `pip`
+You can install `vulcan-api` using `pip`
 
 ```console
 $ python -m pip install vulcan-api
 ```
 
-lub
+or you can build yourself the latest version
 
 ```console
 $ git clone https://github.com/kapi2289/vulcan-api.git
@@ -35,6 +34,6 @@ $ cd vulcan-api
 $ python -m pip install .
 ```
 
-## Dokumentacja
+## Documentation
 
-Dokumentacja znajduje się pod adresem https://vulcan-api.readthedocs.io/.
+You can find the documentation at https://vulcan-api.readthedocs.io/.

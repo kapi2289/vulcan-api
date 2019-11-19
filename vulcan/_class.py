@@ -1,27 +1,27 @@
-class Klasa:
-    """
-    Oddział (klasa)
+# -*- coding: utf-8 -*-
 
+from related import immutable, IntegerField, StringField
+
+from ._utils import dict_only
+
+
+@immutable
+class Class:
+    """
     Attributes:
-        id (:class:`int`): ID klasy
-        kod (:class:`str`): Kod klasy (np. `"8A"`)
-        poziom (:class:`int`): Poziom klasy (np. `8`)
-        symbol (:class:`str`): Symbol klasy (np. `"A"`)
+        id (:class:`int`): Class ID
+        level (:class:`int`): Class level (eg. `8`)
+        name (:class:`str`): Class name (eg. `"8A"`)
+        symbol (:class:`str`): Class symbol (eg. `"A"`)
     """
 
-    def __init__(self, id=None, kod=None, poziom=None, symbol=None):
-        self.id = id
-        self.kod = kod
-        self.poziom = poziom
-        self.symbol = symbol
+    id = IntegerField(key="IdOddzial")
+    level = IntegerField(key="OkresPoziom")
+    name = StringField(key="OddzialKod", required=False)
+    symbol = StringField(key="OddzialSymbol", required=False)
 
-    def __repr__(self):
-        return "<Klasa {!s}>".format(self.kod)
-
-    @classmethod
-    def from_json(cls, j):
-        id = j.get("IdOddzial")
-        kod = j.get("OddzialKod")
-        poziom = j.get("OkresPoziom")
-        symbol = j.get("OddzialSymbol")
-        return cls(id=id, kod=kod, poziom=poziom, symbol=symbol)
+    @staticmethod
+    def only_keys(json):
+        return dict_only(
+            json, {"IdOddzial", "OddzialKod", "OkresPoziom", "OddzialSymbol"}
+        )

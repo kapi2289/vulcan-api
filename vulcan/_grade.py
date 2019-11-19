@@ -1,104 +1,72 @@
-from ._employee import Pracownik
-from ._subject import Przedmiot
-from ._utils import timestamp_to_datetime
+# -*- coding: utf-8 -*-
+
+from related import (
+    immutable,
+    IntegerField,
+    StringField,
+    FloatField,
+    DateTimeField,
+    ChildField,
+    to_model,
+)
+
+from ._subject import Subject
+from ._teacher import Teacher
 
 
-class KategoriaOceny:
+@immutable
+class GradeCategory:
     """
-    Kategoria oceny
+    Grade category
 
     Attributes:
-        id (:class:`id`): Id kategorii
-        kod (:class:`str`): Kod/skrót kategorii
-        nazwa (:class:`str`): Pełna nazwa kategorii
+        id (:class:`id`): Category ID
+        name (:class:`str`): Full category name
+        short (:class:`str`): Short name of the category
     """
 
-    def __init__(self, id=None, kod=None, nazwa=None):
-        self.id = id
-        self.kod = kod
-        self.nazwa = nazwa
-
-    def __repr__(self):
-        return "<KategoriaOceny {!s}: {!s}>".format(self.kod, self.nazwa)
-
-    @classmethod
-    def from_json(cls, j):
-        id = j.get("Id")
-        kod = j.get("Kod")
-        nazwa = j.get("Nazwa")
-        return cls(id=id, kod=kod, nazwa=nazwa)
+    id = IntegerField(key="Id")
+    name = StringField(key="Nazwa")
+    short = StringField(key="Kod")
 
 
-class Ocena:
+@immutable
+class Grade:
     """
-    Ocena cząstkowa
+    Grade
 
     Attributes:
-        id (:class:`int`): ID oceny
-        pracownik (:class:`vulcan.models.Pracownik`): Pracownik, który wpisał ocenę
-        przedmiot (:class:`vulcan.models.Przedmiot`): Przedmiot, z którego dostano ocenę
-        kategoria (:class:`vulcan.models.KategoriaOceny`): Kategoria oceny
-        wpis (:class:`str`): Wpis oceny
-        wartosc (:class:`float`): Wartość oceny (przydaytna do obliczania średniej)
-        waga (:class:`float`): Waga oceny
-        opis (:class:`str`): Opis oceny
-        data (:class:`datetime.datetime`): Data wpisania oceny
-        data_modyfikacji (:class:`datetime.datetime`): Data ostatniej modyfikacji oceny
+        id (:class:`int`): Grade ID
+        content (:class:`str`): Grade content
+        value (:class:`float`): Grade value (you can use it to calculate the average)
+        weight (:class:`float`): Grade weight
+        description (:class:`str`): Grade description
+        date (:class:`datetime.datetime`): Grade creation date
+        last_modification_date (:class:`datetime.datetime`): Last grade modification date
+        teacher (:class:`vulcan._teacher.Teacher`): Teacher, who added the grade
+        subject (:class:`vulcan._subject.Subject`): Subject, from which student received the grade
+        category (:class:`vulcan._grade.GradeCategory`): Grade category
     """
 
-    def __init__(
-        self,
-        id=None,
-        pracownik=None,
-        przedmiot=None,
-        kategoria=None,
-        wpis=None,
-        wartosc=None,
-        waga=None,
-        opis=None,
-        data=None,
-        data_modyfikacji=None,
-    ):
-        self.id = id
-        self.pracownik = pracownik
-        self.przedmiot = przedmiot
-        self.kategoria = kategoria
-        self.wpis = wpis
-        self.wartosc = wartosc
-        self.waga = waga
-        self.opis = opis
-        self.data = data
-        self.data_modyfikacji = data_modyfikacji
+    id = IntegerField(key="Id")
+    content = StringField(key="Wpis")
+    value = FloatField(key="Wartosc")
+    weight = FloatField(key="WagaOceny")
+    description = StringField(key="Opis")
+    date = DateTimeField(key="DataUtworzeniaTekst")
+    last_modification_date = DateTimeField(key="DataModyfikacjiTekst")
 
-    def __repr__(self):
-        return "<Ocena {!s}: waga={!r} przedmiot={!r}>".format(
-            self.wpis, self.waga, self.przedmiot
-        )
+    teacher = ChildField(Teacher, required=False)
+    subject = ChildField(Subject, required=False)
+    category = ChildField(GradeCategory, required=False)
 
     @classmethod
-    def from_json(cls, j):
-        id = j.get("Id")
-        pracownik = Pracownik.from_json(j.get("Pracownik"))
-        przedmiot = Przedmiot.from_json(j.get("Przedmiot"))
-        if j.get("Kategoria"):
-            kategoria = KategoriaOceny.from_json(j["Kategoria"])
-        else:
-            kategoria = None
-        wpis = j.get("Wpis")
-        wartosc = j.get("Wartosc")
-        waga = j.get("WagaOceny")
-        opis = j.get("Opis")
-        data = timestamp_to_datetime(j.get("DataUtworzenia"))
-        data_modyfikacji = timestamp_to_datetime(j.get("DataModyfikacji"))
-        return cls(
-            id=id,
-            pracownik=pracownik,
-            przedmiot=przedmiot,
-            kategoria=kategoria,
-            wpis=wpis,
-            wartosc=wartosc,
-            waga=waga,
-            opis=opis,
-            data=data,
-            data_modyfikacji=data_modyfikacji,
-        )
+    def get(cls, api):
+        j = api.post("Uczen/Oceny")
+
+        for grade in j.get("Data", []):
+            grade["teacher"] = api.dict.get_teacher(grade["IdPracownikD"])
+            grade["subject"] = api.dict.get_subject(grade["IdPrzedmiot"])
+            grade["category"] = api.dict.get_category(grade["IdKategoria"])
+
+            yield to_model(cls, grade)

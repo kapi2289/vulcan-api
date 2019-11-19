@@ -1,37 +1,55 @@
-from ._employee import Pracownik
-from ._subject import Przedmiot
-from ._utils import timestamp_to_date
+# -*- coding: utf-8 -*-
+
+from datetime import datetime
+
+from related import (
+    IntegerField,
+    StringField,
+    DateField,
+    ChildField,
+    immutable,
+    to_model,
+)
+
+from ._subject import Subject
+from ._teacher import Teacher
+from ._utils import sort_and_filter_date
 
 
-class ZadanieDomowe:
+@immutable
+class Homework:
     """
-    Zadanie domowe
+    Homework
 
     Attributes:
-        id (:class:`int`): ID zadania domowego
-        przedmiot (:class:`vulcan.models.Przedmiot`): Przedmiot, z którego jest zadane zadanie
-        pracownik (:class:`vulcan.models.Pracownik`): Pracownik szkoły, który wpisał to zadanie
-        opis (:class:`str`): Opis zadania domowego
-        dzien (:class:`datetime.date`): Dzień zadania domowego
+        id (:class:`int`): Homework ID
+        description (:class:`str`): Homework description
+        date (:class:`datetime.date`): Homework deadline date
+        teacher (:class:`vulcan._teacher.Teacher`): Teacher, who added the homework
+        subject (:class:`vulcan._subject.Subject`): Subject, from which is the homework
     """
 
-    def __init__(self, id=None, pracownik=None, przedmiot=None, opis=None, dzien=None):
-        self.id = id
-        self.pracownik = pracownik
-        self.przedmiot = przedmiot
-        self.opis = opis
-        self.dzien = dzien
+    id = IntegerField(key="Id")
+    description = StringField(key="Opis")
+    date = DateField(key="DataTekst")
 
-    def __repr__(self):
-        return "<ZadanieDomowe przedmiot={!r}>".format(self.przedmiot.nazwa)
+    teacher = ChildField(Teacher, required=False)
+    subject = ChildField(Subject, required=False)
 
     @classmethod
-    def from_json(cls, j):
-        id = j.get("Id")
-        pracownik = Pracownik.from_json(j.get("Pracownik"))
-        przedmiot = Przedmiot.from_json(j.get("Przedmiot"))
-        opis = j.get("Opis")
-        dzien = timestamp_to_date(j.get("Data"))
-        return cls(
-            id=id, pracownik=pracownik, przedmiot=przedmiot, opis=opis, dzien=dzien
-        )
+    def get(cls, api, date=None):
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime("%Y-%m-%d")
+
+        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
+
+        j = api.post("Uczen/ZadaniaDomowe", json=data)
+
+        homework_list = sort_and_filter_date(j.get("Data", []), date_str)
+
+        for homework in homework_list:
+            homework["teacher"] = api.dict.get_teacher(homework["IdPracownik"])
+            homework["subject"] = api.dict.get_subject(homework["IdPrzedmiot"])
+
+            yield to_model(cls, homework)

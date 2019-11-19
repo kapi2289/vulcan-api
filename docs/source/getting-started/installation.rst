@@ -1,13 +1,13 @@
-Instalacja
+Installation
 ^^^^^^^^^^^^
 
-Możesz zainstalować ``vulcan-api`` za pomocą ``pip``
+You can install ``vulcan-api`` using ``pip``
 
 .. code:: console
 
     $ pip install vulcan-api
 
-lub
+or you can build it yourself
 
 .. code:: console
 

@@ -1,101 +1,91 @@
-from ._employee import Pracownik
-from ._subject import Przedmiot
-from ._utils import timestamp_to_datetime, concat_hours_and_minutes
+# -*- coding: utf-8 -*-
+
+from datetime import datetime
+from operator import itemgetter
+
+from related import (
+    IntegerField,
+    immutable,
+    TimeField,
+    StringField,
+    DateField,
+    ChildField,
+    to_model,
+)
+
+from ._subject import Subject
+from ._teacher import Teacher
+from ._utils import TIME_FORMAT_H_M
 
 
-class PoraLekcji:
+@immutable
+class LessonTime:
     """
-    Pora lekcji
+    Lesson time
 
     Attributes:
-        id (:class:`int`): ID pory lekcji
-        numer (:class:`int`): Numer kolejny pory lekcji
-        od (:class:`datetime.datetime`): Godzina i minuta rozpoczęcia lekcji
-        do (:class:`datetime.datetime`): Godzina i minuta zakończenia lekcji
+        id (:class:`int`): Lesson time ID
+        number (:class:`int`): Lesson number
+        from_ (:class:`datetime.time`): Lesson start time
+        to (:class:`datetime.time`): Lesson end time
     """
 
-    def __init__(self, id=None, numer=None, od=None, do=None):
-        self.id = id
-        self.numer = numer
-        self.od = od
-        self.do = do
-
-    def __repr__(self):
-        return "<PoraLekcji {!s}: od='{!s}:{:02d}' do='{!s}:{:02d}'>".format(
-            self.numer, self.od.hour, self.od.minute, self.do.hour, self.do.minute
-        )
-
-    @classmethod
-    def from_json(cls, j):
-        id = j.get("Id")
-        numer = j.get("Numer")
-        od = timestamp_to_datetime(j.get("Poczatek"))
-        do = timestamp_to_datetime(j.get("Koniec"))
-        return cls(id=id, numer=numer, od=od, do=do)
+    id = IntegerField(key="Id")
+    number = IntegerField(key="Numer")
+    from_ = TimeField(key="PoczatekTekst", formatter=TIME_FORMAT_H_M)
+    to = TimeField(key="KoniecTekst", formatter=TIME_FORMAT_H_M)
 
 
-class Lekcja:
+@immutable
+class Lesson:
     """
-    Lekcja
+    Lesson
 
     Attributes:
-        numer (:class:`int`): Numer lekcji
-        pora (:class:`vulcan.models.PoraLekcji`): Informacje o porze lekcji
-        przedmiot (:class:`vulcan.models.Przedmiot`): Przedmiot na lekcji
-        dzien (:class:`datetime.date`): Data lekcji
-        od (:class:`datetime.datetime`): Data i godzina rozpoczęcia lekcji
-        do (:class:`datetime.datetime`): Data i godzina zakończenia lekcji
-        sala (:class:`string`): Sala w której odbywa się lekcja
-        grupa (:class:`string`): Grupa która odbywa lekcję
+        number (:class:`int`): Lesson number
+        room (:class:`string`): Classroom, in which is the lesson
+        group (:class:`string`): Group, that has the lesson
+        date (:class:`datetime.date`): Lesson date
+        from_ (:class:`datetime.datetime`): Lesson start date and time
+        to (:class:`datetime.datetime`): Lesson end date and time
+        time (:class:`vulcan._lesson.LessonTime`): Information about the lesson time
+        teacher (:class:`vulcan._teacher.Teacher`): Teacher of the lesson
+        subject (:class:`vulcan._subject.Subject`): Subject on the lesson
     """
 
-    def __init__(
-        self,
-        numer=None,
-        pora=None,
-        przedmiot=None,
-        pracownik=None,
-        dzien=None,
-        od=None,
-        do=None,
-        sala=None,
-        grupa=None,
-    ):
-        self.numer = numer
-        self.pora = pora
-        self.przedmiot = przedmiot
-        self.pracownik = pracownik
-        self.dzien = dzien
-        self.od = od
-        self.do = do
-        self.sala = sala
-        self.grupa = grupa
+    number = IntegerField(key="NumerLekcji")
+    room = StringField(key="Sala", required=False)
+    group = StringField(key="PodzialSkrot", required=False)
+    date = DateField(key="DzienTekst", required=False)
 
-    def __repr__(self):
-        return "<Lekcja {!s}: przedmiot={!r} pracownik={!r} sala={!r}>".format(
-            self.numer, self.przedmiot.nazwa, self.pracownik.nazwa, self.sala
-        )
+    time = ChildField(LessonTime, required=False)
+    teacher = ChildField(Teacher, required=False)
+    subject = ChildField(Subject, required=False)
+
+    @property
+    def from_(self):
+        return datetime.combine(self.date, self.time.from_)
+
+    @property
+    def to(self):
+        return datetime.combine(self.date, self.time.to)
 
     @classmethod
-    def from_json(cls, j):
-        numer = j.get("NumerLekcji")
-        sala = j.get("Sala")
-        grupa = j.get("PodzialSkrot")
-        pora = PoraLekcji.from_json(j.get("PoraLekcji"))
-        przedmiot = Przedmiot.from_json(j.get("Przedmiot"))
-        pracownik = Pracownik.from_json(j.get("Pracownik"))
-        dzien_datetime = timestamp_to_datetime(j.get("Dzien"))
-        dzien = dzien_datetime.date()
-        od = concat_hours_and_minutes(dzien_datetime, j["PoraLekcji"]["Poczatek"])
-        do = concat_hours_and_minutes(dzien_datetime, j["PoraLekcji"]["Koniec"])
-        return cls(
-            numer=numer,
-            sala=sala,
-            grupa=grupa,
-            pora=pora,
-            przedmiot=przedmiot,
-            pracownik=pracownik,
-            dzien=dzien,
-            od=od,
-            do=do,
-        )
+    def get(cls, api, date):
+        if not date:
+            date = datetime.now()
+        date_str = date.strftime("%Y-%m-%d")
+
+        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
+
+        j = api.post("Uczen/PlanLekcjiZeZmianami", json=data)
+
+        lessons = sorted(j.get("Data", []), key=itemgetter("NumerLekcji"))
+        lessons = list(filter(lambda x: x["DzienTekst"] == date_str, lessons))
+
+        for lesson in lessons:
+            lesson["time"] = api.dict.get_lesson_time(lesson["IdPoraLekcji"])
+            lesson["teacher"] = api.dict.get_teacher(lesson["IdPracownik"])
+            lesson["subject"] = api.dict.get_subject(lesson["IdPrzedmiot"])
+
+            yield to_model(cls, lesson)
