@@ -11,7 +11,7 @@ First of all, you need to load a certificate from a file
     import json
 
     with open('cert.json') as f:
-        certificate = json.loads(f.read())
+        certificate = json.load(f)
 
 
 and then, you need to create a client using the loaded certificate

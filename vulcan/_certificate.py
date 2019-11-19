@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-
+import json
 import platform
 
 import requests
-from related import immutable, StringField
+from related import immutable, StringField, to_json
 
 from ._utils import uuid, now, get_base_url, log, APP_VERSION, APP_NAME
 
@@ -12,8 +12,12 @@ from ._utils import uuid, now, get_base_url, log, APP_VERSION, APP_NAME
 class Certificate:
     pfx = StringField(key="CertyfikatPfx")
     key = StringField(key="CertyfikatKlucz")
-    key_formatter = StringField(key="CertyfikatKluczSformatowanyTekst")
+    key_formatted = StringField(key="CertyfikatKluczSformatowanyTekst")
     base_url = StringField(key="AdresBazowyRestApi")
+
+    @property
+    def json(self):
+        return json.loads(to_json(self))
 
     @classmethod
     def get(cls, token, symbol, pin):
