@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 
 from ._vulcan import Vulcan
 
-__version__ = "1.0.0"
-__doc__ = "Nieoficjalne API do dzienniczka elektronicznego UONET+"
+__version__ = "1.0.1"
+__doc__ = "Unofficial API for UONET+ e-register"
 
 __all__ = ["Vulcan"]
