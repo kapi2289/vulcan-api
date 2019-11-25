@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date
+from datetime import date, datetime
 from os import environ
 
 PARAMS_LESSON_PLAN = [
@@ -35,6 +35,29 @@ PARAMS_HOMEWORK_LIST = [
             {"Id": 875, "IdPracownik": 100, "IdPrzedmiot": 119},
             {"Id": 886, "IdPracownik": 94, "IdPrzedmiot": 118},
         ],
+    )
+]
+
+PARAMS_GRADES = [
+    (
+        [
+            {
+                "Id": 190869,
+                "IdPracownik": 94,
+                "IdPrzedmiot": 118,
+                "Wpis": "4",
+                "Wartosc": 4.0,
+                "DataUtworzenia": datetime(2019, 9, 26),
+            },
+            {
+                "Id": 194064,
+                "IdPracownik": 85,
+                "IdPrzedmiot": 183,
+                "Wpis": "-",
+                "Wartosc": None,
+                "DataUtworzenia": datetime(2019, 10, 8),
+            },
+        ]
     )
 ]
 
