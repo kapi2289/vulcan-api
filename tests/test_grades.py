@@ -2,7 +2,7 @@
 
 import pytest
 
-from utils import PARAMS_GRADES
+from .utils import PARAMS_GRADES
 
 
 @pytest.mark.private
