@@ -11,7 +11,10 @@ from ._utils import now, uuid, signature, VulcanAPIException, log, APP_NAME, APP
 class Api:
     def __init__(self, certificate):
         self._session = requests.session()
-        self.cert = to_model(Certificate, certificate)
+        if isinstance(certificate, Certificate):
+            self.cert = certificate
+        else:
+            self.cert = to_model(Certificate, certificate)
         self.base_url = self.cert.base_url + "mobile-api/Uczen.v3."
         self.full_url = None
         self.dict = None

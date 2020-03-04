@@ -17,7 +17,7 @@ class Vulcan:
     Logs in to the e-register using generated certificate
 
     Args:
-        certificate (:class:`vulcan._certificate.Certificate`): Certificate generated
+        certificate (:class:`dict`): Generated certificate
             using :func:`vulcan.Vulcan.register`
     """
 
@@ -52,7 +52,7 @@ class Vulcan:
             pin (:class:`str`): PIN code
 
         Returns:
-            :class:`vulcan.Certificate`: Generated certificate, that you need to save
+            :class:`dict`: Generated certificate, that you need to save
         """
         return Certificate.get(token, symbol, pin)
 

@@ -5,4 +5,6 @@ Getting started
 
 .. include:: getting-started/registration.rst
 
-.. include:: getting-started/base-usage.rst
+.. include:: getting-started/basic-usage.rst
+
+.. include:: getting-started/fetching-data.rst

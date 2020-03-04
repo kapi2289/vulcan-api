@@ -3,7 +3,7 @@ import json
 import platform
 
 import requests
-from related import immutable, StringField, to_json
+from related import immutable, StringField, to_json, to_model
 
 from ._utils import uuid, now, get_base_url, log, APP_VERSION, APP_NAME
 
@@ -59,4 +59,4 @@ class Certificate:
         cert = j["TokenCert"]
         log.info("Registered successfully!")
 
-        return cert
+        return to_model(cls, cert)
