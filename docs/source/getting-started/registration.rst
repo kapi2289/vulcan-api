@@ -24,4 +24,4 @@ And then save the generated certificate to a file
 .. code:: python
 
     with open('cert.json', 'w') as f: # You can use other filename
-        json.dump(certificate, f)
+        json.dump(certificate.json, f)
