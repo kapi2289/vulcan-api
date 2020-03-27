@@ -37,7 +37,7 @@ class Message:
 		s1=j.get("Data", [])
 
 		for message in s1:
-			message["teacher"] = api.dict.get_teacher(message["NadawcaId"])
+			message["sender"] = api.dict.get_teacher(message["NadawcaId"])
 			yield to_model(cls, message)
 	"""
 	@classmethod
