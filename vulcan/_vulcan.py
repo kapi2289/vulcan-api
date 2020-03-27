@@ -7,6 +7,7 @@ from ._certificate import Certificate
 from ._exam import Exam
 from ._grade import Grade
 from ._homework import Homework
+from ._message import Message
 from ._lesson import Lesson
 from ._student import Student
 from ._utils import log
@@ -121,3 +122,32 @@ class Vulcan:
             :class:`vulcan._homework.Homework`
         """
         return Homework.get(self._api, date)
+
+    def get_message(self, date=None):
+        """
+        Fetches messages from the given date
+
+        Args:
+            date (:class:`datetime.date`): Date, from which to fetch message, if not provided
+                it's using the today date
+
+        Yields:
+            :class:`vulcan._message.Message`
+        """
+        return Message.get(self._api, date)
+    """
+    def send_message(self, name, title, content, adresses):
+
+        
+        sends message to given adresses
+
+        Args:
+            title: Title of your message (required)
+            content: Content of your message
+            adressed: Adresses for message
+
+        Yields:
+            :class:`vulcan._message.Message`
+        
+        return Message.send(self._api, name, title, content, adresses)
+        """
