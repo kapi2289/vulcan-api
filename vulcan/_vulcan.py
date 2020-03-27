@@ -123,7 +123,7 @@ class Vulcan:
         """
         return Homework.get(self._api, date)
 
-    def get_message(self, date=None):
+    def get_messages(self, date=None):
         """
         Fetches messages from the given date
 
