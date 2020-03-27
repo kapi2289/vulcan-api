@@ -20,6 +20,6 @@ class TestMessage:
 
         for i, message in enumerate(message_list):
             message_expected = message_expected_list[i]
-            assert message.id == message_expected["Id"]
+            assert message.id == message_expected["WiadomoscId"]
             assert message.subject.id == message_expected["IdPrzedmiot"]
             assert message.teacher.id == message_expected["IdPracownik"]
