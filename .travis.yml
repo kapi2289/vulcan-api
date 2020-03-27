@@ -1,0 +1,31 @@
+sudo: false
+language: python
+python: 3.6
+
+cache: pip
+
+install:
+  - pip install -U .[testing]
+
+script:
+  - pytest -m private
+
+jobs:
+  include:
+  - python: 3.5
+  - python: 3.6
+  - python: 3.7
+    dist: xenial
+    sudo: required
+  - python: 3.8
+    dist: xenial
+    sudo: required
+  - python: pypy3.5
+
+  - name: Lint
+    before_install:
+      - skip
+    install:
+      - pip install black
+    script:
+      - black --check --verbose .
