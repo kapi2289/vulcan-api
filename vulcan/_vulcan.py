@@ -52,8 +52,7 @@ class Vulcan:
             pin (:class:`str`): PIN code
 
         Returns:
-            :class:`vulcan._certificate.Certificate`: Generated certificate, use `json` property
-                to save it to a file
+            :class:`vulcan._certificate.Certificate`: Generated certificate, use `json` property to save it to a file
         """
         return Certificate.get(token, symbol, pin)
 
