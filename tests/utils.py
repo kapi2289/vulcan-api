@@ -42,20 +42,20 @@ PARAMS_GRADES = [
     (
         [
             {
-                "Id": 190869,
-                "IdPracownik": 94,
-                "IdPrzedmiot": 118,
+                "Id": 227084,
+                "IdPracownik": 99,
+                "IdPrzedmiot": 172,
                 "Wpis": "4",
                 "Wartosc": 4.0,
-                "DataUtworzenia": datetime(2019, 9, 26),
+                "DataUtworzenia": datetime(2020, 1, 29),
             },
             {
-                "Id": 194064,
+                "Id": 230461,
                 "IdPracownik": 85,
                 "IdPrzedmiot": 183,
                 "Wpis": "-",
                 "Wartosc": None,
-                "DataUtworzenia": datetime(2019, 10, 8),
+                "DataUtworzenia": datetime(2020, 2, 25),
             },
         ]
     )
