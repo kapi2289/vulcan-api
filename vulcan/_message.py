@@ -27,12 +27,14 @@ class Message:
 	folder= StringField(key="FolderWiadomosci")
 	sender = ChildField(Teacher, required=False)
 	@classmethod
-	def get(cls, api, date=None):
-		if not date:
-			date=api.student.period.from_
-		date_first=date.strftime("%Y-%m-%d")
-		date_last=api.student.period.to.strftime("%Y-%m-%d")
-		data = {"DataPoczatkowa": date_first, "DataKoncowa": date_last}
+	def get(cls, api, date_from=None, date_to=None):
+		if not date_from:
+			date_from=api.student.period.from_
+		if not date_to:
+			date_to=api.student.period.to
+		date_from_str=date_from.strftime("%Y-%m-%d")
+		date_to_str=date_to.strftime("%Y-%m-%d")
+		data = {"DataPoczatkowa": date_from_str, "DataKoncowa": date_to_str}
 		j = api.post("Uczen/WiadomosciOdebrane", json=data) 
 		messages=j.get("Data", [])
 

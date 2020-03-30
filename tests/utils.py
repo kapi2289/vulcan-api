@@ -27,13 +27,6 @@ PARAMS_EXAMS = [
         ],
     ),
 ]
-PARAMS_MESSAGE_LIST  [
-        date(2020, 3, 27),
-        [
-            {"WiadomoscId": 56994, "FolderWiadomosci": "Odebrane"},
-            {"WiadomoscId": 51768, "FolderWiadomosci": "Odebrane"},
-        ]
-]
 PARAMS_HOMEWORK_LIST = [
     (
         date(2019, 9, 24),
