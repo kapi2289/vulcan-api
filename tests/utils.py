@@ -61,6 +61,29 @@ PARAMS_GRADES = [
     )
 ]
 
+PARAMS_MESSAGES = [
+    (
+        [
+            {
+                "WiadomoscId": 11544,
+                "NadawcaId": 494,
+                "Tytul": "Sprawdzian z części zdań ",
+                "Tresc": "Dzień dobry państwu",
+                "DataWyslania": "06.02.2020",
+                "DataPrzeczytania": "06.02.2020",
+            },
+            {
+                "WiadomoscId": 12027,
+                "NadawcaId": 484,
+                "Tytul": "Zasady postępowania przy zagrożeniu koronawirusem",
+                "Tresc": "REKOMENDACJE MINISTRA EDUKACJI NARODOWEJ",
+                "DataWyslania": "10.03.2020",
+                "DataPrzeczytania": "10.03.2020",
+            },
+        ]
+    )
+]
+
 
 def load_variable(name):
     return environ.get(name)

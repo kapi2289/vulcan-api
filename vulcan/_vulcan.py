@@ -8,6 +8,7 @@ from ._exam import Exam
 from ._grade import Grade
 from ._homework import Homework
 from ._lesson import Lesson
+from ._message import Message
 from ._student import Student
 from ._utils import log
 
@@ -121,3 +122,18 @@ class Vulcan:
             :class:`vulcan._homework.Homework`
         """
         return Homework.get(self._api, date)
+
+    def get_messages(self, date_from=None, date_to=None):
+        """
+        Fetches messages from the given date
+
+        Args:
+            date_from (:class:`datetime.date`): Date, from which to fetch messages, if not provided
+                it's using the semester (period) start date
+            date_to (:class:`datetime.date`): Date, to which to fetch messages, if not provided
+                it's using the semester (period) end date
+
+        Yields:
+            :class:`vulcan._message.Message`
+        """
+        return Message.get(self._api, date_from, date_to)
