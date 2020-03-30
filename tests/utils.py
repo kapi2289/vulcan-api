@@ -27,6 +27,7 @@ PARAMS_EXAMS = [
         ],
     ),
 ]
+
 PARAMS_HOMEWORK_LIST = [
     (
         date(2019, 9, 24),
