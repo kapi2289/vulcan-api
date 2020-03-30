@@ -18,6 +18,9 @@ class Dictionaries:
     def get_teacher(self, _id):
         return find(self.teachers, _id)
 
+    def get_teacher_login_id(self, _id):
+        return find(self.teachers, _id, key="LoginId")
+
     def get_subject(self, _id):
         return find(self.subjects, _id)
 
