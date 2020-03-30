@@ -2,7 +2,7 @@
 
 import pytest
 
-from utils import PARAMS_MESSAGES
+from .utils import PARAMS_MESSAGES
 
 
 @pytest.mark.private
