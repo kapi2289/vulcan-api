@@ -66,7 +66,7 @@ class Exam:
         exams = sort_and_filter_date(j.get("Data", []), date_str)
 
         for exam in exams:
-            exam["teacher"] = api.dict.get_teacher(exam["IdPracownik"])
-            exam["subject"] = api.dict.get_subject(exam["IdPrzedmiot"])
+            exam["teacher"] = api.dict.get_teacher_json(exam["IdPracownik"])
+            exam["subject"] = api.dict.get_subject_json(exam["IdPrzedmiot"])
 
             yield to_model(cls, exam)

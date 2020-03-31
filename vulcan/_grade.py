@@ -65,8 +65,8 @@ class Grade:
         j = api.post("Uczen/Oceny")
 
         for grade in j.get("Data", []):
-            grade["teacher"] = api.dict.get_teacher(grade["IdPracownikD"])
-            grade["subject"] = api.dict.get_subject(grade["IdPrzedmiot"])
-            grade["category"] = api.dict.get_grade_category(grade["IdKategoria"])
+            grade["teacher"] = api.dict.get_teacher_json(grade["IdPracownikD"])
+            grade["subject"] = api.dict.get_subject_json(grade["IdPrzedmiot"])
+            grade["category"] = api.dict.get_grade_category_json(grade["IdKategoria"])
 
             yield to_model(cls, grade)

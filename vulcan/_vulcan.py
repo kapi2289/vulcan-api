@@ -78,10 +78,7 @@ class Vulcan:
     @property
     def dictionaries(self):
         """
-        Dictionaries, that include i.a. teachers
-
-        Returns:
-            :class:`vulcan._dictionaries.Dictionaries`
+        :class:`vulcan._dictionaries.Dictionaries`: Dictionaries, that include i.a. teachers
         """
         return self._api.dict
 
