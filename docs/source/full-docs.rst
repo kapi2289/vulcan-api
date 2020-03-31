@@ -49,6 +49,12 @@ Models
 .. autoclass:: vulcan._certificate.Certificate
     :members:
 
+.. autoclass:: vulcan._message.Message
+    :members:
+
+.. autoclass:: vulcan._message.MessageRecipient
+    :members:
+
 Enum models
 ^^^^^^^^^^^
 

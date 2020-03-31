@@ -7,8 +7,8 @@ from ._certificate import Certificate
 from ._exam import Exam
 from ._grade import Grade
 from ._homework import Homework
-from ._message import Message
 from ._lesson import Lesson
+from ._message import Message
 from ._student import Student
 from ._utils import log
 from ._teacher import T
@@ -124,17 +124,20 @@ class Vulcan:
         """
         return Homework.get(self._api, date)
 
-    def get_messages(self, date=None):
+    def get_messages(self, date_from=None, date_to=None):
         """
         Fetches messages from the given date
 
         Args:
-            date (:class:`datetime.date`): Date, from which to fetch message, if not provided
-                it's using the today date
+            date_from (:class:`datetime.date`): Date, from which to fetch messages, if not provided
+                it's using the semester (period) start date
+            date_to (:class:`datetime.date`): Date, to which to fetch messages, if not provided
+                it's using the semester (period) end date
 
         Yields:
             :class:`vulcan._message.Message`
         """
+<<<<<<< HEAD
         return Message.get(self._api, date)
     def send_message(self, title, content, recipient_id, recipients):
 
@@ -148,3 +151,6 @@ class Vulcan:
             recipients: Adresses for message
         """
         return Message.send(self._api, name, title, content, recipient_id, recipients)
+=======
+        return Message.get(self._api, date_from, date_to)
+>>>>>>> 684445b23b785139cbd9f7d9cc9ab1fd6ec53ea1

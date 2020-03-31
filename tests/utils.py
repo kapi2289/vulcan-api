@@ -27,6 +27,7 @@ PARAMS_EXAMS = [
         ],
     ),
 ]
+
 PARAMS_HOMEWORK_LIST = [
     (
         date(2019, 9, 24),
@@ -55,6 +56,29 @@ PARAMS_GRADES = [
                 "Wpis": "-",
                 "Wartosc": None,
                 "DataUtworzenia": datetime(2019, 10, 8),
+            },
+        ]
+    )
+]
+
+PARAMS_MESSAGES = [
+    (
+        [
+            {
+                "WiadomoscId": 11544,
+                "NadawcaId": 494,
+                "Tytul": "Sprawdzian z części zdań ",
+                "Tresc": "Dzień dobry państwu",
+                "DataWyslania": "06.02.2020",
+                "DataPrzeczytania": "06.02.2020",
+            },
+            {
+                "WiadomoscId": 12027,
+                "NadawcaId": 484,
+                "Tytul": "Zasady postępowania przy zagrożeniu koronawirusem",
+                "Tresc": "REKOMENDACJE MINISTRA EDUKACJI NARODOWEJ",
+                "DataWyslania": "10.03.2020",
+                "DataPrzeczytania": "10.03.2020",
             },
         ]
     )
