@@ -78,5 +78,7 @@ class Message:
         messages = j.get("Data", [])
 
         for message in messages:
-            message["sender"] = api.dict.get_teacher_login_id(message["NadawcaId"])
+            message["sender"] = api.dict.get_teacher_by_login_id_json(
+                message["NadawcaId"]
+            )
             yield to_model(cls, message)

@@ -84,6 +84,26 @@ PARAMS_MESSAGES = [
     )
 ]
 
+PARAMS_DICTIONARIES_TEACHERS = [(85, 477, "ET"), (91, 482, "GD"), (95, 491, "MK")]
+
+PARAMS_DICTIONARIES_SUBJECTS = [
+    (115, "Religia", "religia", 0),
+    (118, "Język polski", "j. polski", 2),
+    (170, "Wiedza o społeczeństwie", "wos", 7),
+]
+
+PARAMS_DICTIONARIES_LESSON_TIMES = [
+    (36, 1, "08:15", "09:00"),
+    (37, 2, "09:10", "09:55"),
+    (42, 7, "13:55", "14:40"),
+]
+
+PARAMS_DICTIONARIES_GRADE_CATEGORIES = [
+    (15, "Akt", "Aktywność na lekcji"),
+    (31, "Proj", "Projekt długoterminowy do domu"),
+    (32, "PL", "Praca na lekcji"),
+]
+
 
 def load_variable(name):
     return environ.get(name)

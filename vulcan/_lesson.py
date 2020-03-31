@@ -84,8 +84,8 @@ class Lesson:
         lessons = list(filter(lambda x: x["DzienTekst"] == date_str, lessons))
 
         for lesson in lessons:
-            lesson["time"] = api.dict.get_lesson_time(lesson["IdPoraLekcji"])
-            lesson["teacher"] = api.dict.get_teacher(lesson["IdPracownik"])
-            lesson["subject"] = api.dict.get_subject(lesson["IdPrzedmiot"])
+            lesson["time"] = api.dict.get_lesson_time_json(lesson["IdPoraLekcji"])
+            lesson["teacher"] = api.dict.get_teacher_json(lesson["IdPracownik"])
+            lesson["subject"] = api.dict.get_subject_json(lesson["IdPrzedmiot"])
 
             yield to_model(cls, lesson)

@@ -49,7 +49,7 @@ class Homework:
         homework_list = sort_and_filter_date(j.get("Data", []), date_str)
 
         for homework in homework_list:
-            homework["teacher"] = api.dict.get_teacher(homework["IdPracownik"])
-            homework["subject"] = api.dict.get_subject(homework["IdPrzedmiot"])
+            homework["teacher"] = api.dict.get_teacher_json(homework["IdPracownik"])
+            homework["subject"] = api.dict.get_subject_json(homework["IdPrzedmiot"])
 
             yield to_model(cls, homework)
