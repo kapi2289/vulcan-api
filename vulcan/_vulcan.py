@@ -11,6 +11,7 @@ from ._message import Message
 from ._lesson import Lesson
 from ._student import Student
 from ._utils import log
+from ._teacher import T
 
 
 class Vulcan:
@@ -135,19 +136,15 @@ class Vulcan:
             :class:`vulcan._message.Message`
         """
         return Message.get(self._api, date)
-    """
-    def send_message(self, name, title, content, adresses):
+    def send_message(self, title, content, recipient_id, recipients):
 
-        
+        """
         sends message to given adresses
 
         Args:
             title: Title of your message (required)
             content: Content of your message
-            adressed: Adresses for message
-
-        Yields:
-            :class:`vulcan._message.Message`
-        
-        return Message.send(self._api, name, title, content, adresses)
+            recipient_id: Id of recipient
+            recipients: Adresses for message
         """
+        return Message.send(self._api, name, title, content, recipient_id, recipients)

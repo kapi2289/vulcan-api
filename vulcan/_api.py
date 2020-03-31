@@ -44,7 +44,7 @@ class Api:
         return {
             "User-Agent": "MobileUserAgent",
             "RequestCertificateKey": self.cert.key,
-            "Connection": "close",
+            "Connection": "Keep-Alive",
             "RequestSignatureValue": signature(self.cert.pfx, json),
         }
 
@@ -52,9 +52,8 @@ class Api:
         payload = self._payload(json)
         headers = self._headers(payload)
         url = endpoint if endpoint.startswith("http") else self.full_url + endpoint
-
         r = self._session.request(method, url, json=payload, headers=headers, **kwargs)
-
+        print(r)
         if as_json:
             try:
                 log.debug(r.text)

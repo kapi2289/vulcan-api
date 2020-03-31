@@ -41,3 +41,6 @@ class Message:
 		for message in messages:
 			message["sender"] = api.dict.get_teacher(message["NadawcaId"])
 			yield to_model(cls, message)
+	def send(api, name, title, content, recipient_id, recipients):
+		data = {"NadawcaWiadomosci": name, "Tytul": title, "Tresc": content, "Adresaci":[{"LoginId": recipient_id, "Nazwa": recipients}]}
+		j = api.post("Uczen/DodajWiadomosc", json=data)
