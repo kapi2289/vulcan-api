@@ -75,6 +75,16 @@ class Vulcan:
         """
         self._api.set_student(student)
 
+    @property
+    def dictionaries(self):
+        """
+        Dictionaries, that include i.a. teachers
+
+        Returns:
+            :class:`vulcan._dictionaries.Dictionaries`
+        """
+        return self._api.dict
+
     def get_grades(self):
         """
         Fetches student grades
