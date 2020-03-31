@@ -55,6 +55,9 @@ Models
 .. autoclass:: vulcan._message.MessageRecipient
     :members:
 
+.. autoclass:: vulcan._dictionaries.Dictionaries
+    :members:
+
 Enum models
 ^^^^^^^^^^^
 
