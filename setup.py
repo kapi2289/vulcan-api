@@ -15,21 +15,21 @@ with io.open(path.join(here, "vulcan/__init__.py"), "rt", encoding="utf8") as f:
     version = re.search(r"__version__ = \"(.*?)\"", str(f.read())).group(1)
 
 setup(
-    name="vulcan-api",
+    name="vulcan-api-async",
     version=version,
     packages=["vulcan"],
     author="Kacper Ziubryniewicz",
     author_email="kapi2289@gmail.com",
-    description="Nieoficjalne API do dzienniczka elektronicznego UONET+",
+    description="Fork do asynchronicznej obsługi nieoficjalnego API do dzienniczka elektronicznego UONET+",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords=["Vulcan", "UONET+", "Dzienniczek+", "API", "e-dziennik"],
     license="MIT",
-    url="https://github.com/kapi2289/vulcan-api",
-    project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
+    url="https://github.com/kpostekk/vulcan-api",
+    #project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
     python_requires=">=3.6,<4.0",
     install_requires=[
-        "requests",
+        "aiohttp",
         "pyopenssl",
         "uonet-request-signer",
         "pytz",

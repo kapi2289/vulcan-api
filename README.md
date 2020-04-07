@@ -23,18 +23,21 @@ Unofficial API for UONET+ e-register from [Vulcan](https://vulcan.edu.pl/). It's
 
 ## Installation
 
-You can install `vulcan-api` using `pip`
+You can install `vulcan-api` using pip and git
 
+## Changes of fork
+
+All networking is handled by aiohttp library which solves GIL problem. This means better performance in Concurrent usage
+(like discord bots, small async http servers etc.)
+
+### Windows
 ```console
-$ python -m pip install vulcan-api
+python -m pip install git+https://github.com/kpostekk/vulcan-api.git
 ```
 
-or you can build yourself the latest version
-
+### Linux and MacOS
 ```console
-$ git clone https://github.com/kapi2289/vulcan-api.git
-$ cd vulcan-api
-$ python -m pip install .
+pip3 install git+https://github.com/kpostekk/vulcan-api.git
 ```
 
 ## Documentation
