@@ -27,7 +27,7 @@ setup(
     license="MIT",
     url="https://github.com/kapi2289/vulcan-api",
     project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
-    python_requires=">=3.5,<4.0",
+    python_requires=">=3.6,<4.0",
     install_requires=[
         "requests",
         "pyopenssl",
@@ -45,7 +45,6 @@ setup(
         "Natural Language :: Polish",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",

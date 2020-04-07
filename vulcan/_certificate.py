@@ -2,7 +2,7 @@
 import json
 import platform
 
-import requests
+import requests, aiohttp
 from related import immutable, StringField, to_json, to_model
 
 from ._utils import uuid, now, get_base_url, log, APP_VERSION, APP_NAME
@@ -20,7 +20,7 @@ class Certificate:
         return json.loads(to_json(self))
 
     @classmethod
-    def get(cls, token, symbol, pin):
+    async def get(cls, token, symbol, pin):
         token = str(token).upper()
         symbol = str(symbol).lower()
         pin = str(pin)
@@ -47,16 +47,15 @@ class Certificate:
             "User-Agent": "MobileUserAgent",
         }
 
-        base_url = get_base_url(token)
+        base_url = await get_base_url(token)
         url = "{}/{}/mobile-api/Uczen.v3.UczenStart/Certyfikat".format(base_url, symbol)
 
         log.info("Registering...")
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, json=data, headers=headers) as r:
+                j = await r.json()
+                log.debug(j)
 
-        r = requests.post(url, json=data, headers=headers)
-        j = r.json()
-        log.debug(j)
-
-        cert = j["TokenCert"]
-        log.info("Registered successfully!")
-
-        return to_model(cls, cert)
+                cert = j["TokenCert"]
+                log.info("Registered successfully!")
+                return to_model(cls, cert)

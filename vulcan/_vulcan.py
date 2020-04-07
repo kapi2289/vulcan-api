@@ -28,8 +28,12 @@ class Vulcan:
         if logging_level:
             Vulcan.set_logging_level(logging_level)
 
-        self.students = self.get_students()
-        self.set_student(next(self.students))
+    @staticmethod
+    async def create(certificate, logging_level=None):
+        api = Vulcan(certificate, logging_level)
+        api.students = await api.get_students()
+        await api.set_student(await api.students.__anext__())
+        return api
 
     @staticmethod
     def set_logging_level(logging_level):
@@ -43,7 +47,7 @@ class Vulcan:
         log.setLevel(logging_level)
 
     @staticmethod
-    def register(token, symbol, pin):
+    async def register(token, symbol, pin):
         """
         Registers API as a new mobile device
 
@@ -55,9 +59,9 @@ class Vulcan:
         Returns:
             :class:`vulcan._certificate.Certificate`: Generated certificate, use `json` property to save it to a file
         """
-        return Certificate.get(token, symbol, pin)
+        return await Certificate.get(token, symbol, pin)
 
-    def get_students(self):
+    async def get_students(self):
         """
         Yields students that are assigned to the account
 
@@ -66,14 +70,14 @@ class Vulcan:
         """
         return Student.get(self._api)
 
-    def set_student(self, student):
+    async def set_student(self, student):
         """
         Sets the default student
 
         Args:
             student (:class:`vulcan._student.Student`): Student from :func:`vulcan.Vulcan.get_students`
         """
-        self._api.set_student(student)
+        await self._api.set_student(student)
 
     @property
     def dictionaries(self):
@@ -82,7 +86,7 @@ class Vulcan:
         """
         return self._api.dict
 
-    def get_grades(self):
+    async def get_grades(self):
         """
         Fetches student grades
 
@@ -91,7 +95,7 @@ class Vulcan:
         """
         return Grade.get(self._api)
 
-    def get_lessons(self, date=None):
+    async def get_lessons(self, date=None):
         """
         Fetches lessons from the given date
 
@@ -104,7 +108,7 @@ class Vulcan:
         """
         return Lesson.get(self._api, date)
 
-    def get_exams(self, date=None):
+    async def get_exams(self, date=None):
         """
         Fetches exams from the given date
 
@@ -117,7 +121,7 @@ class Vulcan:
         """
         return Exam.get(self._api, date)
 
-    def get_homework(self, date=None):
+    async def get_homework(self, date=None):
         """
         Fetches homework from the given date
 
@@ -130,7 +134,7 @@ class Vulcan:
         """
         return Homework.get(self._api, date)
 
-    def get_messages(self, date_from=None, date_to=None):
+    async def get_messages(self, date_from=None, date_to=None):
         """
         Fetches messages from the given date
 
@@ -144,3 +148,6 @@ class Vulcan:
             :class:`vulcan._message.Message`
         """
         return Message.get(self._api, date_from, date_to)
+
+    async def close(self):
+        await self._api.close()

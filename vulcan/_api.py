@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import requests
+import requests, aiohttp
 from related import to_model
 
 from ._certificate import Certificate
@@ -10,7 +10,7 @@ from ._utils import now, uuid, signature, VulcanAPIException, log, APP_NAME, APP
 
 class Api:
     def __init__(self, certificate):
-        self._session = requests.session()
+        self._session = aiohttp.ClientSession()
         if isinstance(certificate, Certificate):
             self.cert = certificate
         else:
@@ -48,31 +48,31 @@ class Api:
             "RequestSignatureValue": signature(self.cert.pfx, json),
         }
 
-    def _request(self, method, endpoint, json=None, as_json=True, **kwargs):
+    async def _request(self, method, endpoint, json=None, as_json=True, **kwargs):
         payload = self._payload(json)
         headers = self._headers(payload)
         url = endpoint if endpoint.startswith("http") else self.full_url + endpoint
+        async with self._session.request(method, url, json=payload, headers=headers, **kwargs) as r:
+            if as_json:
+                try:
+                    log.debug(await r.text())
+                    return await r.json()
+                except ValueError:
+                    raise VulcanAPIException("An unexpected exception occurred.")
+            return r
 
-        r = self._session.request(method, url, json=payload, headers=headers, **kwargs)
+    async def get(self, endpoint, json=None, as_json=True, **kwargs):
+        return await self._request("GET", endpoint, json=json, as_json=as_json, **kwargs)
 
-        if as_json:
-            try:
-                log.debug(r.text)
-                return r.json()
-            except ValueError:
-                raise VulcanAPIException("An unexpected exception occurred.")
+    async def post(self, endpoint, json=None, as_json=True, **kwargs):
+        return await self._request("POST", endpoint, json=json, as_json=as_json, **kwargs)
 
-        return r
-
-    def get(self, endpoint, json=None, as_json=True, **kwargs):
-        return self._request("GET", endpoint, json=json, as_json=as_json, **kwargs)
-
-    def post(self, endpoint, json=None, as_json=True, **kwargs):
-        return self._request("POST", endpoint, json=json, as_json=as_json, **kwargs)
-
-    def set_student(self, student):
+    async def set_student(self, student):
         self.student = student
         self.full_url = (
             self.cert.base_url + student.school.symbol + "/mobile-api/Uczen.v3."
         )
-        self.dict = Dictionaries.get(self)
+        self.dict = await Dictionaries.get(self)
+
+    async def close(self):
+        await self._session.close()

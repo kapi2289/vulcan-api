@@ -60,8 +60,8 @@ class Student:
         return json
 
     @classmethod
-    def get(cls, api):
-        j = api.post(api.base_url + "UczenStart/ListaUczniow")
+    async def get(cls, api):
+        j = await api.post(api.base_url + "UczenStart/ListaUczniow")
 
         for student in j.get("Data", []):
             yield to_model(cls, cls.format_json(student))
