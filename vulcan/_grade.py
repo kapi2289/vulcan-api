@@ -61,8 +61,8 @@ class Grade:
     category = ChildField(GradeCategory, required=False)
 
     @classmethod
-    def get(cls, api):
-        j = api.post("Uczen/Oceny")
+    async def get(cls, api):
+        j = await api.post("Uczen/Oceny")
 
         for grade in j.get("Data", []):
             grade["teacher"] = api.dict.get_teacher_json(grade["IdPracownikD"])

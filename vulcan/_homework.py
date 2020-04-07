@@ -37,14 +37,14 @@ class Homework:
     subject = ChildField(Subject, required=False)
 
     @classmethod
-    def get(cls, api, date=None):
+    async def get(cls, api, date=None):
         if not date:
             date = datetime.now()
         date_str = date.strftime("%Y-%m-%d")
 
         data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
 
-        j = api.post("Uczen/ZadaniaDomowe", json=data)
+        j = await api.post("Uczen/ZadaniaDomowe", json=data)
 
         homework_list = sort_and_filter_date(j.get("Data", []), date_str)
 
