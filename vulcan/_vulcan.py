@@ -28,11 +28,14 @@ class Vulcan:
         if logging_level:
             Vulcan.set_logging_level(logging_level)
 
+    async def setup(self):
+        self.students = await self.get_students()
+        await self.set_student(await self.students.__anext__())
+
     @staticmethod
     async def create(certificate, logging_level=None):
         api = Vulcan(certificate, logging_level)
-        api.students = await api.get_students()
-        await api.set_student(await api.students.__anext__())
+        await api.setup()
         return api
 
     @staticmethod
