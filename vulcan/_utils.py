@@ -6,8 +6,8 @@ import time
 import uuid as _uuid
 from operator import itemgetter
 
+import aiohttp
 import pytz
-import requests, aiohttp
 from uonet_request_signer import sign_content
 
 APP_NAME = "VULCAN-Android-ModulUcznia"

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import requests, aiohttp
+import aiohttp
 from related import to_model
 
 from ._certificate import Certificate

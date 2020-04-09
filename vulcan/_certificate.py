@@ -2,7 +2,7 @@
 import json
 import platform
 
-import requests, aiohttp
+import aiohttp
 from related import immutable, StringField, to_json, to_model
 
 from ._utils import uuid, now, get_base_url, log, APP_VERSION, APP_NAME
