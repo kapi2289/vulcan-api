@@ -71,14 +71,14 @@ class Lesson:
         return datetime.combine(self.date, self.time.to)
 
     @classmethod
-    def get(cls, api, date):
+    async def get(cls, api, date):
         if not date:
             date = datetime.now()
         date_str = date.strftime("%Y-%m-%d")
 
         data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
 
-        j = api.post("Uczen/PlanLekcjiZeZmianami", json=data)
+        j = await api.post("Uczen/PlanLekcjiZeZmianami", json=data)
 
         lessons = sorted(j.get("Data", []), key=itemgetter("NumerLekcji"))
         lessons = list(filter(lambda x: x["DzienTekst"] == date_str, lessons))

@@ -65,7 +65,7 @@ class Message:
         return self.read_datetime is not None
 
     @classmethod
-    def get(cls, api, date_from=None, date_to=None):
+    async def get(cls, api, date_from=None, date_to=None):
         if not date_from:
             date_from = api.student.period.from_
         if not date_to:
@@ -74,7 +74,7 @@ class Message:
         date_to_str = date_to.strftime("%Y-%m-%d")
 
         data = {"DataPoczatkowa": date_from_str, "DataKoncowa": date_to_str}
-        j = api.post("Uczen/WiadomosciOdebrane", json=data)
+        j = await api.post("Uczen/WiadomosciOdebrane", json=data)
         messages = j.get("Data", [])
 
         for message in messages:

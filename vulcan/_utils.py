@@ -7,7 +7,7 @@ import uuid as _uuid
 from operator import itemgetter
 
 import pytz
-import requests
+import requests, aiohttp
 from uonet_request_signer import sign_content
 
 APP_NAME = "VULCAN-Android-ModulUcznia"
@@ -44,15 +44,17 @@ def signature(cert, data):
     return sign_content("CE75EA598C7743AD9B0B7328DED85B06", cert, data)
 
 
-def get_components():
-    r = requests.get("http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt")
-    components = (c.split(",") for c in r.text.split())
-    return {a[0]: a[1] for a in components}
+async def get_components():
+    async with aiohttp.ClientSession() as session:
+        async with session.get("http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt") as r:
+            r_text = await r.text()
+            components = (c.split(",") for c in r_text.split())
+            return {a[0]: a[1] for a in components}
 
 
-def get_base_url(token):
+async def get_base_url(token):
     code = token[0:3]
-    components = get_components()
+    components = await get_components()
     try:
         return components[code]
     except KeyError:

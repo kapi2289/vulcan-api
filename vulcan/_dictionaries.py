@@ -66,6 +66,6 @@ class Dictionaries:
         return find(self.attendance_types_json, _id)
 
     @classmethod
-    def get(cls, api):
-        j = api.post("Uczen/Slowniki")
+    async def get(cls, api):
+        j = await api.post("Uczen/Slowniki")
         return to_model(cls, j.get("Data"))

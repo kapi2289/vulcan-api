@@ -54,14 +54,14 @@ class Exam:
     subject = ChildField(Subject, required=False)
 
     @classmethod
-    def get(cls, api, date):
+    async def get(cls, api, date):
         if not date:
             date = datetime.now()
         date_str = date.strftime("%Y-%m-%d")
 
         data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
 
-        j = api.post("Uczen/Sprawdziany", json=data)
+        j = await api.post("Uczen/Sprawdziany", json=data)
 
         exams = sort_and_filter_date(j.get("Data", []), date_str)
 
