@@ -8,6 +8,7 @@ First of all, you need to load a certificate from a file
 .. code:: python
 
     from vulcan import Vulcan
+    import asyncio
     import json
 
     with open('cert.json') as f:
@@ -18,7 +19,7 @@ and then, you need to create a client using the loaded certificate
 
 .. code:: python
 
-    client = Vulcan(certificate)
+    client = await Vulcan.create(certificate)
 
 
 API automatically sets the first available student as default.
@@ -27,7 +28,7 @@ using :func:`vulcan.Vulcan.get_students` and set one of them as default
 
 .. code:: python
 
-    for student in client.get_students():
+    for student in await alist(client.get_students()):
         if student.name == "Jan Kowalski":
             client.set_student(student)
             break

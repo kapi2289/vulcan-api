@@ -1,16 +1,12 @@
 Installation
 ^^^^^^^^^^^^
 
-You can install ``vulcan-api`` using ``pip``
+You can install ``vulcan-api`` using ``pip`` and ``git``
 
 .. code:: console
 
-    $ pip install vulcan-api
+    # Linux and MacOS
+    pip3 install git+https://github.com/kapi2289/vulcan-api.git@async
 
-or you can build it yourself
-
-.. code:: console
-
-    $ git clone https://github.com/kapi2289/vulcan-api.git
-    $ cd vulcan-api
-    $ pip install .
+    # Windows
+    python -m pip install git+https://github.com/kapi2289/vulcan-api.git@async

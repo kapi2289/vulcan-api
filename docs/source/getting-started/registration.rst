@@ -14,14 +14,25 @@ Then use the :func:`vulcan.Vulcan.register` function
 .. code:: python
 
     from vulcan import Vulcan
+    import asyncio
     import json
 
-    certificate = Vulcan.register('<token>', '<symbol>', '<pin>')
+    async def main():
+        certificate = async Vulcan.register('<token>', '<symbol>', '<pin>')
 
 
-And then save the generated certificate to a file
+Then save the generated certificate to a file
 
 .. code:: python
 
-    with open('cert.json', 'w') as f: # You can use other filename
-        json.dump(certificate.json, f)
+    async def main():
+        certificate = async Vulcan.register('<token>', '<symbol>', '<pin>')
+        with open('cert.json', 'w') as f: # You can use other filename
+            json.dump(certificate.json, f)
+
+And finally run your code
+
+.. code:: python
+
+    if __name__ == '__main__':
+        asyncio.run(main())

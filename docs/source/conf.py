@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 
 project = "Vulcan API"
 copyright = "2020, Kacper Ziubryniewicz"
-author = "Kacper Ziubryniewicz"
+author = "Kacper Ziubryniewicz && Krystian Postek"
 
 # The short X.Y version
 version = ""
