@@ -155,7 +155,5 @@ class Vulcan:
     async def close(self):
         await self._api.close()
 
-    def __del__(self):
-        import asyncio
-
-        asyncio.run(self.close())
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        await self.close()

@@ -24,3 +24,10 @@ async def client():
         ]
     }
     yield await Vulcan.create(cert)
+
+
+@pytest.fixture(scope="function", autouse=True)
+@pytest.mark.asyncio
+async def cleanup(client):
+    yield
+    await client.close()
