@@ -30,14 +30,13 @@ You can install `vulcan-api` using pip and git
 All networking is handled by aiohttp library which solves GIL problem. This means better performance in Concurrent usage
 (like discord bots, small async http servers etc.)
 
-### Windows
+### Install latest
 ```console
-python -m pip install git+https://github.com/kpostekk/vulcan-api.git
-```
+# Linux and MacOS
+pip3 install git+https://github.com/kapi2289/vulcan-api.git@async
 
-### Linux and MacOS
-```console
-pip3 install git+https://github.com/kpostekk/vulcan-api.git
+# Windows
+python -m pip install git+https://github.com/kapi2289/vulcan-api.git@async
 ```
 
 ## Documentation
