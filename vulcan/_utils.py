@@ -70,3 +70,7 @@ def sort_and_filter_date(_list, date):
 
 def dict_only(d, keys):
     return {key: d.get(key) for key in d.keys() & set(keys)}
+
+
+async def alist(async_gen):
+    return [_ async for _ in await async_gen]
