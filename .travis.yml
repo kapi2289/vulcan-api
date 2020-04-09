@@ -19,7 +19,6 @@ jobs:
   - python: 3.8
     dist: xenial
     sudo: required
-  - python: pypy3.6
 
   - name: Lint
     before_install:

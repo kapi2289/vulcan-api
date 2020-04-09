@@ -52,7 +52,9 @@ class Api:
         payload = self._payload(json)
         headers = self._headers(payload)
         url = endpoint if endpoint.startswith("http") else self.full_url + endpoint
-        async with self._session.request(method, url, json=payload, headers=headers, **kwargs) as r:
+        async with self._session.request(
+            method, url, json=payload, headers=headers, **kwargs
+        ) as r:
             if as_json:
                 try:
                     log.debug(await r.text())
@@ -62,10 +64,14 @@ class Api:
             return r
 
     async def get(self, endpoint, json=None, as_json=True, **kwargs):
-        return await self._request("GET", endpoint, json=json, as_json=as_json, **kwargs)
+        return await self._request(
+            "GET", endpoint, json=json, as_json=as_json, **kwargs
+        )
 
     async def post(self, endpoint, json=None, as_json=True, **kwargs):
-        return await self._request("POST", endpoint, json=json, as_json=as_json, **kwargs)
+        return await self._request(
+            "POST", endpoint, json=json, as_json=as_json, **kwargs
+        )
 
     async def set_student(self, student):
         self.student = student

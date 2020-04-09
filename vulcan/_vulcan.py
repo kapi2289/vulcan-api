@@ -157,4 +157,5 @@ class Vulcan:
 
     def __del__(self):
         import asyncio
+
         asyncio.run(self.close())

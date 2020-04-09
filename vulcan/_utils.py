@@ -46,7 +46,9 @@ def signature(cert, data):
 
 async def get_components():
     async with aiohttp.ClientSession() as session:
-        async with session.get("http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt") as r:
+        async with session.get(
+            "http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt"
+        ) as r:
             r_text = await r.text()
             components = (c.split(",") for c in r_text.split())
             return {a[0]: a[1] for a in components}
