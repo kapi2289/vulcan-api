@@ -18,15 +18,15 @@ setup(
     name="vulcan-api-async",
     version=version,
     packages=["vulcan"],
-    author="Kacper Ziubryniewicz",
+    author="Kacper Ziubryniewicz && Krystian Postek",
     author_email="kapi2289@gmail.com",
-    description="Fork do asynchronicznej obsługi nieoficjalnego API do dzienniczka elektronicznego UONET+",
+    description="Biblioteka do asynchrnoicznej obsługi nieoficjalnego API do dzienniczka elektronicznego UONET+",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords=["Vulcan", "UONET+", "Dzienniczek+", "API", "e-dziennik"],
     license="MIT",
-    url="https://github.com/kpostekk/vulcan-api",
-    project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
+    url="https://github.com/kapi2289/vulcan-api/tree/async",
+    project_urls={"Documentation": "https://vulcan-api.readthedocs.io/pl/async"},
     python_requires=">=3.6,<4.0",
     install_requires=[
         "aiohttp",
@@ -36,7 +36,10 @@ setup(
         "aenum",
         "related",
     ],
-    extras_require={"testing": ["pytest", "python-dotenv", "pytest-asyncio"]},
+    extras_require={
+        "testing": ["pytest", "python-dotenv", "pytest-asyncio"],
+        "dev": ["black", "pytest", "python-dotenv", "pytest-asyncio"],
+    },
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Development Status :: 3 - Alpha",
@@ -51,5 +54,6 @@ setup(
         "Topic :: Education",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Software Development :: Libraries :: Python Modules",
+        "Framework :: AsyncIO",
     ],
 )

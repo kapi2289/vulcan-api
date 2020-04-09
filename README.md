@@ -42,4 +42,4 @@ pip3 install git+https://github.com/kpostekk/vulcan-api.git
 
 ## Documentation
 
-You can find the documentation at https://vulcan-api.readthedocs.io/.
+You can find the documentation at https://vulcan-api.readthedocs.io/pl/async.
