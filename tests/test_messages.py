@@ -8,14 +8,15 @@ from .utils import PARAMS_MESSAGES
 @pytest.mark.private
 @pytest.mark.parametrize("messages_expected", PARAMS_MESSAGES)
 class TestMessages:
-    def test_private(self, client, messages_expected):
-        messages = client.get_messages()
+    @pytest.mark.asyncio
+    async def test_private(self, client, messages_expected):
+        messages = await client.get_messages()
+
+        f = filter(lambda m: m.id == message_expected["WiadomoscId"], [_ async for _ in messages])
 
         for message_expected in messages_expected:
             print(message_expected)
-            message = next(
-                filter(lambda m: m.id == message_expected["WiadomoscId"], messages)
-            )
+            message = next(f)
 
             assert message.id == message_expected["WiadomoscId"]
             assert (

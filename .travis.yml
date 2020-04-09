@@ -1,6 +1,6 @@
 sudo: false
 language: python
-python: 3.6
+python: 3.7
 
 cache: pip
 
@@ -12,7 +12,6 @@ script:
 
 jobs:
   include:
-  - python: 3.5
   - python: 3.6
   - python: 3.7
     dist: xenial

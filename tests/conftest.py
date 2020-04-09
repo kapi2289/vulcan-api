@@ -12,7 +12,8 @@ load_dotenv(find_dotenv())
 @pytest.mark.private
 @pytest.mark.online
 @pytest.fixture
-def client():
+@pytest.mark.asyncio
+async def client():
     cert = {
         k: load_variable(k)
         for k in [
@@ -22,4 +23,4 @@ def client():
             "AdresBazowyRestApi",
         ]
     }
-    yield Vulcan(cert)
+    yield await Vulcan.create(cert)

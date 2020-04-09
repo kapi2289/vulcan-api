@@ -9,16 +9,18 @@ from .utils import PARAMS_EXAMS
 @pytest.mark.parametrize("date, exams_expected", PARAMS_EXAMS)
 class TestExams:
     @pytest.mark.online
-    def test(self, client, date, exams_expected):
-        exams = client.get_exams(date)
+    @pytest.mark.asyncio
+    async def test(self, client, date, exams_expected):
+        exams = await client.get_exams(date)
 
-        for exam in exams:
+        async for exam in exams:
             assert exam.date == date
 
-    def test_private(self, client, date, exams_expected):
-        exams = client.get_exams(date)
+    @pytest.mark.asyncio
+    async def test_private(self, client, date, exams_expected):
+        exams = await client.get_exams(date)
 
-        for i, exam in enumerate(exams):
+        for i, exam in enumerate([_ async for _ in exams]):
             exam_expected = exams_expected[i]
             assert exam.id == exam_expected["Id"]
             assert exam.subject.id == exam_expected["IdPrzedmiot"]

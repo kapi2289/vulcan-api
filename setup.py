@@ -26,7 +26,7 @@ setup(
     keywords=["Vulcan", "UONET+", "Dzienniczek+", "API", "e-dziennik"],
     license="MIT",
     url="https://github.com/kpostekk/vulcan-api",
-    #project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
+    project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
     python_requires=">=3.6,<4.0",
     install_requires=[
         "aiohttp",
@@ -36,7 +36,7 @@ setup(
         "aenum",
         "related",
     ],
-    extras_require={"testing": ["pytest", "python-dotenv"]},
+    extras_require={"testing": ["pytest", "python-dotenv", "pytest-asyncio"]},
     classifiers=[
         "License :: OSI Approved :: MIT License",
         "Development Status :: 3 - Alpha",
