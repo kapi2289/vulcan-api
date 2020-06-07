@@ -5,7 +5,15 @@ import platform
 import requests
 from related import immutable, StringField, to_json, to_model
 
-from ._utils import uuid, now, get_base_url, log, APP_VERSION, APP_NAME
+from ._utils import (
+    uuid,
+    now,
+    get_firebase_token,
+    get_base_url,
+    log,
+    APP_VERSION,
+    APP_NAME,
+)
 
 
 @immutable
@@ -25,6 +33,8 @@ class Certificate:
         symbol = str(symbol).lower()
         pin = str(pin)
 
+        firebase_token = get_firebase_token()
+
         data = {
             "PIN": pin,
             "TokenKey": token,
@@ -40,6 +50,7 @@ class Certificate:
             "RequestId": uuid(),
             "RemoteMobileAppVersion": APP_VERSION,
             "RemoteMobileAppName": APP_NAME,
+            "FirebaseTokenKey": firebase_token,
         }
 
         headers = {

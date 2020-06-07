@@ -50,6 +50,33 @@ def get_components():
     return {a[0]: a[1] for a in components}
 
 
+def get_firebase_token():
+    aid = "4609707972546570896:3626695765779152704"
+    device = aid.split(":")[0]
+    app = "pl.vulcan.uonetmobile"
+
+    data = {
+        "sender": "987828170337",
+        "X-scope": "*",
+        "X-gmp_app_id": "1:987828170337:android:ac97431a0a4578c3",
+        "app": app,
+        "device": device,
+    }
+
+    headers = {
+        "Authorization": "AidLogin {}".format(aid),
+        "User-Agent": "Android-GCM/1.5",
+        "app": app,
+    }
+
+    r = requests.post(
+        "https://android.clients.google.com/c2dm/register3", data=data, headers=headers
+    )
+    token = r.text.split("=")[1]
+
+    return token
+
+
 def get_base_url(token):
     code = token[0:3]
     components = get_components()
