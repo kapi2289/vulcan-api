@@ -32,8 +32,8 @@ PARAMS_HOMEWORK_LIST = [
     (
         date(2019, 9, 24),
         [
-            {"Id": 875, "IdPracownik": 100, "IdPrzedmiot": 119},
             {"Id": 886, "IdPracownik": 94, "IdPrzedmiot": 118},
+            {"Id": 875, "IdPracownik": 100, "IdPrzedmiot": 119},
         ],
     )
 ]
