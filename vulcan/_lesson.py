@@ -61,6 +61,7 @@ class Lesson:
     time = ChildField(LessonTime, required=False)
     teacher = ChildField(Teacher, required=False)
     subject = ChildField(Subject, required=False)
+    changes = StringField(None, required=False)
 
     @property
     def from_(self):
@@ -87,5 +88,6 @@ class Lesson:
             lesson["time"] = api.dict.get_lesson_time_json(lesson["IdPoraLekcji"])
             lesson["teacher"] = api.dict.get_teacher_json(lesson["IdPracownik"])
             lesson["subject"] = api.dict.get_subject_json(lesson["IdPrzedmiot"])
+            lesson["changes"] = lesson["AdnotacjaOZmianie"]
 
             yield to_model(cls, lesson)
