@@ -46,6 +46,7 @@ class Lesson:
         room (:class:`string`): Classroom, in which is the lesson
         group (:class:`string`): Group, that has the lesson
         date (:class:`datetime.date`): Lesson date
+        changes (:class:`string`): Lesson changes
         from_ (:class:`datetime.datetime`): Lesson start date and time
         to (:class:`datetime.datetime`): Lesson end date and time
         time (:class:`vulcan._lesson.LessonTime`): Information about the lesson time
@@ -57,6 +58,7 @@ class Lesson:
     room = StringField(key="Sala", required=False)
     group = StringField(key="PodzialSkrot", required=False)
     date = DateField(key="DzienTekst", required=False)
+    changes = StringField(key="AdnotacjaOZmianie", required=False)
 
     time = ChildField(LessonTime, required=False)
     teacher = ChildField(Teacher, required=False)
