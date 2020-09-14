@@ -46,6 +46,7 @@ class Lesson:
         room (:class:`string`): Classroom, in which is the lesson
         group (:class:`string`): Group, that has the lesson
         date (:class:`datetime.date`): Lesson date
+        changes (:class:`string`): Lesson changes
         from_ (:class:`datetime.datetime`): Lesson start date and time
         to (:class:`datetime.datetime`): Lesson end date and time
         time (:class:`vulcan._lesson.LessonTime`): Information about the lesson time
@@ -57,11 +58,11 @@ class Lesson:
     room = StringField(key="Sala", required=False)
     group = StringField(key="PodzialSkrot", required=False)
     date = DateField(key="DzienTekst", required=False)
+    changes = StringField(key="AdnotacjaOZmianie", required=False)
 
     time = ChildField(LessonTime, required=False)
     teacher = ChildField(Teacher, required=False)
     subject = ChildField(Subject, required=False)
-    changes = StringField(None, required=False)
 
     @property
     def from_(self):
@@ -88,6 +89,5 @@ class Lesson:
             lesson["time"] = api.dict.get_lesson_time_json(lesson["IdPoraLekcji"])
             lesson["teacher"] = api.dict.get_teacher_json(lesson["IdPracownik"])
             lesson["subject"] = api.dict.get_subject_json(lesson["IdPrzedmiot"])
-            lesson["changes"] = lesson["AdnotacjaOZmianie"]
 
             yield to_model(cls, lesson)
