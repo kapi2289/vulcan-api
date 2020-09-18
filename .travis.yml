@@ -8,7 +8,7 @@ install:
   - pip install -U .[testing]
 
 script:
-  - pytest -m private
+  - pytest -m online
 
 jobs:
   include:
