@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
+import datetime
 
 from related import (
     IntegerField,
@@ -13,7 +13,7 @@ from related import (
 
 from ._subject import Subject
 from ._teacher import Teacher
-from ._utils import sort_and_filter_date
+from ._utils import sort_and_filter_dates
 
 
 @immutable
@@ -37,16 +37,20 @@ class Homework:
     subject = ChildField(Subject, required=False)
 
     @classmethod
-    def get(cls, api, date=None):
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime("%Y-%m-%d")
+    def get(cls, api, date_from, date_to):
+        if not date_from:
+            date_from = datetime.date.today()
+        if not date_to:
+            date_to = date_from
 
-        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
+        data = {
+            "DataPoczatkowa": date_from.strftime("%Y-%m-%d"),
+            "DataKoncowa": date_to.strftime("%Y-%m-%d"),
+        }
 
         j = api.post("Uczen/ZadaniaDomowe", json=data)
 
-        homework_list = sort_and_filter_date(j.get("Data", []), date_str)
+        homework_list = sort_and_filter_dates(j.get("Data", []), date_from, date_to)
 
         for homework in homework_list:
             homework["teacher"] = api.dict.get_teacher_json(homework["IdPracownik"])

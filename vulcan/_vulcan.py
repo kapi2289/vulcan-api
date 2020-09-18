@@ -91,44 +91,50 @@ class Vulcan:
         """
         return Grade.get(self._api)
 
-    def get_lessons(self, date=None):
+    def get_lessons(self, date_from=None, date_to=None):
         """
         Fetches lessons from the given date
 
         Args:
-            date (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
+            date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
                 it's using the today date
+            date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
+                it's using the `date_from` date
 
         Yields:
             :class:`vulcan._lesson.Lesson`
         """
-        return Lesson.get(self._api, date)
+        return Lesson.get(self._api, date_from, date_to)
 
-    def get_exams(self, date=None):
+    def get_exams(self, date_from=None, date_to=None):
         """
         Fetches exams from the given date
 
         Args:
-            date (:class:`datetime.date`): Date, from which to fetch exams, if not provided
+            date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
                 it's using the today date
+            date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
+                it's using the `date_from` date
 
         Yields:
             :class:`vulcan._exam.Exam`
         """
-        return Exam.get(self._api, date)
+        return Exam.get(self._api, date_from, date_to)
 
-    def get_homework(self, date=None):
+    def get_homework(self, date_from=None, date_to=None):
         """
         Fetches homework from the given date
 
         Args:
-            date (:class:`datetime.date`): Date, from which to fetch exams, if not provided
+            date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
                 it's using the today date
+            date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
+                it's the `date_from` date
 
         Yields:
             :class:`vulcan._homework.Homework`
         """
-        return Homework.get(self._api, date)
+        return Homework.get(self._api, date_from, date_to)
 
     def get_messages(self, date_from=None, date_to=None):
         """

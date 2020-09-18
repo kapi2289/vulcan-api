@@ -70,11 +70,14 @@ class Message:
             date_from = api.student.period.from_
         if not date_to:
             date_to = api.student.period.to
-        date_from_str = date_from.strftime("%Y-%m-%d")
-        date_to_str = date_to.strftime("%Y-%m-%d")
 
-        data = {"DataPoczatkowa": date_from_str, "DataKoncowa": date_to_str}
+        data = {
+            "DataPoczatkowa": date_from.strftime("%Y-%m-%d"),
+            "DataKoncowa": date_to.strftime("%Y-%m-%d"),
+        }
+
         j = api.post("Uczen/WiadomosciOdebrane", json=data)
+
         messages = j.get("Data", [])
 
         for message in messages:

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import datetime
 import logging
 import math
 import time
@@ -86,9 +87,18 @@ def get_base_url(token):
         raise VulcanAPIException("Niepoprawny token!")
 
 
-def sort_and_filter_date(_list, date):
-    _list = sorted(_list, key=itemgetter("Data"))
-    return list(filter(lambda x: x["DataTekst"] == date, _list))
+def sort_and_filter_dates(
+    _list, date_from, date_to, sort_key="Data", date_key="DataTekst"
+):
+    _list = sorted(_list, key=itemgetter(sort_key))
+    return list(
+        filter(
+            lambda x: date_from
+            >= datetime.datetime.strptime(x[date_key], "%Y-%m-%d").date()
+            >= date_to,
+            _list,
+        )
+    )
 
 
 def dict_only(d, keys):

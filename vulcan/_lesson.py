@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
-from operator import itemgetter
+import datetime
 
 from related import (
     IntegerField,
@@ -15,7 +14,7 @@ from related import (
 
 from ._subject import Subject
 from ._teacher import Teacher
-from ._utils import TIME_FORMAT_H_M
+from ._utils import TIME_FORMAT_H_M, sort_and_filter_dates
 
 
 @immutable
@@ -66,24 +65,33 @@ class Lesson:
 
     @property
     def from_(self):
-        return datetime.combine(self.date, self.time.from_)
+        return datetime.datetime.combine(self.date, self.time.from_)
 
     @property
     def to(self):
-        return datetime.combine(self.date, self.time.to)
+        return datetime.datetime.combine(self.date, self.time.to)
 
     @classmethod
-    def get(cls, api, date):
-        if not date:
-            date = datetime.now()
-        date_str = date.strftime("%Y-%m-%d")
+    def get(cls, api, date_from, date_to):
+        if not date_from:
+            date_from = datetime.date.today()
+        if not date_to:
+            date_to = date_from
 
-        data = {"DataPoczatkowa": date_str, "DataKoncowa": date_str}
+        data = {
+            "DataPoczatkowa": date_from.strftime("%Y-%m-%d"),
+            "DataKoncowa": date_to.strftime("%Y-%m-%d"),
+        }
 
         j = api.post("Uczen/PlanLekcjiZeZmianami", json=data)
 
-        lessons = sorted(j.get("Data", []), key=itemgetter("NumerLekcji"))
-        lessons = list(filter(lambda x: x["DzienTekst"] == date_str, lessons))
+        lessons = sort_and_filter_dates(
+            j.get("Data", []),
+            date_from,
+            date_to,
+            sort_key="NumerLekcji",
+            date_key="DzienTekst",
+        )
 
         for lesson in lessons:
             lesson["time"] = api.dict.get_lesson_time_json(lesson["IdPoraLekcji"])
