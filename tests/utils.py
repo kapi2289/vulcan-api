@@ -1,107 +1,123 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date, datetime
+from datetime import datetime
 from os import environ
 
 PARAMS_LESSON_PLAN = [
-    (
-        date(2019, 9, 20),
-        [
-            {"IdPrzedmiot": 189, "IdPracownik": 91},
-            {"IdPrzedmiot": 177, "IdPracownik": 131},
-            {"IdPrzedmiot": 172, "IdPracownik": 99},
-            {"IdPrzedmiot": 362, "IdPracownik": 94},
-            {"IdPrzedmiot": 118, "IdPracownik": 94},
-            {"IdPrzedmiot": 119, "IdPracownik": 101},
-        ],
-    )
+    [
+        {"NumerLekcji": 1, "IdPrzedmiot": 308, "IdPracownik": 1},
+        {"NumerLekcji": 2, "IdPrzedmiot": 499, "IdPracownik": 8},
+        {"NumerLekcji": 2, "IdPrzedmiot": 499, "IdPracownik": 7},
+        {"NumerLekcji": 4, "IdPrzedmiot": 300, "IdPracownik": 4},
+    ]
 ]
 
 PARAMS_EXAMS = [
-    (date(2019, 9, 25), [{"Id": 2118, "IdPrzedmiot": 118, "IdPracownik": 94}]),
-    (
-        date(2019, 10, 24),
-        [
-            {"Id": 2308, "IdPrzedmiot": 118, "IdPracownik": 94},
-            {"Id": 2317, "IdPrzedmiot": 164, "IdPracownik": 89},
-        ],
-    ),
+    [
+        {
+            "Id": 21558,
+            "IdPrzedmiot": 307,
+            "IdPracownik": 3,
+            "Opis": "Figury na płaszczyźnie.",
+        },
+        {
+            "Id": 22067,
+            "IdPrzedmiot": 304,
+            "IdPracownik": 6,
+            "Opis": "czasowniki nieregualne 1 częsć",
+        },
+        {
+            "Id": 23031,
+            "IdPrzedmiot": 311,
+            "IdPracownik": 2,
+            "Opis": "Opolszczyzna - mapa",
+        },
+    ]
 ]
 
 PARAMS_HOMEWORK_LIST = [
-    (
-        date(2019, 9, 24),
-        [
-            {"Id": 886, "IdPracownik": 94, "IdPrzedmiot": 118},
-            {"Id": 875, "IdPracownik": 100, "IdPrzedmiot": 119},
-        ],
-    )
+    [
+        {
+            "Id": 1,
+            "IdPracownik": 5,
+            "IdPrzedmiot": 306,
+            "Opis": "Wszystkie instrukcje warunkowe, pętle (budowa, zasada działania, schemat blokowy)",
+        },
+        {
+            "Id": 2,
+            "IdPracownik": 7,
+            "IdPrzedmiot": 304,
+            "Opis": "Zadania egzaminacyjne:\nstr 231 \nstr 254",
+        },
+    ]
 ]
 
 PARAMS_GRADES = [
-    (
-        [
-            {
-                "Id": 227084,
-                "IdPracownik": 99,
-                "IdPrzedmiot": 172,
-                "Wpis": "4",
-                "Wartosc": 4.0,
-                "DataUtworzenia": datetime(2020, 1, 29),
-            },
-            {
-                "Id": 230461,
-                "IdPracownik": 85,
-                "IdPrzedmiot": 183,
-                "Wpis": "-",
-                "Wartosc": None,
-                "DataUtworzenia": datetime(2020, 2, 25),
-            },
-        ]
-    )
+    [
+        {
+            "Id": 1000,
+            "IdPracownik": 1,
+            "IdPrzedmiot": 300,
+            "Wpis": "3",
+            "Wartosc": 3.0,
+            "DataUtworzenia": datetime(2018, 9, 14),
+        },
+        {
+            "Id": 1021,
+            "IdPracownik": 10,
+            "IdPrzedmiot": 313,
+            "Wpis": "75/100",
+            "Wartosc": 0.0,
+            "DataUtworzenia": datetime(2018, 11, 20),
+        },
+    ]
 ]
 
 PARAMS_MESSAGES = [
     (
         [
             {
-                "WiadomoscId": 11544,
-                "NadawcaId": 494,
-                "Tytul": "Sprawdzian z części zdań ",
-                "Tresc": "Dzień dobry państwu",
-                "DataWyslania": "06.02.2020",
-                "DataPrzeczytania": "06.02.2020",
+                "WiadomoscId": 27214,
+                "NadawcaId": 3617,
+                "Tytul": "Temat wiadomości",
+                "Tresc": "Tak wygląda zawartość wiadomości.\nZazwyczaj ma wiele linijek.",
+                "DataWyslania": "01.03.2018",
+                "DataPrzeczytania": None,
             },
             {
-                "WiadomoscId": 12027,
-                "NadawcaId": 484,
-                "Tytul": "Zasady postępowania przy zagrożeniu koronawirusem",
-                "Tresc": "REKOMENDACJE MINISTRA EDUKACJI NARODOWEJ",
-                "DataWyslania": "10.03.2020",
-                "DataPrzeczytania": "10.03.2020",
+                "WiadomoscId": 28973,
+                "NadawcaId": 2137,
+                "Tytul": "Tytuł",
+                "Tresc": "Bardzo dużo",
+                "DataWyslania": "05.04.2018",
+                "DataPrzeczytania": None,
             },
         ]
     )
 ]
 
-PARAMS_DICTIONARIES_TEACHERS = [(85, 477, "ET"), (91, 482, "GD"), (95, 491, "MK")]
+PARAMS_DICTIONARIES_TEACHERS = [
+    (1, 100, "AN", "Karolina Kowalska"),
+    (2, 101, "NA", "Zofia Czerwińska"),
+    (3, 102, "AK", "Aleksandra Krajewska"),
+]
 
 PARAMS_DICTIONARIES_SUBJECTS = [
-    (115, "Religia", "religia", 0),
-    (118, "Język polski", "j. polski", 2),
-    (170, "Wiedza o społeczeństwie", "wos", 7),
+    (300, "Zajęcia z wychowawcą", "godz.wych", 0),
+    (301, "Język polski", "j. polski", 3),
+    (302, "Historia", "historia", 1),
 ]
 
 PARAMS_DICTIONARIES_LESSON_TIMES = [
-    (36, 1, "08:15", "09:00"),
-    (37, 2, "09:10", "09:55"),
-    (42, 7, "13:55", "14:40"),
+    (76, 1, "08:00", "08:45"),
+    (77, 2, "08:55", "09:40"),
+    (82, 7, "13:40", "14:25"),
 ]
 
 PARAMS_DICTIONARIES_GRADE_CATEGORIES = [
-    (15, "Akt", "Aktywność na lekcji"),
-    (31, "Proj", "Projekt długoterminowy do domu"),
-    (32, "PL", "Praca na lekcji"),
+    (26, "Akt", "A - aktywność (czarny)"),
+    (74, "pr_dł", "Praca długoterminowa"),
+    (78, "PK", "Praca klasowa"),
 ]
 
 

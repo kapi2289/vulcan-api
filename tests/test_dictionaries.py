@@ -10,13 +10,14 @@ from .utils import (
 )
 
 
-@pytest.mark.private
+@pytest.mark.online
 class TestDictionaries:
-    @pytest.mark.parametrize("_id, login_id, short", PARAMS_DICTIONARIES_TEACHERS)
-    def test_teachers(self, client, _id, login_id, short):
+    @pytest.mark.parametrize("_id, login_id, short, name", PARAMS_DICTIONARIES_TEACHERS)
+    def test_teachers(self, client, _id, login_id, short, name):
         teacher = next(filter(lambda t: t.id == _id, client.dictionaries.teachers))
-        assert teacher.short == short
         assert teacher.login_id == login_id
+        assert teacher.short == short
+        assert teacher.name == name
 
     @pytest.mark.parametrize("_id, name, short, position", PARAMS_DICTIONARIES_SUBJECTS)
     def test_subjects(self, client, _id, name, short, position):

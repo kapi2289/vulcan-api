@@ -19,8 +19,8 @@ class Vulcan:
     Logs in to the e-register using generated certificate
 
     Args:
-        certificate (:class:`dict`): Generated certificate
-            using :func:`vulcan.Vulcan.register`
+        certificate (:class:`dict` or :class:`vulcan._certificate.Certificate`):
+            Generated certificate using :func:`vulcan.Vulcan.register`
     """
 
     def __init__(self, certificate, logging_level=None):

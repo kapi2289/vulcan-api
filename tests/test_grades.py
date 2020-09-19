@@ -5,7 +5,7 @@ import pytest
 from .utils import PARAMS_GRADES
 
 
-@pytest.mark.private
+@pytest.mark.online
 @pytest.mark.parametrize("grades_expected", PARAMS_GRADES)
 class TestGrades:
     def test(self, client, grades_expected):

@@ -213,3 +213,5 @@ dmypy.json
 
 # Certificate
 cert.json
+
+.idea/**/discord.xml
