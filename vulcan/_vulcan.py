@@ -9,6 +9,7 @@ from ._grade import Grade
 from ._homework import Homework
 from ._lesson import Lesson
 from ._message import Message
+from ._notice import Notice
 from ._student import Student
 from ._utils import log
 
@@ -135,6 +136,15 @@ class Vulcan:
             :class:`vulcan._homework.Homework`
         """
         return Homework.get(self._api, date_from, date_to)
+
+    def get_notices(self):
+        """
+        Fetches notices from the current semester (period)
+
+        Yields:
+            :class:`vulcan._notice.Notice`
+        """
+        return Notice.get(self._api)
 
     def get_messages(self, date_from=None, date_to=None):
         """
