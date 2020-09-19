@@ -13,6 +13,7 @@ from uonet_request_signer import sign_content
 
 APP_NAME = "VULCAN-Android-ModulUcznia"
 APP_VERSION = "18.10.1.433"
+SIGN_PASSWORD = "CE75EA598C7743AD9B0B7328DED85B06"
 
 log = logging.getLogger("client")
 log.setLevel(logging.INFO)
@@ -42,13 +43,15 @@ def find(_list, value, key="Id"):
 
 
 def signature(cert, data):
-    return sign_content("CE75EA598C7743AD9B0B7328DED85B06", cert, data)
+    return sign_content(SIGN_PASSWORD, cert, data)
 
 
 def get_components():
     r = requests.get("http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt")
     components = (c.split(",") for c in r.text.split())
-    return {a[0]: a[1] for a in components}
+    components = {a[0]: a[1] for a in components}
+    components.update({"FK1": "http://api.fakelog.cf"})
+    return components
 
 
 def get_firebase_token():
@@ -82,6 +85,9 @@ def get_base_url(token):
     code = token[0:3]
     components = get_components()
     try:
+        if code == "FK1":
+            global SIGN_PASSWORD
+            SIGN_PASSWORD = "012345678901234567890123456789AB"
         return components[code]
     except KeyError:
         raise VulcanAPIException("Niepoprawny token!")
