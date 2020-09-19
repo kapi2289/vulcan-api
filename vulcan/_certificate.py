@@ -27,6 +27,9 @@ class Certificate:
     def json(self):
         return json.loads(to_json(self))
 
+    def __str__(self):
+        return str(self.json)
+
     @classmethod
     def get(cls, token, symbol, pin):
         token = str(token).upper()
