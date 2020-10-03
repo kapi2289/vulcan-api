@@ -16,6 +16,7 @@ from related import (
 from ._utils import TIME_FORMAT_H_M, sort_and_filter_dates
 from ._lesson import LessonTime
 
+
 @immutable
 class AttendanceCategory:
     """
@@ -40,7 +41,6 @@ class AttendanceCategory:
     late = BooleanField(key="Spoznienie")
     justified = BooleanField(key="Usprawiedliwione")
     deleted = BooleanField(key="Usuniete")
-
 
 
 @immutable
@@ -68,7 +68,7 @@ class Attendance:
             date_from = datetime.date.today()
         if not date_to:
             date_to = date_from
-    
+
         data = {
             "DataPoczatkowa": date_from.strftime("%Y-%m-%d"),
             "DataKoncowa": date_to.strftime("%Y-%m-%d"),
