@@ -146,7 +146,7 @@ class Vulcan:
             :class:`vulcan._notice.Notice`
         """
         return Notice.get(self._api)
-    
+
     def get_attendance(self, date_from=None, date_to=None):
         """
         Fetches attendance from the given date
@@ -159,7 +159,7 @@ class Vulcan:
             :class:`vulcan.attendance.Attendance`
         """
         return Attendance.get(self._api, date_from, date_to)
-    
+
     def get_messages(self, date_from=None, date_to=None):
         """
         Fetches messages from the given date
