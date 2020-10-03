@@ -7,6 +7,7 @@ from related import (
     immutable,
     TimeField,
     StringField,
+    BooleanField,
     DateField,
     ChildField,
     to_model,
@@ -46,6 +47,7 @@ class Lesson:
         group (:class:`string`): Group, that has the lesson
         date (:class:`datetime.date`): Lesson date
         changes (:class:`string`): Lesson changes
+        visible (:class:`boolean`): Lesson visibility
         from_ (:class:`datetime.datetime`): Lesson start date and time
         to (:class:`datetime.datetime`): Lesson end date and time
         time (:class:`vulcan._lesson.LessonTime`): Information about the lesson time
@@ -58,6 +60,7 @@ class Lesson:
     group = StringField(key="PodzialSkrot", required=False)
     date = DateField(key="DzienTekst", required=False)
     changes = StringField(key="AdnotacjaOZmianie", required=False)
+    visible = BooleanField(key="PlanUcznia", required=False)
 
     time = ChildField(LessonTime, required=False)
     teacher = ChildField(Teacher, required=False)
