@@ -47,7 +47,7 @@ class Lesson:
         group (:class:`string`): Group, that has the lesson
         date (:class:`datetime.date`): Lesson date
         changes (:class:`string`): Lesson changes
-        visible (:class:`boolean`): Lesson visibility
+        visible (:class:`boolean`): Lesson visibility. The "visible" key which contains the value True / False depending on whether the timetable applies to a given student.
         from_ (:class:`datetime.datetime`): Lesson start date and time
         to (:class:`datetime.datetime`): Lesson end date and time
         time (:class:`vulcan._lesson.LessonTime`): Information about the lesson time
