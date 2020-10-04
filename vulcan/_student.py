@@ -25,6 +25,7 @@ class Student:
         id (:class:`int`): Student ID
         login_id (:class:`int`) ID of the logged user
         first_name (:class:`str`): Student first name
+        account_name (:class:`str` or :class:`None`): Student full name
         second_name (:class:`str` or :class:`None`): Student second name
         last_name (:class:`str`): Student last name (surname)
         name (:class:`str`): Student full name
@@ -37,6 +38,7 @@ class Student:
 
     id = IntegerField(key="Id")
     login_id = IntegerField(key="UzytkownikLoginId")
+    account_name = StringField(key="UzytkownikNazwa")
     first_name = StringField(key="Imie")
     second_name = StringField(key="Imie2")
     last_name = StringField(key="Nazwisko")
