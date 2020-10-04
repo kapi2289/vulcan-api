@@ -160,3 +160,14 @@ class Vulcan:
             :class:`vulcan._message.Message`
         """
         return Message.get(self._api, date_from, date_to)
+
+    def send_message(self, teachers_id, title, content):
+
+        """
+        sends message to given by id teacher 
+        Args:
+            teachers_id (:class:`int`): Id of recipient
+            title (:class:`str`): Title of your message
+            content (:class:`str`): Content of your message (required)
+        """
+        return Message.send(self._api, title, content, teachers_id)
