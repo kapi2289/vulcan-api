@@ -45,7 +45,7 @@ class Vulcan:
         log.setLevel(logging_level)
 
     @staticmethod
-    def register(token, symbol, pin):
+    def register(token, symbol, pin, name="Vulcan API"):
         """
         Registers API as a new mobile device
 
@@ -53,11 +53,12 @@ class Vulcan:
             token (:class:`str`): Token
             symbol (:class:`str`): Symbol
             pin (:class:`str`): PIN code
+            name (:class:`str`): Device name, default "Vulcan API"
 
         Returns:
             :class:`vulcan._certificate.Certificate`: Generated certificate, use `json` property to save it to a file
         """
-        return Certificate.get(token, symbol, pin)
+        return Certificate.get(token, symbol, pin, str(name))
 
     def get_students(self):
         """
