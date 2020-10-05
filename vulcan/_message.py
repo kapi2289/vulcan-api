@@ -91,18 +91,25 @@ class Message:
 
     @classmethod
     def send(cls, api, title, content, teachers_id):
-        teachers_name = (
-            api.dict.get_teacher_json(teachers_id)["Nazwisko"]
-            + " "
-            + api.dict.get_teacher_json(teachers_id)["Imie"]
-        )
-        teachers_login_id = api.dict.get_teacher_json(teachers_id)["LoginId"]
+        teachers = []
+        for teacher in teachers_id:
+            teachers_name = (
+                api.dict.get_teacher_json(int(teacher))["Nazwisko"]
+                + " "
+                + api.dict.get_teacher_json(int(teacher))["Imie"]
+            )
+            teachers.append(
+                {
+                    "LoginId": api.dict.get_teacher_json(int(teacher))["LoginId"],
+                    "Nazwa": teachers_name,
+                }
+            )
         student_name = api.student.account_name
         data = {
             "NadawcaWiadomosci": student_name,
             "Tytul": title,
             "Tresc": content,
-            "Adresaci": [{"LoginId": teachers_login_id, "Nazwa": teachers_name}],
+            "Adresaci": teachers,
         }
         log.info("Sending...")
         j = api.post("Uczen/DodajWiadomosc", json=data)
