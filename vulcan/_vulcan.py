@@ -148,9 +148,9 @@ class Vulcan:
     def send_message(self, teachers_id, title, content):
 
         """
-        sends message to given by id teacher
+        sends message to teaches given by id
         Args:
-            teachers_id (:class:`int`): Id of recipient
+            teachers_id (:class:`list`): List of teachers id
             title (:class:`str`): Title of your message
             content (:class:`str`): Content of your message (required)
         """
