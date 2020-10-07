@@ -27,6 +27,18 @@ class Certificate:
     def json(self):
         return json.loads(to_json(self))
 
+    @property
+    def is_fake(self):
+        return "fakelog" in self.base_url
+
+    @property
+    def sign_password(self):
+        return (
+            "012345678901234567890123456789AB"
+            if self.is_fake
+            else "CE75EA598C7743AD9B0B7328DED85B06"
+        )
+
     def __str__(self):
         return str(self.json)
 
