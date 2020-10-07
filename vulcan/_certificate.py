@@ -43,7 +43,7 @@ class Certificate:
         return str(self.json)
 
     @classmethod
-    def get(cls, token, symbol, pin):
+    def get(cls, token, symbol, pin, name):
         token = str(token).upper()
         symbol = str(symbol).lower()
         pin = str(pin)
@@ -55,7 +55,7 @@ class Certificate:
             "TokenKey": token,
             "AppVersion": APP_VERSION,
             "DeviceId": uuid(),
-            "DeviceName": "Vulcan API",
+            "DeviceName": name,
             "DeviceNameUser": "",
             "DeviceDescription": "",
             "DeviceSystemType": "Python",
