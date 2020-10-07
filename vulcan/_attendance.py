@@ -8,13 +8,12 @@ from related import (
     DateField,
     BooleanField,
     ChildField,
-    TimeField,
     immutable,
     to_model,
 )
 
-from ._utils import TIME_FORMAT_H_M, sort_and_filter_dates
 from ._lesson import LessonTime
+from ._utils import sort_and_filter_dates
 
 
 @immutable
@@ -23,14 +22,14 @@ class AttendanceCategory:
     Attendance Category
 
     Attributes:
-        id (:class:`int`): Lesson timeAttendance ID
-        name (:class:`string`): Attendance name
-        presence (:class:`boolean`): Presence on lesson
-        absence (:class:`boolean`): Absence on lesson
-        exemption (:class:`boolean`): Exemption from lesson
-        late (:class:`boolean`): Be late for lesson
-        justified (:class:`boolean`): Justified lesson
-        deleted (:class:`boolean`): Whether the entry is deleted
+        id (:class:`int`): Attendance ID
+        name (:class:`str`): Attendance name
+        presence (:class:`bool`): Presence on lesson
+        absence (:class:`bool`): Absence on lesson
+        exemption (:class:`bool`): Exemption from lesson
+        late (:class:`bool`): Is late for lesson
+        justified (:class:`bool`): Justified lesson
+        deleted (:class:`bool`): Whether the entry is deleted
     """
 
     id = IntegerField(key="Id")
@@ -53,7 +52,6 @@ class Attendance:
         date (:class:`datetime.date`): Attendance date
         time (:class:`vulcan._lesson.LessonTime`): Information about the lesson time
         category (:class:`vulcan._attendance.AttendanceCategory`): Information about Attendance category
-
     """
 
     subject = StringField(key="PrzedmiotNazwa")
