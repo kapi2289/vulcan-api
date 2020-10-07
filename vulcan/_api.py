@@ -45,7 +45,7 @@ class Api:
             "User-Agent": "MobileUserAgent",
             "RequestCertificateKey": self.cert.key,
             "Connection": "close",
-            "RequestSignatureValue": signature(self.cert.pfx, json),
+            "RequestSignatureValue": signature(self.cert, json),
         }
 
     def _request(self, method, endpoint, json=None, as_json=True, **kwargs):

@@ -13,7 +13,6 @@ from uonet_request_signer import sign_content
 
 APP_NAME = "VULCAN-Android-ModulUcznia"
 APP_VERSION = "18.10.1.433"
-SIGN_PASSWORD = "CE75EA598C7743AD9B0B7328DED85B06"
 
 log = logging.getLogger("client")
 log.setLevel(logging.INFO)
@@ -42,8 +41,8 @@ def find(_list, value, key="Id"):
     return next((i for i in _list if i[key] == value), None)
 
 
-def signature(cert, data):
-    return sign_content(SIGN_PASSWORD, cert, data)
+def signature(certificate, data):
+    return sign_content(certificate.sign_password, certificate.pfx, data)
 
 
 def get_components():
@@ -85,9 +84,6 @@ def get_base_url(token):
     code = token[0:3]
     components = get_components()
     try:
-        if code == "FK1":
-            global SIGN_PASSWORD
-            SIGN_PASSWORD = "012345678901234567890123456789AB"
         return components[code]
     except KeyError:
         raise VulcanAPIException("Niepoprawny token!")
