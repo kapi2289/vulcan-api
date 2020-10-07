@@ -3,12 +3,12 @@
 from __future__ import unicode_literals
 
 from ._api import Api
+from ._attendance import Attendance
 from ._certificate import Certificate
 from ._exam import Exam
 from ._grade import Grade
 from ._homework import Homework
 from ._lesson import Lesson
-from ._attendance import Attendance
 from ._message import Message
 from ._notice import Notice
 from ._student import Student
@@ -151,11 +151,13 @@ class Vulcan:
     def get_attendance(self, date_from=None, date_to=None):
         """
         Fetches attendance from the given date
+
         Args:
             date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
                 it's using the today date
             date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
                 it's the `date_from` date
+
         Yields:
             :class:`vulcan.attendance.Attendance`
         """
