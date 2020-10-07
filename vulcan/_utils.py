@@ -100,8 +100,8 @@ def sort_and_filter_dates(
     return list(
         filter(
             lambda x: date_from
-            >= datetime.datetime.strptime(x[date_key], "%Y-%m-%d").date()
-            >= date_to,
+            <= datetime.datetime.strptime(x[date_key], "%Y-%m-%d").date()
+            <= date_to,
             _list,
         )
     )
