@@ -3,6 +3,7 @@
 import math, time
 from datetime import datetime
 import platform
+import urllib
 
 from .._utils import (
     uuid,
@@ -36,3 +37,7 @@ def now_iso():  # ISO 8601, local timezone
 
 def now_gmt():  # RFC 2822, UTC+0
     return datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
+
+
+def urlencode(s):
+    return urllib.parse.quote(str(s))

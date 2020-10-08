@@ -12,6 +12,7 @@ from ._utils_hebe import (
     now_iso,
     now_gmt,
     now_datetime,
+    urlencode,
     log,
     APP_VERSION,
     APP_NAME,
@@ -96,6 +97,14 @@ class Api:
             return envelope  # TODO error handling
         except ValueError:
             raise VulcanAPIException("An unexpected exception occurred.")
+
+    def get(self, url, query=None, **kwargs):
+        query = (
+            "&".join(x + "=" + urlencode(query[x]) for x in query) if query else None
+        )
+        if query:
+            url += "?" + query
+        return self._request("GET", url, body=None, **kwargs)
 
     def post(self, url, body, **kwargs):
         return self._request("POST", url, body, **kwargs)
