@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from ._api import Api
+from ._attendance import Attendance
 from ._certificate import Certificate
 from ._exam import Exam
 from ._grade import Grade
@@ -42,17 +43,18 @@ class Vulcan:
         log.setLevel(logging_level)
 
     @staticmethod
-    def register(token, symbol, pin):
+    def register(token, symbol, pin, name="Vulcan API"):
         """
         Registers API as a new mobile device
         Args:
             token (:class:`str`): Token
             symbol (:class:`str`): Symbol
             pin (:class:`str`): PIN code
+            name (:class:`str`): Device name, default "Vulcan API"
         Returns:
             :class:`vulcan._certificate.Certificate`: Generated certificate, use `json` property to save it to a file
         """
-        return Certificate.get(token, symbol, pin)
+        return Certificate.get(token, symbol, pin, str(name))
 
     def get_students(self):
         """
@@ -131,6 +133,21 @@ class Vulcan:
             :class:`vulcan._notice.Notice`
         """
         return Notice.get(self._api)
+
+    def get_attendance(self, date_from=None, date_to=None):
+        """
+        Fetches attendance from the given date
+
+        Args:
+            date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
+                it's using the today date
+            date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
+                it's the `date_from` date
+
+        Yields:
+            :class:`vulcan.attendance.Attendance`
+        """
+        return Attendance.get(self._api, date_from, date_to)
 
     def get_messages(self, date_from=None, date_to=None):
         """
