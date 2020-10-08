@@ -31,7 +31,7 @@ class Api:
         if account:
             self.rest_url = account.rest_url
 
-    def _build_payload(self, envelope):
+    def _build_payload(self, envelope: dict) -> dict:
         return {
             "AppName": APP_NAME,
             "AppVersion": APP_VERSION,
@@ -44,11 +44,11 @@ class Api:
             "TimestampFormatted": now_iso(),
         }
 
-    def _build_headers(self, full_url, payload):
+    def _build_headers(self, full_url: str, payload: str) -> dict:
         digest, canonical_url, signature = get_signature_values(
             self.keystore.fingerprint,
             self.keystore.private_key,
-            str(payload),
+            payload,
             full_url,
             now_datetime(),
         )
@@ -69,7 +69,7 @@ class Api:
 
         return headers
 
-    def _request(self, method, url, body=None, **kwargs):
+    def _request(self, method: str, url: str, body: dict = None, **kwargs) -> dict:
         full_url = (
             url
             if url.startswith("http")
@@ -98,7 +98,7 @@ class Api:
         except ValueError:
             raise VulcanAPIException("An unexpected exception occurred.")
 
-    def get(self, url, query=None, **kwargs):
+    def get(self, url: str, query: dict = None, **kwargs) -> dict:
         query = (
             "&".join(x + "=" + urlencode(query[x]) for x in query) if query else None
         )
@@ -106,5 +106,5 @@ class Api:
             url += "?" + query
         return self._request("GET", url, body=None, **kwargs)
 
-    def post(self, url, body, **kwargs):
+    def post(self, url: str, body: dict, **kwargs) -> dict:
         return self._request("POST", url, body, **kwargs)

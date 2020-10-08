@@ -14,9 +14,6 @@ class Serializable:
     def as_dict(self):
         return json.loads(self.as_json)
 
-    def __str__(self):
-        return self.as_json
-
     @classmethod
     def load(cls, data):
         if isinstance(data, dict):

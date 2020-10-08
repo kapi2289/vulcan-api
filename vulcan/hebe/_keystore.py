@@ -5,8 +5,7 @@ import json, io
 from related import immutable, StringField
 
 from uonet_request_signer_hebe import generate_key_pair
-from ._serializable import Serializable
-from ._api import Api
+from .model._serializable import Serializable
 
 from ._utils_hebe import (
     get_firebase_token,
@@ -24,7 +23,9 @@ class Keystore(Serializable):
     device_model = StringField(key="DeviceModel")
 
     @staticmethod
-    def create(firebase_token=None, device_model=default_device_model()):
+    def create(
+        firebase_token: str = None, device_model: str = default_device_model()
+    ) -> "Keystore":
         log.info("Generating key pair...")
         keystore = Keystore(
             *generate_key_pair(),

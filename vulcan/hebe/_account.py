@@ -2,8 +2,10 @@
 
 from related import immutable, StringField, IntegerField
 
-from ._serializable import Serializable
+from .model._serializable import Serializable
 from ._api import Api
+from ._keystore import Keystore
+from ._endpoints import DEVICE_REGISTER
 
 from ._utils_hebe import (
     uuid,
@@ -21,7 +23,7 @@ class Account(Serializable):
     rest_url = StringField(key="RestURL")
 
     @staticmethod
-    def register(keystore, token, symbol, pin):
+    def register(keystore: Keystore, token: str, symbol: str, pin: str) -> "Account":
         token = str(token).upper()
         symbol = str(symbol).lower()
         pin = str(pin)
@@ -38,7 +40,7 @@ class Account(Serializable):
         }
 
         base_url = get_base_url(token)
-        full_url = "{}/{}/api/mobile/register/new".format(base_url, symbol)
+        full_url = "/".join([base_url, symbol, DEVICE_REGISTER])
 
         log.info("Registering to {}...".format(symbol))
 
