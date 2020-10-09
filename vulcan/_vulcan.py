@@ -183,7 +183,7 @@ class Vulcan:
         Send message to teachers given by their ids
 
         Args:
-            teachers (:class:`list`): List of teacher ids
+            teachers (:class:`list`): List of teacher (ids, names or objects)
             title (:class:`str`): Title of the message
             content (:class:`str`): Content of the message (required)
         """

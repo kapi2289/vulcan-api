@@ -92,22 +92,35 @@ class Message:
     @classmethod
     def send(cls, api, title, content, teachers):
         recipients = list()
-        for teacher_id in teachers:
-            teacher = api.dict.get_teacher_json(int(teacher_id))
-            teachers_name = teacher["Nazwisko"] + " " + teacher["Imie"]
+        for teacher_repr in teachers:
+            if isinstance(teacher_repr, int) or (
+                isinstance(teacher_repr, str) and teacher_repr.isnumeric()
+            ):
+                teacher = api.dict.get_teacher_json(int(teacher_repr))
+            elif isinstance(teacher_repr, str):
+                teacher = api.dict.get_teacher_by_name_json(teacher_repr)
+            elif isinstance(teacher_repr, Teacher):
+                teacher = teacher_repr
+            else:
+                continue
+
             recipients.append(
                 {
-                    "LoginId": teacher["LoginId"],
-                    "Nazwa": teachers_name,
+                    "LoginId": teacher.login_id,
+                    "Nazwa": teacher.name_reversed,
                 }
             )
-        student_name = api.student.account_name
+
+        if len(recipients) == 0:
+            raise ValueError("There must be at least 1 correct recipient.")
+
         data = {
-            "NadawcaWiadomosci": student_name,
+            "NadawcaWiadomosci": api.student.account_name,
             "Tytul": title,
             "Tresc": content,
             "Adresaci": recipients,
         }
+
         log.info("Sending a message...")
         api.post("Uczen/DodajWiadomosc", json=data)
         log.info("Message sent successfully!")
