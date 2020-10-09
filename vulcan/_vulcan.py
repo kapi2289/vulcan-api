@@ -179,9 +179,8 @@ class Vulcan:
         return Message.get(self._api, date_from, date_to)
 
     def send_message(self, teachers_id, title, content):
-
         """
-        sends message to teaches given by id
+        Send message to teaches given by id
         
         Args:
             teachers_id (:class:`list`): List of teachers id
