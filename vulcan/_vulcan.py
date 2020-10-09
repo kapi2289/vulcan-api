@@ -180,11 +180,11 @@ class Vulcan:
 
     def send_message(self, teachers, title, content):
         """
-        Send message to teaches given by id
-        
+        Send message to teachers given by their ids
+
         Args:
-            teachers_id (:class:`list`): List of teachers id
-            title (:class:`str`): Title of your message
-            content (:class:`str`): Content of your message (required)
+            teachers (:class:`list`): List of teacher ids
+            title (:class:`str`): Title of the message
+            content (:class:`str`): Content of the message (required)
         """
         return Message.send(self._api, title, content, teachers)

@@ -10,10 +10,10 @@ from related import (
     TimeField,
 )
 
+from ._teacher import Teacher
 from ._utils import (
     log,
 )
-from ._teacher import Teacher
 
 
 @immutable
@@ -90,18 +90,14 @@ class Message:
             yield to_model(cls, message)
 
     @classmethod
-    def send(cls, api, title, content, teachers_id):
-        teachers_list = api.dict.get_teacher_json
-        teachers = []
-        for teacher in teachers_id:
-            teachers_name = (
-                teachers_list(int(teacher))["Nazwisko"]
-                + " "
-                + teachers_list(int(teacher))["Imie"]
-            )
-            teachers.append(
+    def send(cls, api, title, content, teachers):
+        recipients = list()
+        for teacher_id in teachers:
+            teacher = api.dict.get_teacher_json(int(teacher_id))
+            teachers_name = teacher["Nazwisko"] + " " + teacher["Imie"]
+            recipients.append(
                 {
-                    "LoginId": teachers_list(int(teacher))["LoginId"],
+                    "LoginId": teacher["LoginId"],
                     "Nazwa": teachers_name,
                 }
             )
@@ -110,9 +106,8 @@ class Message:
             "NadawcaWiadomosci": student_name,
             "Tytul": title,
             "Tresc": content,
-            "Adresaci": teachers,
+            "Adresaci": recipients,
         }
-        log.info("Sending...")
-        j = api.post("Uczen/DodajWiadomosc", json=data)
-        log.debug(j)
-        log.info("Sent successfully!")
+        log.info("Sending a message...")
+        api.post("Uczen/DodajWiadomosc", json=data)
+        log.info("Message sent successfully!")
