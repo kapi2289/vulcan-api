@@ -91,16 +91,17 @@ class Message:
 
     @classmethod
     def send(cls, api, title, content, teachers_id):
+        teachers_list = api.dict.get_teacher_json
         teachers = []
         for teacher in teachers_id:
             teachers_name = (
-                api.dict.get_teacher_json(int(teacher))["Nazwisko"]
+                teachers_list(int(teacher))["Nazwisko"]
                 + " "
-                + api.dict.get_teacher_json(int(teacher))["Imie"]
+                + teachers_list(int(teacher))["Imie"]
             )
             teachers.append(
                 {
-                    "LoginId": api.dict.get_teacher_json(int(teacher))["LoginId"],
+                    "LoginId": teachers_list(int(teacher))["LoginId"],
                     "Nazwa": teachers_name,
                 }
             )
