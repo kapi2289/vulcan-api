@@ -18,7 +18,7 @@ from ._utils import log
 class Vulcan:
     """
     Logs in to the e-register using generated certificate
-    
+
     Args:
         certificate (:class:`dict` or :class:`vulcan._certificate.Certificate`):
             Generated certificate using :func:`vulcan.Vulcan.register`
@@ -37,7 +37,7 @@ class Vulcan:
     def set_logging_level(logging_level):
         """
         Sets the default logging level
-        
+
         Args:
             logging_level (:class:`int`): Logging level from :module:`logging` module
         """
@@ -48,13 +48,13 @@ class Vulcan:
     def register(token, symbol, pin, name="Vulcan API"):
         """
         Registers API as a new mobile device
-        
+
         Args:
             token (:class:`str`): Token
             symbol (:class:`str`): Symbol
             pin (:class:`str`): PIN code
             name (:class:`str`): Device name, default "Vulcan API"
-            
+
         Returns:
             :class:`vulcan._certificate.Certificate`: Generated certificate, use `json` property to save it to a file
         """
@@ -63,7 +63,7 @@ class Vulcan:
     def get_students(self):
         """
         Yields students that are assigned to the account
-        
+
         Yields:
             :class:`vulcan._student.Student`
         """
@@ -72,7 +72,7 @@ class Vulcan:
     def set_student(self, student):
         """
         Sets the default student
-        
+
         Args:
             student (:class:`vulcan._student.Student`): Student from :func:`vulcan.Vulcan.get_students`
         """
@@ -88,7 +88,7 @@ class Vulcan:
     def get_grades(self):
         """
         Fetches student grades
-        
+
         Yields:
             :class:`vulcan._grade.Grade`
         """
@@ -97,13 +97,13 @@ class Vulcan:
     def get_lessons(self, date_from=None, date_to=None):
         """
         Fetches lessons from the given date
-        
+
         Args:
             date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
                 it's using the today date
             date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
                 it's using the `date_from` date
-                
+
         Yields:
             :class:`vulcan._lesson.Lesson`
         """
@@ -112,13 +112,13 @@ class Vulcan:
     def get_exams(self, date_from=None, date_to=None):
         """
         Fetches exams from the given date
-        
+
         Args:
             date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
                 it's using the today date
             date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
                 it's using the `date_from` date
-                
+
         Yields:
             :class:`vulcan._exam.Exam`
         """
@@ -127,13 +127,13 @@ class Vulcan:
     def get_homework(self, date_from=None, date_to=None):
         """
         Fetches homework from the given date
-        
+
         Args:
             date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
                 it's using the today date
             date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
                 it's the `date_from` date
-                
+
         Yields:
             :class:`vulcan._homework.Homework`
         """
@@ -142,7 +142,7 @@ class Vulcan:
     def get_notices(self):
         """
         Fetches notices from the current semester (period)
-        
+
         Yields:
             :class:`vulcan._notice.Notice`
         """
@@ -166,13 +166,13 @@ class Vulcan:
     def get_messages(self, date_from=None, date_to=None):
         """
         Fetches messages from the given date
-        
+
         Args:
             date_from (:class:`datetime.date`): Date, from which to fetch messages, if not provided
                 it's using the semester (period) start date
             date_to (:class:`datetime.date`): Date, to which to fetch messages, if not provided
                 it's using the semester (period) end date
-                
+
         Yields:
             :class:`vulcan._message.Message`
         """
