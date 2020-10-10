@@ -7,12 +7,12 @@ from ._utils import dict_only
 
 @immutable
 class Class:
-    """
-    Attributes:
-        id (:class:`int`): Class ID
-        level (:class:`int`): Class level (eg. `8`)
-        name (:class:`str`): Class name (eg. `"8A"`)
-        symbol (:class:`str`): Class symbol (eg. `"A"`)
+    """Class
+
+    :param int id: Class ID
+    :param int level: Class level (eg. `8`)
+    :param str name: Class name (eg. `"8A"`)
+    :param str symbol: Class symbol (eg. `"A"`)
     """
 
     id = IntegerField(key="IdOddzial")

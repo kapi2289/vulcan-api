@@ -21,22 +21,34 @@ class Dictionaries:
 
     @property
     def teachers(self):
-        """list(:class:`vulcan._teacher.Teacher`): List of teachers"""
+        """List of teachers
+
+        :rtype: list(:class:`vulcan._teacher.Teacher`)
+        """
         return list(map(lambda j: to_model(Teacher, j), self.teachers_json))
 
     @property
     def subjects(self):
-        """list(:class:`vulcan._subject.Subject`): List of subjects"""
+        """List of subjects
+
+        :rtype: list(:class:`vulcan._subject.Subject`)
+        """
         return list(map(lambda j: to_model(Subject, j), self.subjects_json))
 
     @property
     def lesson_times(self):
-        """list(:class:`vulcan._lesson.LessonTime`): List of lesson times"""
+        """List of lesson times
+
+        :rtype: list(:class:`vulcan._lesson.LessonTime`)
+        """
         return list(map(lambda j: to_model(LessonTime, j), self.lesson_times_json))
 
     @property
     def grade_categories(self):
-        """list(:class:`vulcan._grade.GradeCategory`): List of grade categories"""
+        """List of grade categories
+
+        :rtype: list(:class:`vulcan._grade.GradeCategory`)
+        """
         return list(
             map(lambda j: to_model(GradeCategory, j), self.grade_categories_json)
         )

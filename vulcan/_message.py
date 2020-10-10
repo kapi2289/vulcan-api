@@ -21,21 +21,21 @@ class MessageRecipient:
 
 @immutable
 class Message:
-    """
-    Attributes:
-        id (:class:`int`): Message ID
-        sender_id (:class:`int`) Message sender's (teacher) ID
-        recipients (:class:`list`) List of :class:`vulcan._message.MessageRecipient` objects
-        title (:class:`str`) Title (subject) of the message
-        content (:class:`str`) Message content
-        sender (:class:`vulcan._teacher.Teacher`) Sender of the message (teacher)
-        sent_date (:class:`datetime.datetime`) Date when the message was sent
-        sent_time (:class:`datetime.time`) Time when the message was sent
-        sent_datetime (:class:`datetime.date`): Date with time when the message was sent
-        read_date (:class:`datetime.datetime`) Date when the message was read
-        read_time (:class:`datetime.time`) Time when the message was read
-        read_datetime (:class:`datetime.date`): Date with time when the message was read
-        is_read(:class:`bool`) Whether the message is read
+    """Message
+
+    :param int id: Message ID
+    :param int sender_id: Message sender's (teacher) ID
+    :param list recipients: A list of :class:`vulcan._message.MessageRecipient` objects
+    :param str title: Title (subject) of the message
+    :param str content: Message content
+    :param `vulcan._teacher.Teacher` sender: Sender of the message (teacher)
+    :param `datetime.datetime` sent_datetime: Date with time when the message was sent
+    :param `datetime.date` sent_date: Date when the message was sent
+    :param `datetime.time` sent_time: Time when the message was sent
+    :param `datetime.datetime` read_datetime: Date with time when the message was read, optional
+    :param `datetime.date` read_date: Date when the message was read, optional
+    :param `datetime.time` read_time: Time when the message was read, optional
+    :param bool is_read: Whether the message is read
     """
 
     id = IntegerField(key="WiadomoscId")

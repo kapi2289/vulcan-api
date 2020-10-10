@@ -7,15 +7,13 @@ from ._utils import dict_only
 
 @immutable
 class Period:
-    """
-    School year period
+    """School year period
 
-    Attributes:
-        id (:class:`int`): Period ID
-        number (:class:`int`): Number of the period
-        level (:class:`int`): Level (class level) of the period
-        from_ (:class:`datetime.date`): Period start date
-        to (:class:`datetime.date`): Period end date
+    :param int id: Period ID
+    :param int number: Number of the period
+    :param int level: Level (class level) of the period
+    :param `datetime.date` from_: Period start date
+    :param `datetime.date` to: Period end date
     """
 
     id = IntegerField(key="IdOkresKlasyfikacyjny")

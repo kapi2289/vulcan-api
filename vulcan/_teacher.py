@@ -5,16 +5,13 @@ from related import immutable, IntegerField, StringField
 
 @immutable
 class Teacher:
-    """
-    School teacher or employee
+    """School teacher or employee
 
-    Attributes:
-        id (:class:`int`): Teacher ID
-        first_name (:class:`str`): Teacher first name
-        last_name (:class:`str`): Teacher last name (surname)
-        name (:class:`str`): Teacher full name
-        short (:class:`str`): Code (short name) of the teacher
-        login_id (:class:`int`): Teacher account ID
+    :param int id: Teacher ID
+    :param str first_name: Teacher first name
+    :param str last_name: Teacher last name (surname)
+    :param str short: Code (short name) of the teacher
+    :param int login_id: Teacher account ID
     """
 
     id = IntegerField(key="Id")

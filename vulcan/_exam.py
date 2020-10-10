@@ -19,11 +19,9 @@ from ._utils import sort_and_filter_dates
 
 @unique
 class ExamType(Enum):
-    """
-    Exam type
+    """Exam type
 
-    Todo:
-        Add test enum
+    .. todo:: Add test enum
     """
 
     EXAM = 1
@@ -33,16 +31,14 @@ class ExamType(Enum):
 
 @immutable
 class Exam:
-    """
-    Exam, test, short test or class test
+    """Exam, test, short test or class test
 
-    Attributes:
-        id (:class:`int`): Exam ID
-        type (:class:`vulcan._exam.ExamType`): Exam type
-        description (:class:`str`): Exam description
-        date (:class:`datetime.date`): Exam date
-        teacher (:class:`vulcan._teacher.Teacher`): Teacher, who added the exam
-        subject (:class:`vulcan._subject.Subject`): Subject, from which is the exam
+    :param int id: Exam ID
+    :param `vulcan._exam.ExamType` type: Exam type
+    :param str description: Exam description
+    :param `datetime.date` date: Exam date
+    :param `vulcan._teacher.Teacher` teacher: Teacher, who added the exam
+    :param `vulcan._subject.Subject` subject: Subject, from which is the exam
     """
 
     id = IntegerField(key="Id")
