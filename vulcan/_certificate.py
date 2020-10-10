@@ -18,6 +18,14 @@ from ._utils import (
 
 @immutable
 class Certificate:
+    """Certificate for API request signing
+
+    :param str pfx: PKCS#12 PEM-encoded keystore, containing the signing key pair
+    :param str key: Uppercase hexadecimal representation of the certificate's SHA1 fingerprint
+    :param str key_formatted: Same as `key`, except the octets are divided by dashes (-)
+    :param str base_url: URL base of the API
+    """
+
     pfx = StringField(key="CertyfikatPfx")
     key = StringField(key="CertyfikatKlucz")
     key_formatted = StringField(key="CertyfikatKluczSformatowanyTekst")

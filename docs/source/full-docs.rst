@@ -10,6 +10,12 @@ Client
 Models
 ^^^^^^
 
+.. autoclass:: vulcan._student.Student
+    :members:
+
+.. autoclass:: vulcan._dictionaries.Dictionaries
+    :members:
+
 .. autoclass:: vulcan._lesson.Lesson
     :members:
 
@@ -43,10 +49,10 @@ Models
 .. autoclass:: vulcan._school.School
     :members:
 
-.. autoclass:: vulcan._student.Student
+.. autoclass:: vulcan._notice.Notice
     :members:
 
-.. autoclass:: vulcan._certificate.Certificate
+.. autoclass:: vulcan._attendance.Attendance
     :members:
 
 .. autoclass:: vulcan._message.Message
@@ -55,7 +61,7 @@ Models
 .. autoclass:: vulcan._message.MessageRecipient
     :members:
 
-.. autoclass:: vulcan._dictionaries.Dictionaries
+.. autoclass:: vulcan._certificate.Certificate
     :members:
 
 Enum models

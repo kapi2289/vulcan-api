@@ -22,4 +22,8 @@ class Teacher:
 
     @property
     def name(self):
+        """Returns the teacher's full name as "Name Surname".
+
+        :rtype: str
+        """
         return "{} {}".format(self.first_name, self.last_name)

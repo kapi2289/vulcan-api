@@ -15,6 +15,11 @@ from ._teacher import Teacher
 
 @immutable
 class MessageRecipient:
+    """Message recipient
+
+    :param int login_id: Recipient's login ID
+    :param str name: Recipient's name
+    """
     login_id = IntegerField(key="LoginId")
     name = StringField(key="Nazwa")
 
