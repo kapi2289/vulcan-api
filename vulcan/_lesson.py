@@ -62,10 +62,12 @@ class Lesson:
     teacher = ChildField(Teacher, required=False)
     subject = ChildField(Subject, required=False)
 
+    # pylint: disable=E1101
     @property
     def from_(self):
         return datetime.datetime.combine(self.date, self.time.from_)
 
+    # pylint: disable=E1101
     @property
     def to(self):
         return datetime.datetime.combine(self.date, self.time.to)
