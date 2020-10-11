@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 
-import json, io
-
 from related import immutable, StringField
-
 from uonet_request_signer_hebe import generate_key_pair
-from .model._serializable import Serializable
 
 from ._utils_hebe import (
     get_firebase_token,
     log,
     default_device_model,
 )
+from .model import Serializable
 
 
 @immutable

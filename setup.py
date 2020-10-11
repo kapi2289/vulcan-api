@@ -4,7 +4,7 @@ import io
 import re
 from os import path
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
 
@@ -17,7 +17,7 @@ with io.open(path.join(here, "vulcan/__init__.py"), "rt", encoding="utf8") as f:
 setup(
     name="vulcan-api",
     version=version,
-    packages=["vulcan"],
+    packages=find_packages(),
     author="Kacper Ziubryniewicz",
     author_email="kapi2289@gmail.com",
     description="Nieoficjalne API do dzienniczka elektronicznego UONET+",
@@ -36,6 +36,10 @@ setup(
         "pytz",
         "aenum",
         "related",
+        "asyncio",
+        "aiohttp",
+        "cchardet",
+        "aiodns",
     ],
     extras_require={"testing": ["pytest", "python-dotenv"]},
     classifiers=[

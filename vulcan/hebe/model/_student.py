@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from typing import List
+
 from related import immutable, StringField, ChildField, SequenceField
 from ._serializable import Serializable
 from .._endpoints import STUDENT_LIST
@@ -34,8 +36,10 @@ class Student(Serializable):
         )
 
     @classmethod
-    def get(cls, api):
-        data = api.get(STUDENT_LIST)
+    async def get(cls, api):
+        """
+        :rtype: List[:class:`~vulcan.hebe.model.Student`]
+        """
+        data = await api.get(STUDENT_LIST)
 
-        for student in data:
-            yield Student.load(student)
+        return list(Student.load(student) for student in data)

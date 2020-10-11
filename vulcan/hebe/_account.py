@@ -2,17 +2,16 @@
 
 from related import immutable, StringField, IntegerField
 
-from .model._serializable import Serializable
 from ._api import Api
-from ._keystore import Keystore
 from ._endpoints import DEVICE_REGISTER
-
+from ._keystore import Keystore
 from ._utils_hebe import (
     uuid,
     get_base_url,
     log,
     APP_OS,
 )
+from .model import Serializable
 
 
 @immutable
@@ -23,7 +22,9 @@ class Account(Serializable):
     rest_url = StringField(key="RestURL")
 
     @staticmethod
-    def register(keystore: Keystore, token: str, symbol: str, pin: str) -> "Account":
+    async def register(
+        keystore: Keystore, token: str, symbol: str, pin: str
+    ) -> "Account":
         token = str(token).upper()
         symbol = str(symbol).lower()
         pin = str(pin)
@@ -45,6 +46,6 @@ class Account(Serializable):
         log.info("Registering to {}...".format(symbol))
 
         api = Api(keystore)
-        response = api.post(full_url, body)
+        response = await api.post(full_url, body)
 
         return Account.load(response)

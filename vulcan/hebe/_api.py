@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import requests
 import json
 
-# from ._keystore import Keystore
+import aiohttp
 from uonet_request_signer_hebe import get_signature_values
 
+from ._keystore import Keystore
 from ._utils_hebe import (
     uuid,
     millis,
@@ -20,24 +20,31 @@ from ._utils_hebe import (
     APP_USER_AGENT,
     VulcanAPIException,
 )
+from .model import Student
 
 
 class Api:
-    def __init__(self, keystore, account=None):
-        self._session = requests.session()
+    def __init__(self, keystore: Keystore, account=None):
+        self._session = aiohttp.ClientSession()
         # if not isinstance(keystore, Keystore):
         #     raise ValueError("The argument must be a Keystore")
-        self.keystore = keystore
+        self._keystore = keystore
         if account:
-            self.rest_url = account.rest_url
+            self._account = account
+            self._rest_url = account.rest_url
+
+    def set_student(self, student: Student):
+        if not self._account:
+            raise AttributeError("Load an Account first!")
+        self._rest_url = self._account.rest_url + student.unit.code + "/"
 
     def _build_payload(self, envelope: dict) -> dict:
         return {
             "AppName": APP_NAME,
             "AppVersion": APP_VERSION,
-            "CertificateId": self.keystore.fingerprint,
+            "CertificateId": self._keystore.fingerprint,
             "Envelope": envelope,
-            "FirebaseToken": self.keystore.firebase_token,
+            "FirebaseToken": self._keystore.firebase_token,
             "API": 1,
             "RequestId": uuid(),
             "Timestamp": millis(),
@@ -46,8 +53,8 @@ class Api:
 
     def _build_headers(self, full_url: str, payload: str) -> dict:
         digest, canonical_url, signature = get_signature_values(
-            self.keystore.fingerprint,
-            self.keystore.private_key,
+            self._keystore.fingerprint,
+            self._keystore.private_key,
             payload,
             full_url,
             now_datetime(),
@@ -56,7 +63,7 @@ class Api:
         headers = {
             "User-Agent": APP_USER_AGENT,
             "vOS": APP_OS,
-            "vDeviceModel": self.keystore.device_model,
+            "vDeviceModel": self._keystore.device_model,
             "vAPI": "1",
             "vDate": now_gmt(),
             "vCanonicalUrl": canonical_url,
@@ -69,12 +76,17 @@ class Api:
 
         return headers
 
-    def _request(self, method: str, url: str, body: dict = None, **kwargs) -> dict:
+    async def _request(
+        self, method: str, url: str, body: dict = None, **kwargs
+    ) -> dict:
+        if self._session.closed:
+            raise RuntimeError("The AioHttp session is already closed.")
+
         full_url = (
             url
             if url.startswith("http")
-            else self.rest_url + url
-            if self.rest_url
+            else self._rest_url + url
+            if self._rest_url
             else None
         )
         if not full_url:
@@ -86,25 +98,31 @@ class Api:
 
         log.debug(" > {} to {}".format(method, full_url))
 
-        r = self._session.request(
+        async with self._session.request(
             method, full_url, data=payload, headers=headers, **kwargs
-        )
+        ) as r:
+            try:
+                response = await r.json()
+                envelope = response["Envelope"]
+                log.debug(" < " + str(envelope))
+                return envelope  # TODO error handling
+            except ValueError:
+                raise VulcanAPIException("An unexpected exception occurred.")
 
-        try:
-            response = r.json()
-            envelope = response["Envelope"]
-            log.debug(" < " + str(envelope))
-            return envelope  # TODO error handling
-        except ValueError:
-            raise VulcanAPIException("An unexpected exception occurred.")
-
-    def get(self, url: str, query: dict = None, **kwargs) -> dict:
+    async def get(self, url: str, query: dict = None, **kwargs) -> dict:
         query = (
             "&".join(x + "=" + urlencode(query[x]) for x in query) if query else None
         )
         if query:
             url += "?" + query
-        return self._request("GET", url, body=None, **kwargs)
+        return await self._request("GET", url, body=None, **kwargs)
 
-    def post(self, url: str, body: dict, **kwargs) -> dict:
-        return self._request("POST", url, body, **kwargs)
+    async def post(self, url: str, body: dict, **kwargs) -> dict:
+        return await self._request("POST", url, body, **kwargs)
+
+    async def open(self):
+        if self._session.closed:
+            self._session = aiohttp.ClientSession()
+
+    async def close(self):
+        await self._session.close()
