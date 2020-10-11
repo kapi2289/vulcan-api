@@ -10,6 +10,8 @@ from related import (
     TimeField,
 )
 
+from datetime import datetime
+
 from ._teacher import Teacher
 
 
@@ -58,17 +60,17 @@ class Message:
 
     @property
     def sent_datetime(self):
-        return self._sent_date.combine(self._sent_time)
+        return datetime.combine(self.sent_date, self.sent_time)
 
     @property
     def read_datetime(self):
-        if self._read_date and self._read_time:
-            return self._read_date.combine(self._read_time)
+        if self.read_date and self.read_time:
+            return datetime.combine(self.read_date, self.read_time)
         return None
 
     @property
     def is_read(self):
-        return self.read_datetime is not None
+        return self.read_date is not None
 
     @classmethod
     def get(cls, api, date_from=None, date_to=None):
