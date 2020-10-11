@@ -39,9 +39,9 @@ class Grade:
     :param `datetime.datetime` date: Grade creation date
     :param `datetime.datetime` last_modification_date: Last grade modification date
     :param float value: Grade value (you can use it to calculate the average)
-    :param `vulcan._teacher.Teacher` teacher: Teacher, who added the grade
-    :param `vulcan._subject.Subject` subject: Subject, from which student received the grade
-    :param `vulcan._grade.GradeCategory` category: Grade category
+    :param `~vulcan._teacher.Teacher` teacher: Teacher, who added the grade
+    :param `~vulcan._subject.Subject` subject: Subject, from which student received the grade
+    :param `~vulcan._grade.GradeCategory` category: Grade category
     """
 
     id = IntegerField(key="Id")

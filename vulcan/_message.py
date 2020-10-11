@@ -34,7 +34,7 @@ class Message:
     :param list recipients: A list of :class:`vulcan._message.MessageRecipient` objects
     :param str title: Title (subject) of the message
     :param str content: Message content
-    :param `vulcan._teacher.Teacher` sender: Sender of the message (teacher)
+    :param `~vulcan._teacher.Teacher` sender: Sender of the message (teacher)
     :param `datetime.datetime` sent_datetime: Date with time when the message was sent
     :param `datetime.date` sent_date: Date when the message was sent
     :param `datetime.time` sent_time: Time when the message was sent

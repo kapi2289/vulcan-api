@@ -46,9 +46,9 @@ class Lesson:
     :param bool visible: Lesson visibility (whether the timetable applies to the given student)
     :param `datetime.datetime` from_: Lesson start date and time
     :param `datetime.datetime` to: Lesson end date and time
-    :param `vulcan._lesson.LessonTime` time: Information about the lesson time
-    :param `vulcan._teacher.Teacher` teacher: Teacher of the lesson
-    :param `vulcan._subject.Subject` subject: Subject on the lesson
+    :param `~vulcan._lesson.LessonTime` time: Information about the lesson time
+    :param `~vulcan._teacher.Teacher` teacher: Teacher of the lesson
+    :param `~vulcan._subject.Subject` subject: Subject on the lesson
     """
 
     number = IntegerField(key="NumerLekcji")

@@ -27,11 +27,11 @@ class Student:
     :param str first_name: Student first name
     :param str second_name: Student second name, optional
     :param str last_name: Student last name (surname)
-    :param `vulcan._student.Gender` gender: Student gender
+    :param `~vulcan._student.Gender` gender: Student gender
     :param str nickname: Student nickname
-    :param `vulcan._period.Period` period: Current student class period
-    :param `vulcan._class.Class` class_: Student class
-    :param `vulcan._school.School` school: Student school
+    :param `~vulcan._period.Period` period: Current student class period
+    :param `~vulcan._class.Class` class_: Student class
+    :param `~vulcan._school.School` school: Student school
     """
 
     id = IntegerField(key="Id")

@@ -34,11 +34,11 @@ class Exam:
     """Exam, test, short test or class test
 
     :param int id: Exam ID
-    :param `vulcan._exam.ExamType` type: Exam type
+    :param `~vulcan._exam.ExamType` type: Exam type
     :param str description: Exam description
     :param `datetime.date` date: Exam date
-    :param `vulcan._teacher.Teacher` teacher: Teacher, who added the exam
-    :param `vulcan._subject.Subject` subject: Subject, from which is the exam
+    :param `~vulcan._teacher.Teacher` teacher: Teacher, who added the exam
+    :param `~vulcan._subject.Subject` subject: Subject, from which is the exam
     """
 
     id = IntegerField(key="Id")

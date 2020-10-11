@@ -33,8 +33,8 @@ class Notice:
     :param int id: Notice ID
     :param str content: Content of the notice
     :param `datetime.date` date: Notice added date
-    :param `vulcan._notice.NoticeType` type: Notice type class
-    :param `vulcan._teacher.Teacher` teacher: Teacher, who added the notice
+    :param `~vulcan._notice.NoticeType` type: Notice type class
+    :param `~vulcan._teacher.Teacher` teacher: Teacher, who added the notice
     """
 
     id = IntegerField(key="Id")

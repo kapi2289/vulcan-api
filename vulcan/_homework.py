@@ -23,8 +23,8 @@ class Homework:
     :param int id: Homework ID
     :param str description: Homework description
     :param `datetime.date` date: Homework deadline date
-    :param `vulcan._teacher.Teacher` teacher: Teacher, who added the homework
-    :param `vulcan._subject.Subject` subject: Subject, from which is the homework
+    :param `~vulcan._teacher.Teacher` teacher: Teacher, who added the homework
+    :param `~vulcan._subject.Subject` subject: Subject, from which is the homework
     """
 
     id = IntegerField(key="Id")

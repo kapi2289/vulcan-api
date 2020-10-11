@@ -44,10 +44,10 @@ class AttendanceCategory:
 class Attendance:
     """Attendance
 
-    :param `vulcan._subject.Subject` subject: Subject of the lesson
+    :param `~vulcan._subject.Subject` subject: Subject of the lesson
     :param `datetime.date` date: Attendance date
-    :param `vulcan._lesson.LessonTime` time: Information about the lesson time
-    :param `vulcan._attendance.AttendanceCategory` category: Information about Attendance category
+    :param `~vulcan._lesson.LessonTime` time: Information about the lesson time
+    :param `~vulcan._attendance.AttendanceCategory` category: Information about Attendance category
     """
 
     subject = StringField(key="PrzedmiotNazwa")

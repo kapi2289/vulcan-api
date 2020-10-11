@@ -2,6 +2,8 @@
 
 from related import immutable, SequenceField, to_model
 
+from typing import List
+
 from ._grade import GradeCategory
 from ._lesson import LessonTime
 from ._subject import Subject
@@ -23,7 +25,7 @@ class Dictionaries:
     def teachers(self):
         """List of teachers
 
-        :rtype: list(:class:`vulcan._teacher.Teacher`)
+        :rtype: List[:class:`~vulcan._teacher.Teacher`]
         """
         return list(map(lambda j: to_model(Teacher, j), self.teachers_json))
 
@@ -31,7 +33,7 @@ class Dictionaries:
     def subjects(self):
         """List of subjects
 
-        :rtype: list(:class:`vulcan._subject.Subject`)
+        :rtype: List[:class:`~vulcan._subject.Subject`]
         """
         return list(map(lambda j: to_model(Subject, j), self.subjects_json))
 
@@ -39,7 +41,7 @@ class Dictionaries:
     def lesson_times(self):
         """List of lesson times
 
-        :rtype: list(:class:`vulcan._lesson.LessonTime`)
+        :rtype: List[:class:`~vulcan._lesson.LessonTime`]
         """
         return list(map(lambda j: to_model(LessonTime, j), self.lesson_times_json))
 
@@ -47,7 +49,7 @@ class Dictionaries:
     def grade_categories(self):
         """List of grade categories
 
-        :rtype: list(:class:`vulcan._grade.GradeCategory`)
+        :rtype: List[:class:`~vulcan._grade.GradeCategory`]
         """
         return list(
             map(lambda j: to_model(GradeCategory, j), self.grade_categories_json)
