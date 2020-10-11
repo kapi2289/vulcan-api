@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import io, json
+import io
+import json
+
 from related import immutable, to_model, to_json
 
 

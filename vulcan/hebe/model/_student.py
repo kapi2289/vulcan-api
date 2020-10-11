@@ -3,17 +3,31 @@
 from typing import List
 
 from related import immutable, StringField, ChildField, SequenceField
-from ._serializable import Serializable
-from .._endpoints import STUDENT_LIST
 
-from ._pupil import Pupil
-from ._unit import Unit
-from ._school import School
 from ._period import Period
+from ._pupil import Pupil
+from ._school import School
+from ._serializable import Serializable
+from ._unit import Unit
+from .._endpoints import STUDENT_LIST
 
 
 @immutable
 class Student(Serializable):
+    """A student object, along with his school, class and period information
+
+    :var str ~.symbol: the "partition" symbol - can be a town or county name
+    :var str ~.symbol_code: the school unit code - often a 6 digit number
+    :var `~vulcan.hebe.model.Pupil` ~.pupil: contains the student's IDs,
+         names and email
+    :var `~vulcan.hebe.model.Unit` ~.unit: info about the school unit
+         (e.g. several school buildings)
+    :var `~vulcan.hebe.model.School` ~.school: info about the school
+         (a single building of the unit)
+    :var List[`~vulcan.hebe.model.Period`] ~.periods: a list of
+         the student's school year periods
+    """
+
     symbol = StringField(key="TopLevelPartition")
     symbol_code = StringField(key="Partition")
 

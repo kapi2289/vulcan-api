@@ -16,6 +16,14 @@ from .model import Serializable
 
 @immutable
 class Account(Serializable):
+    """An account in the e-register.
+
+    :var int ~.login_id: the account's login ID
+    :var str ~.user_login: the account's login name (email/username)
+    :var str ~.user_name: probably the same as user_login
+    :var str ~.rest_url: the API base URL for the partition symbol
+    """
+
     login_id = IntegerField(key="LoginId")
     user_login = StringField(key="UserLogin")
     user_name = StringField(key="UserName")

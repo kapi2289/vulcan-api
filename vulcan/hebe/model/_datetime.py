@@ -9,6 +9,13 @@ from ._serializable import Serializable
 
 @immutable
 class DateTime(Serializable):
+    """A date-time object used for representing points in time.
+
+    :var int ~.timestamp: number of millis since the Unix epoch
+    :var `datetime.date` ~.date: a date object
+    :var `datetime.time` ~.time: a time object
+    """
+
     timestamp = IntegerField(key="Timestamp")
     date = DateField(key="Date")
     time = TimeField(key="Time")
