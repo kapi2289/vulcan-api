@@ -22,10 +22,10 @@ from ._utils import TIME_FORMAT_H_M, sort_and_filter_dates
 class LessonTime:
     """Lesson time (start-end range)
 
-    :param int id: Lesson time ID
-    :param int number: Lesson number
-    :param `datetime.time` from_: Lesson start time
-    :param `datetime.time` to: Lesson end time
+    :var int ~.id: Lesson time ID
+    :var int ~.number: Lesson number
+    :var `datetime.time` ~.from_: Lesson start time
+    :var `datetime.time` ~.to: Lesson end time
     """
 
     id = IntegerField(key="Id")
@@ -38,17 +38,17 @@ class LessonTime:
 class Lesson:
     """Lesson
 
-    :param int number: Lesson number
-    :param str room: Classroom, in which is the lesson
-    :param str group: Group, that has the lesson
-    :param `datetime.date` date: Lesson date
-    :param str changes: Lesson changes
-    :param bool visible: Lesson visibility (whether the timetable applies to the given student)
-    :param `datetime.datetime` from_: Lesson start date and time
-    :param `datetime.datetime` to: Lesson end date and time
-    :param `~vulcan._lesson.LessonTime` time: Information about the lesson time
-    :param `~vulcan._teacher.Teacher` teacher: Teacher of the lesson
-    :param `~vulcan._subject.Subject` subject: Subject on the lesson
+    :var int ~.number: Lesson number
+    :var str ~.room: Classroom, in which is the lesson
+    :var str ~.group: Group, that has the lesson
+    :var `datetime.date` ~.date: Lesson date
+    :var str ~.changes: Lesson changes
+    :var bool ~.visible: Lesson visibility (whether the timetable applies to the given student)
+    :var `datetime.datetime` ~.from_: Lesson start date and time
+    :var `datetime.datetime` ~.to: Lesson end date and time
+    :var `~vulcan._lesson.LessonTime` ~.time: Information about the lesson time
+    :var `~vulcan._teacher.Teacher` ~.teacher: Teacher of the lesson
+    :var `~vulcan._subject.Subject` ~.subject: Subject on the lesson
     """
 
     number = IntegerField(key="NumerLekcji")

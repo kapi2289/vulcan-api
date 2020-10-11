@@ -7,10 +7,10 @@ from related import IntegerField, StringField, immutable
 class Subject:
     """School subject
 
-    :param int id: Subject ID
-    :param str name: Subject full name
-    :param str short: Short name of the subject
-    :param int position: Position of the subject in subjects list
+    :var int ~.id: Subject ID
+    :var str ~.name: Subject full name
+    :var str ~.short: Short name of the subject
+    :var int ~.position: Position of the subject in subjects list
     """
 
     id = IntegerField(key="Id")

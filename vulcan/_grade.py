@@ -18,9 +18,9 @@ from ._teacher import Teacher
 class GradeCategory:
     """Grade category
 
-    :param id id: Category ID
-    :param str name: Full category name
-    :param str short: Short name of the category
+    :var id ~.id: Category ID
+    :var str ~.name: Full category name
+    :var str ~.short: Short name of the category
     """
 
     id = IntegerField(key="Id")
@@ -32,16 +32,16 @@ class GradeCategory:
 class Grade:
     """Grade
 
-    :param int id: Grade ID
-    :param str content: Grade content
-    :param float weight: Grade weight
-    :param str description: Grade description
-    :param `datetime.datetime` date: Grade creation date
-    :param `datetime.datetime` last_modification_date: Last grade modification date
-    :param float value: Grade value (you can use it to calculate the average)
-    :param `~vulcan._teacher.Teacher` teacher: Teacher, who added the grade
-    :param `~vulcan._subject.Subject` subject: Subject, from which student received the grade
-    :param `~vulcan._grade.GradeCategory` category: Grade category
+    :var int ~.id: Grade ID
+    :var str ~.content: Grade content
+    :var float ~.weight: Grade weight
+    :var str ~.description: Grade description
+    :var `datetime.datetime` ~.date: Grade creation date
+    :var `datetime.datetime` ~.last_modification_date: Last grade modification date
+    :var float ~.value: Grade value (you can use it to calculate the average)
+    :var `~vulcan._teacher.Teacher` ~.teacher: Teacher, who added the grade
+    :var `~vulcan._subject.Subject` ~.subject: Subject, from which student received the grade
+    :var `~vulcan._grade.GradeCategory` ~.category: Grade category
     """
 
     id = IntegerField(key="Id")

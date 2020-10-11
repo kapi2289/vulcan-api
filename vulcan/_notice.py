@@ -18,8 +18,8 @@ from ._teacher import Teacher
 class NoticeType:
     """Notice type
 
-    :param int id: Notice type ID
-    :param str name: Name of the notice type
+    :var int ~.id: Notice type ID
+    :var str ~.name: Name of the notice type
     """
 
     id = IntegerField(key="Id")
@@ -30,11 +30,11 @@ class NoticeType:
 class Notice:
     """Positive, negative or neutral student notice
 
-    :param int id: Notice ID
-    :param str content: Content of the notice
-    :param `datetime.date` date: Notice added date
-    :param `~vulcan._notice.NoticeType` type: Notice type class
-    :param `~vulcan._teacher.Teacher` teacher: Teacher, who added the notice
+    :var int ~.id: Notice ID
+    :var str ~.content: Content of the notice
+    :var `datetime.date` ~.date: Notice added date
+    :var `~vulcan._notice.NoticeType` ~.type: Notice type class
+    :var `~vulcan._teacher.Teacher` ~.teacher: Teacher, who added the notice
     """
 
     id = IntegerField(key="Id")

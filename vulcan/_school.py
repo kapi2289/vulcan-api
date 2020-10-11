@@ -9,10 +9,10 @@ from ._utils import dict_only
 class School:
     """School
 
-    :param int id: School ID
-    :param str name: School full name
-    :param str short: Short name of the school
-    :param str symbol: School symbol
+    :var int ~.id: School ID
+    :var str ~.name: School full name
+    :var str ~.short: Short name of the school
+    :var str ~.symbol: School symbol
     """
 
     id = IntegerField(key="IdJednostkaSprawozdawcza")

@@ -20,14 +20,14 @@ from ._utils import sort_and_filter_dates
 class AttendanceCategory:
     """Attendance Category
 
-    :param int id: Attendance ID
-    :param str name: Attendance name
-    :param bool presence: Presence on lesson
-    :param bool absence: Absence on lesson
-    :param bool exemption: Exemption from lesson
-    :param bool late: Is late for lesson
-    :param bool justified: Justified absence
-    :param bool deleted: Whether the entry is deleted
+    :var int ~.id: Attendance ID
+    :var str ~.name: Attendance name
+    :var bool ~.presence: Presence on lesson
+    :var bool ~.absence: Absence on lesson
+    :var bool ~.exemption: Exemption from lesson
+    :var bool ~.late: Is late for lesson
+    :var bool ~.justified: Justified absence
+    :var bool ~.deleted: Whether the entry is deleted
     """
 
     id = IntegerField(key="Id")
@@ -44,10 +44,10 @@ class AttendanceCategory:
 class Attendance:
     """Attendance
 
-    :param `~vulcan._subject.Subject` subject: Subject of the lesson
-    :param `datetime.date` date: Attendance date
-    :param `~vulcan._lesson.LessonTime` time: Information about the lesson time
-    :param `~vulcan._attendance.AttendanceCategory` category: Information about Attendance category
+    :var `~vulcan._subject.Subject` ~.subject: Subject of the lesson
+    :var `datetime.date` ~.date: Attendance date
+    :var `~vulcan._lesson.LessonTime` ~.time: Information about the lesson time
+    :var `~vulcan._attendance.AttendanceCategory` ~.category: Information about Attendance category
     """
 
     subject = StringField(key="PrzedmiotNazwa")

@@ -33,12 +33,12 @@ class ExamType(Enum):
 class Exam:
     """Exam, test, short test or class test
 
-    :param int id: Exam ID
-    :param `~vulcan._exam.ExamType` type: Exam type
-    :param str description: Exam description
-    :param `datetime.date` date: Exam date
-    :param `~vulcan._teacher.Teacher` teacher: Teacher, who added the exam
-    :param `~vulcan._subject.Subject` subject: Subject, from which is the exam
+    :var int ~.id: Exam ID
+    :var `~vulcan._exam.ExamType` ~.type: Exam type
+    :var str ~.description: Exam description
+    :var `datetime.date` ~.date: Exam date
+    :var `~vulcan._teacher.Teacher` ~.teacher: Teacher, who added the exam
+    :var `~vulcan._subject.Subject` ~.subject: Subject, from which is the exam
     """
 
     id = IntegerField(key="Id")

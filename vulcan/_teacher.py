@@ -7,11 +7,11 @@ from related import immutable, IntegerField, StringField
 class Teacher:
     """School teacher or employee
 
-    :param int id: Teacher ID
-    :param str first_name: Teacher first name
-    :param str last_name: Teacher last name (surname)
-    :param str short: Code (short name) of the teacher
-    :param int login_id: Teacher account ID
+    :var int ~.id: Teacher ID
+    :var str ~.first_name: Teacher first name
+    :var str ~.last_name: Teacher last name (surname)
+    :var str ~.short: Code (short name) of the teacher
+    :var int ~.login_id: Teacher account ID
     """
 
     id = IntegerField(key="Id")

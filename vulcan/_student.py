@@ -22,16 +22,16 @@ class Gender(Enum):
 class Student:
     """Student
 
-    :param int id: Student ID
-    :param int login_id: ID of the logged user
-    :param str first_name: Student first name
-    :param str second_name: Student second name, optional
-    :param str last_name: Student last name (surname)
-    :param `~vulcan._student.Gender` gender: Student gender
-    :param str nickname: Student nickname
-    :param `~vulcan._period.Period` period: Current student class period
-    :param `~vulcan._class.Class` class_: Student class
-    :param `~vulcan._school.School` school: Student school
+    :var int ~.id: Student ID
+    :var int ~.login_id: ID of the logged user
+    :var str ~.first_name: Student first name
+    :var str ~.second_name: Student second name, optional
+    :var str ~.last_name: Student last name (surname)
+    :var `~vulcan._student.Gender` ~.gender: Student gender
+    :var str ~.nickname: Student nickname
+    :var `~vulcan._period.Period` ~.period: Current student class period
+    :var `~vulcan._class.Class` ~.class_: Student class
+    :var `~vulcan._school.School` ~.school: Student school
     """
 
     id = IntegerField(key="Id")

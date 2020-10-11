@@ -19,8 +19,8 @@ from ._teacher import Teacher
 class MessageRecipient:
     """Message recipient
 
-    :param int login_id: Recipient's login ID
-    :param str name: Recipient's name
+    :var int ~.login_id: Recipient's login ID
+    :var str ~.name: Recipient's name
     """
 
     login_id = IntegerField(key="LoginId")
@@ -31,19 +31,19 @@ class MessageRecipient:
 class Message:
     """Message
 
-    :param int id: Message ID
-    :param int sender_id: Message sender's (teacher) ID
-    :param list recipients: A list of :class:`vulcan._message.MessageRecipient` objects
-    :param str title: Title (subject) of the message
-    :param str content: Message content
-    :param `~vulcan._teacher.Teacher` sender: Sender of the message (teacher)
-    :param `datetime.datetime` sent_datetime: Date with time when the message was sent
-    :param `datetime.date` sent_date: Date when the message was sent
-    :param `datetime.time` sent_time: Time when the message was sent
-    :param `datetime.datetime` read_datetime: Date with time when the message was read, optional
-    :param `datetime.date` read_date: Date when the message was read, optional
-    :param `datetime.time` read_time: Time when the message was read, optional
-    :param bool is_read: Whether the message is read
+    :var int ~.id: Message ID
+    :var int ~.sender_id: Message sender's (teacher) ID
+    :var list ~.recipients: A list of :class:`vulcan._message.MessageRecipient` objects
+    :var str ~.title: Title (subject) of the message
+    :var str ~.content: Message content
+    :var `~vulcan._teacher.Teacher` ~.sender: Sender of the message (teacher)
+    :var `datetime.datetime` ~.sent_datetime: Date with time when the message was sent
+    :var `datetime.date` ~.sent_date: Date when the message was sent
+    :var `datetime.time` ~.sent_time: Time when the message was sent
+    :var `datetime.datetime` ~.read_datetime: Date with time when the message was read, optional
+    :var `datetime.date` ~.read_date: Date when the message was read, optional
+    :var `datetime.time` ~.read_time: Time when the message was read, optional
+    :var bool ~.is_read: Whether the message is read
     """
 
     id = IntegerField(key="WiadomoscId")

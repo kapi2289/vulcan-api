@@ -20,11 +20,11 @@ from ._utils import sort_and_filter_dates
 class Homework:
     """Homework
 
-    :param int id: Homework ID
-    :param str description: Homework description
-    :param `datetime.date` date: Homework deadline date
-    :param `~vulcan._teacher.Teacher` teacher: Teacher, who added the homework
-    :param `~vulcan._subject.Subject` subject: Subject, from which is the homework
+    :var int ~.id: Homework ID
+    :var str ~.description: Homework description
+    :var `datetime.date` ~.date: Homework deadline date
+    :var `~vulcan._teacher.Teacher` ~.teacher: Teacher, who added the homework
+    :var `~vulcan._subject.Subject` ~.subject: Subject, from which is the homework
     """
 
     id = IntegerField(key="Id")

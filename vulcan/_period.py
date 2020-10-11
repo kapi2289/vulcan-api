@@ -9,11 +9,11 @@ from ._utils import dict_only
 class Period:
     """School year period
 
-    :param int id: Period ID
-    :param int number: Number of the period
-    :param int level: Level (class level) of the period
-    :param `datetime.date` from_: Period start date
-    :param `datetime.date` to: Period end date
+    :var int ~.id: Period ID
+    :var int ~.number: Number of the period
+    :var int ~.level: Level (class level) of the period
+    :var `datetime.date` ~.from_: Period start date
+    :var `datetime.date` ~.to: Period end date
     """
 
     id = IntegerField(key="IdOkresKlasyfikacyjny")
