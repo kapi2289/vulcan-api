@@ -20,14 +20,12 @@ from ._utils import TIME_FORMAT_H_M, sort_and_filter_dates
 
 @immutable
 class LessonTime:
-    """
-    Lesson time
+    """Lesson time (start-end range)
 
-    Attributes:
-        id (:class:`int`): Lesson time ID
-        number (:class:`int`): Lesson number
-        from_ (:class:`datetime.time`): Lesson start time
-        to (:class:`datetime.time`): Lesson end time
+    :var int ~.id: Lesson time ID
+    :var int ~.number: Lesson number
+    :var `datetime.time` ~.from_: Lesson start time
+    :var `datetime.time` ~.to: Lesson end time
     """
 
     id = IntegerField(key="Id")
@@ -38,21 +36,19 @@ class LessonTime:
 
 @immutable
 class Lesson:
-    """
-    Lesson
+    """Lesson
 
-    Attributes:
-        number (:class:`int`): Lesson number
-        room (:class:`string`): Classroom, in which is the lesson
-        group (:class:`string`): Group, that has the lesson
-        date (:class:`datetime.date`): Lesson date
-        changes (:class:`string`): Lesson changes
-        visible (:class:`boolean`): Lesson visibility. The "visible" key which contains the value True / False depending on whether the timetable applies to a given student.
-        from_ (:class:`datetime.datetime`): Lesson start date and time
-        to (:class:`datetime.datetime`): Lesson end date and time
-        time (:class:`vulcan._lesson.LessonTime`): Information about the lesson time
-        teacher (:class:`vulcan._teacher.Teacher`): Teacher of the lesson
-        subject (:class:`vulcan._subject.Subject`): Subject on the lesson
+    :var int ~.number: Lesson number
+    :var str ~.room: Classroom, in which is the lesson
+    :var str ~.group: Group, that has the lesson
+    :var `datetime.date` ~.date: Lesson date
+    :var str ~.changes: Lesson changes
+    :var bool ~.visible: Lesson visibility (whether the timetable applies to the given student)
+    :var `datetime.datetime` ~.from_: Lesson start date and time
+    :var `datetime.datetime` ~.to: Lesson end date and time
+    :var `~vulcan._lesson.LessonTime` ~.time: Information about the lesson time
+    :var `~vulcan._teacher.Teacher` ~.teacher: Teacher of the lesson
+    :var `~vulcan._subject.Subject` ~.subject: Subject on the lesson
     """
 
     number = IntegerField(key="NumerLekcji")
@@ -66,10 +62,12 @@ class Lesson:
     teacher = ChildField(Teacher, required=False)
     subject = ChildField(Subject, required=False)
 
+    # pylint: disable=E1101
     @property
     def from_(self):
         return datetime.datetime.combine(self.date, self.time.from_)
 
+    # pylint: disable=E1101
     @property
     def to(self):
         return datetime.datetime.combine(self.date, self.time.to)

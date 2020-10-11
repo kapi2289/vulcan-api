@@ -18,6 +18,14 @@ from ._utils import (
 
 @immutable
 class Certificate:
+    """Certificate for API request signing
+
+    :var str ~.pfx: PKCS#12 PEM-encoded keystore, containing the signing key pair
+    :var str ~.key: Uppercase hexadecimal representation of the certificate's SHA1 fingerprint
+    :var str ~.key_formatted: Same as `key`, except the octets are divided by dashes (-)
+    :var str ~.base_url: URL base of the API
+    """
+
     pfx = StringField(key="CertyfikatPfx")
     key = StringField(key="CertyfikatKlucz")
     key_formatted = StringField(key="CertyfikatKluczSformatowanyTekst")
@@ -43,7 +51,7 @@ class Certificate:
         return str(self.json)
 
     @classmethod
-    def get(cls, token, symbol, pin):
+    def get(cls, token, symbol, pin, name):
         token = str(token).upper()
         symbol = str(symbol).lower()
         pin = str(pin)
@@ -55,7 +63,7 @@ class Certificate:
             "TokenKey": token,
             "AppVersion": APP_VERSION,
             "DeviceId": uuid(),
-            "DeviceName": "Vulcan API",
+            "DeviceName": name,
             "DeviceNameUser": "",
             "DeviceDescription": "",
             "DeviceSystemType": "Python",

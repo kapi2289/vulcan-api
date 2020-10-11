@@ -2,7 +2,10 @@
 
 from __future__ import unicode_literals
 
+from typing import Iterator
+
 from ._api import Api
+from ._attendance import Attendance
 from ._certificate import Certificate
 from ._exam import Exam
 from ._grade import Grade
@@ -15,12 +18,10 @@ from ._utils import log
 
 
 class Vulcan:
-    """
-    Logs in to the e-register using generated certificate
+    """Logs in to the e-register using generated certificate.
 
-    Args:
-        certificate (:class:`dict` or :class:`vulcan._certificate.Certificate`):
-            Generated certificate using :func:`vulcan.Vulcan.register`
+    :param certificate: Generated certificate using :func:`~vulcan.Vulcan.register`
+    :type certificate: dict or :class:`~vulcan._certificate.Certificate`
     """
 
     def __init__(self, certificate, logging_level=None):
@@ -34,52 +35,45 @@ class Vulcan:
 
     @staticmethod
     def set_logging_level(logging_level):
-        """
-        Sets the default logging level
+        """Sets the default logging level
 
-        Args:
-            logging_level (:class:`int`): Logging level from :module:`logging` module
+        :param int logging_level: Logging level constant from `logging` module
         """
-
         log.setLevel(logging_level)
 
     @staticmethod
-    def register(token, symbol, pin):
-        """
-        Registers API as a new mobile device
+    def register(token, symbol, pin, name="Vulcan API"):
+        """Registers API as a new mobile device
 
-        Args:
-            token (:class:`str`): Token
-            symbol (:class:`str`): Symbol
-            pin (:class:`str`): PIN code
-
-        Returns:
-            :class:`vulcan._certificate.Certificate`: Generated certificate, use `json` property to save it to a file
+        :param str token: Token
+        :param str symbol: Symbol
+        :param str pin: PIN code
+        :param str name: Device name, defaults to "Vulcan API"
+        :returns: Generated certificate, use `json` property to save it to a file
+        :rtype: :class:`~vulcan._certificate.Certificate`
         """
-        return Certificate.get(token, symbol, pin)
+        return Certificate.get(token, symbol, pin, str(name))
 
     def get_students(self):
-        """
-        Yields students that are assigned to the account
+        """Fetches students that are assigned to the account
 
-        Yields:
-            :class:`vulcan._student.Student`
+        :rtype: Iterator[:class:`~vulcan._student.Student`]
         """
         return Student.get(self._api)
 
     def set_student(self, student):
-        """
-        Sets the default student
+        """Sets the default student
 
-        Args:
-            student (:class:`vulcan._student.Student`): Student from :func:`vulcan.Vulcan.get_students`
+        :param student: Student from :func:`~vulcan.Vulcan.get_students`
+        :type student: :class:`~vulcan._student.Student`
         """
         self._api.set_student(student)
 
     @property
     def dictionaries(self):
-        """
-        :class:`vulcan._dictionaries.Dictionaries`: Dictionaries, that include i.a. teachers
+        """Dictionaries, that include i.a. teachers
+
+        :rtype: :class:`~vulcan._dictionaries.Dictionaries`
         """
         return self._api.dict
 
@@ -87,76 +81,68 @@ class Vulcan:
         """
         Fetches student grades
 
-        Yields:
-            :class:`vulcan._grade.Grade`
+        :rtype: Iterator[:class:`~vulcan._grade.Grade`]
         """
         return Grade.get(self._api)
 
     def get_lessons(self, date_from=None, date_to=None):
-        """
-        Fetches lessons from the given date
+        """Fetches lessons from the given date
 
-        Args:
-            date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
-                it's using the today date
-            date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
-                it's using the `date_from` date
-
-        Yields:
-            :class:`vulcan._lesson.Lesson`
+        :param `datetime.date` date_from: Date, from which to fetch lessons, if not provided
+            it's using the today date (Default value = None)
+        :param `datetime.date` date_to: Date, to which to fetch lessons, if not provided
+            it's using the `date_from` date (Default value = None)
+        :rtype: Iterator[:class:`~vulcan._lesson.Lesson`]
         """
         return Lesson.get(self._api, date_from, date_to)
 
     def get_exams(self, date_from=None, date_to=None):
-        """
-        Fetches exams from the given date
+        """Fetches exams from the given date
 
-        Args:
-            date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
-                it's using the today date
-            date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
-                it's using the `date_from` date
-
-        Yields:
-            :class:`vulcan._exam.Exam`
+        :param `datetime.date` date_from: Date, from which to fetch lessons, if not provided
+            it's using the today date (Default value = None)
+        :param `datetime.date` date_to: Date, to which to fetch lessons, if not provided
+            it's using the `date_from` date (Default value = None)
+        :rtype: Iterator[:class:`~vulcan._exam.Exam`]
         """
         return Exam.get(self._api, date_from, date_to)
 
     def get_homework(self, date_from=None, date_to=None):
-        """
-        Fetches homework from the given date
+        """Fetches homework from the given date
 
-        Args:
-            date_from (:class:`datetime.date`): Date, from which to fetch lessons, if not provided
-                it's using the today date
-            date_to (:class:`datetime.date`): Date, to which to fetch lessons, if not provided
-                it's the `date_from` date
-
-        Yields:
-            :class:`vulcan._homework.Homework`
+        :param `datetime.date` date_from: Date, from which to fetch lessons, if not provided
+                it's using the today date (Default value = None)
+        :param `datetime.date` date_to: Date, to which to fetch lessons, if not provided
+                it's the `date_from` date (Default value = None)
+        :rtype: Iterator[:class:`~vulcan._homework.Homework`]
         """
         return Homework.get(self._api, date_from, date_to)
 
     def get_notices(self):
-        """
-        Fetches notices from the current semester (period)
+        """Fetches notices from the current semester (period)
 
-        Yields:
-            :class:`vulcan._notice.Notice`
+        :rtype: Iterator[:class:`~vulcan._notice.Notice`]
         """
         return Notice.get(self._api)
 
-    def get_messages(self, date_from=None, date_to=None):
+    def get_attendance(self, date_from=None, date_to=None):
+        """Fetches attendance from the given date
+
+        :param `datetime.date` date_from: Date, from which to fetch lessons, if not provided
+            it's using the today date (Default value = None)
+        :param `datetime.date` date_to: Date, to which to fetch lessons, if not provided
+            it's the `date_from` date (Default value = None)
+        :rtype: Iterator[:class:`~vulcan._attendance.Attendance`]
         """
-        Fetches messages from the given date
+        return Attendance.get(self._api, date_from, date_to)
 
-        Args:
-            date_from (:class:`datetime.date`): Date, from which to fetch messages, if not provided
-                it's using the semester (period) start date
-            date_to (:class:`datetime.date`): Date, to which to fetch messages, if not provided
-                it's using the semester (period) end date
+    def get_messages(self, date_from=None, date_to=None):
+        """Fetches messages from the given date
 
-        Yields:
-            :class:`vulcan._message.Message`
+        :param `datetime.date` date_from: Date, from which to fetch messages, if not provided
+            it's using the semester (period) start date (Default value = None)
+        :param `datetime.date` date_to: Date, to which to fetch messages, if not provided
+            it's using the semester (period) end date (Default value = None)
+        :rtype: Iterator[:class:`~vulcan._message.Message`]
         """
         return Message.get(self._api, date_from, date_to)
