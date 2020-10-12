@@ -1,5 +1,5 @@
 Installation
-^^^^^^^^^^^^
+------------
 
 You can install ``vulcan-api`` using ``pip``
 
