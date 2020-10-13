@@ -2,15 +2,17 @@
 from typing import List
 
 from ._api import Api
+from ._api_helper import FilterType
+from ._endpoints import SERVER_TIME, DATA_GRADE
 from ._utils_hebe import log
-from .model import Student
+from .data import Grade
+from .model import Student, DateTime
 
 
 class VulcanHebe:
     def __init__(self, keystore, account, logging_level: int = None):
         self._api = Api(keystore, account)
         self._students = []
-        self._student = None
 
         if logging_level:
             VulcanHebe.set_logging_level(logging_level)
@@ -26,7 +28,7 @@ class VulcanHebe:
 
     async def select_student(self):
         students = await self.get_students()
-        self._student = students[-1]
+        self.student = students[-1]
 
     @staticmethod
     def set_logging_level(logging_level: int):
@@ -49,11 +51,11 @@ class VulcanHebe:
 
     @property
     def student(self):
-        """Returns the currently selected student.
+        """Gets/sets the currently selected student.
 
         :rtype: :class:`~vulcan.hebe.model.Student`
         """
-        return self._student
+        return self._api.student
 
     @student.setter
     def student(self, value):
@@ -62,5 +64,16 @@ class VulcanHebe:
         :param value: the student to select
         :type value: :class:`~vulcan.hebe.model.Student`
         """
-        self._student = value
-        self._api.set_student(value)
+        self._api.student = value
+
+    async def get_time(self):
+        """Gets the current server time.
+
+        :rtype: :class:`~vulcan.hebe.model.DateTime`
+        """
+        return DateTime.load(await self._api.get(SERVER_TIME))
+
+    async def get_grades(self, deleted=False):
+        return await self._api.helper.get_list(
+            Grade, DATA_GRADE, FilterType.BY_PUPIL, deleted=deleted
+        )

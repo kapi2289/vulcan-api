@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import json
+from typing import Union
 
 import aiohttp
 from uonet_request_signer_hebe import get_signature_values
 
+from ._api_helper import ApiHelper
 from ._keystore import Keystore
 from ._utils_hebe import (
     uuid,
@@ -20,10 +22,20 @@ from ._utils_hebe import (
     APP_USER_AGENT,
     VulcanAPIException,
 )
-from .model import Student
+from .model import Student, Period
 
 
 class Api:
+    """The API service class.
+
+    Provides methods for sending GET/POST requests on a higher
+    level, automatically generating the required headers
+    and other values.
+
+    :var `~vulcan.hebe._api_helper.ApiHelper` ~.helper: a wrapper for getting
+         most data objects more easily
+    """
+
     def __init__(self, keystore: Keystore, account=None):
         self._session = aiohttp.ClientSession()
         # if not isinstance(keystore, Keystore):
@@ -32,11 +44,9 @@ class Api:
         if account:
             self._account = account
             self._rest_url = account.rest_url
-
-    def set_student(self, student: Student):
-        if not self._account:
-            raise AttributeError("Load an Account first!")
-        self._rest_url = self._account.rest_url + student.unit.code + "/"
+        self._student = None
+        self._period = None
+        self.helper = ApiHelper(self)
 
     def _build_payload(self, envelope: dict) -> dict:
         return {
@@ -78,7 +88,7 @@ class Api:
 
     async def _request(
         self, method: str, url: str, body: dict = None, **kwargs
-    ) -> dict:
+    ) -> Union[dict, list]:
         if self._session.closed:
             raise RuntimeError("The AioHttp session is already closed.")
 
@@ -103,13 +113,15 @@ class Api:
         ) as r:
             try:
                 response = await r.json()
+                if response["Status"]["Code"] != 0:
+                    raise RuntimeError(response["Status"]["Message"])
                 envelope = response["Envelope"]
                 log.debug(" < " + str(envelope))
-                return envelope  # TODO error handling
+                return envelope  # TODO better error handling
             except ValueError:
                 raise VulcanAPIException("An unexpected exception occurred.")
 
-    async def get(self, url: str, query: dict = None, **kwargs) -> dict:
+    async def get(self, url: str, query: dict = None, **kwargs) -> Union[dict, list]:
         query = (
             "&".join(x + "=" + urlencode(query[x]) for x in query) if query else None
         )
@@ -117,7 +129,7 @@ class Api:
             url += "?" + query
         return await self._request("GET", url, body=None, **kwargs)
 
-    async def post(self, url: str, body: dict, **kwargs) -> dict:
+    async def post(self, url: str, body: dict, **kwargs) -> Union[dict, list]:
         return await self._request("POST", url, body, **kwargs)
 
     async def open(self):
@@ -126,3 +138,27 @@ class Api:
 
     async def close(self):
         await self._session.close()
+
+    @property
+    def account(self):
+        return self._account
+
+    @property
+    def student(self) -> Student:
+        return self._student
+
+    @student.setter
+    def student(self, student: Student):
+        if not self._account:
+            raise AttributeError("Load an Account first!")
+        self._rest_url = self._account.rest_url + student.unit.code + "/"
+        self._student = student
+        self.period = student.current_period
+
+    @property
+    def period(self) -> Period:
+        return self._period
+
+    @period.setter
+    def period(self, period: Period):
+        self._period = period

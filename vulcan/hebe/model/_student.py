@@ -49,6 +49,10 @@ class Student(Serializable):
             if part
         )
 
+    @property
+    def current_period(self) -> Period:
+        return next((period for period in self.periods if period.current), None)
+
     @classmethod
     async def get(cls, api):
         """

@@ -18,6 +18,8 @@ class Serializable:
 
     @classmethod
     def load(cls, data):
+        if not data:
+            return None
         if isinstance(data, dict):
             return to_model(cls, data)
         elif isinstance(data, io.IOBase):
