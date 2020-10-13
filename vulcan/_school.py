@@ -7,14 +7,12 @@ from ._utils import dict_only
 
 @immutable
 class School:
-    """
-    School
+    """School
 
-    Attributes:
-        id (:class:`int`) School ID
-        name (:class:`str`) School full name
-        short (:class:`str`) Short name of the school
-        symbol (:class:`str`) School symbol
+    :var int ~.id: School ID
+    :var str ~.name: School full name
+    :var str ~.short: Short name of the school
+    :var str ~.symbol: School symbol
     """
 
     id = IntegerField(key="IdJednostkaSprawozdawcza")

@@ -16,13 +16,11 @@ from ._teacher import Teacher
 
 @immutable
 class GradeCategory:
-    """
-    Grade category
+    """Grade category
 
-    Attributes:
-        id (:class:`id`): Category ID
-        name (:class:`str`): Full category name
-        short (:class:`str`): Short name of the category
+    :var id ~.id: Category ID
+    :var str ~.name: Full category name
+    :var str ~.short: Short name of the category
     """
 
     id = IntegerField(key="Id")
@@ -32,20 +30,18 @@ class GradeCategory:
 
 @immutable
 class Grade:
-    """
-    Grade
+    """Grade
 
-    Attributes:
-        id (:class:`int`): Grade ID
-        content (:class:`str`): Grade content
-        weight (:class:`float`): Grade weight
-        description (:class:`str`): Grade description
-        date (:class:`datetime.datetime`): Grade creation date
-        last_modification_date (:class:`datetime.datetime`): Last grade modification date
-        value (:class:`float`): Grade value (you can use it to calculate the average)
-        teacher (:class:`vulcan._teacher.Teacher`): Teacher, who added the grade
-        subject (:class:`vulcan._subject.Subject`): Subject, from which student received the grade
-        category (:class:`vulcan._grade.GradeCategory`): Grade category
+    :var int ~.id: Grade ID
+    :var str ~.content: Grade content
+    :var float ~.weight: Grade weight
+    :var str ~.description: Grade description
+    :var `datetime.datetime` ~.date: Grade creation date
+    :var `datetime.datetime` ~.last_modification_date: Last grade modification date
+    :var float ~.value: Grade value (you can use it to calculate the average)
+    :var `~vulcan._teacher.Teacher` ~.teacher: Teacher, who added the grade
+    :var `~vulcan._subject.Subject` ~.subject: Subject, from which student received the grade
+    :var `~vulcan._grade.GradeCategory` ~.category: Grade category
     """
 
     id = IntegerField(key="Id")

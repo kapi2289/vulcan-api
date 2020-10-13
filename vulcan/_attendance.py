@@ -18,18 +18,16 @@ from ._utils import sort_and_filter_dates
 
 @immutable
 class AttendanceCategory:
-    """
-    Attendance Category
+    """Attendance Category
 
-    Attributes:
-        id (:class:`int`): Attendance ID
-        name (:class:`str`): Attendance name
-        presence (:class:`bool`): Presence on lesson
-        absence (:class:`bool`): Absence on lesson
-        exemption (:class:`bool`): Exemption from lesson
-        late (:class:`bool`): Is late for lesson
-        justified (:class:`bool`): Justified lesson
-        deleted (:class:`bool`): Whether the entry is deleted
+    :var int ~.id: Attendance ID
+    :var str ~.name: Attendance name
+    :var bool ~.presence: Presence on lesson
+    :var bool ~.absence: Absence on lesson
+    :var bool ~.exemption: Exemption from lesson
+    :var bool ~.late: Is late for lesson
+    :var bool ~.justified: Justified absence
+    :var bool ~.deleted: Whether the entry is deleted
     """
 
     id = IntegerField(key="Id")
@@ -44,14 +42,12 @@ class AttendanceCategory:
 
 @immutable
 class Attendance:
-    """
-    Attendance
+    """Attendance
 
-    Attributes:
-        subject (:class:`vulcan._subject.Subject`): Subject on the lesson
-        date (:class:`datetime.date`): Attendance date
-        time (:class:`vulcan._lesson.LessonTime`): Information about the lesson time
-        category (:class:`vulcan._attendance.AttendanceCategory`): Information about Attendance category
+    :var `~vulcan._subject.Subject` ~.subject: Subject of the lesson
+    :var `datetime.date` ~.date: Attendance date
+    :var `~vulcan._lesson.LessonTime` ~.time: Information about the lesson time
+    :var `~vulcan._attendance.AttendanceCategory` ~.category: Information about Attendance category
     """
 
     subject = StringField(key="PrzedmiotNazwa")

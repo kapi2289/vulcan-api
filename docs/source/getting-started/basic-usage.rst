@@ -23,7 +23,7 @@ and then, you need to create a client using the loaded certificate
 
 API automatically sets the first available student as default.
 If your account has more than one student, you can fetch all students
-using :func:`vulcan.Vulcan.get_students` and set one of them as default
+using :func:`~vulcan.Vulcan.get_students` and set one of them as default
 
 .. code:: python
 

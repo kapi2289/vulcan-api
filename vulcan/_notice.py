@@ -16,12 +16,10 @@ from ._teacher import Teacher
 
 @immutable
 class NoticeType:
-    """
-    Notice type
+    """Notice type
 
-    Attributes:
-        id (:class:`int`): Notice type ID
-        name (:class:`str`): Name of the notice type
+    :var int ~.id: Notice type ID
+    :var str ~.name: Name of the notice type
     """
 
     id = IntegerField(key="Id")
@@ -30,15 +28,13 @@ class NoticeType:
 
 @immutable
 class Notice:
-    """
-    Positive, negative or neutral student notice
+    """Positive, negative or neutral student notice
 
-    Attributes:
-        id (:class:`int`): Notice ID
-        content (:class:`str`): Content of the notice
-        date (:class:`datetime.date`): Notice added date
-        type (:class:`vulcan._notice.NoticeType`): Notice type class
-        teacher (:class:`vulcan._teacher.Teacher`): Teacher, who added the notice
+    :var int ~.id: Notice ID
+    :var str ~.content: Content of the notice
+    :var `datetime.date` ~.date: Notice added date
+    :var `~vulcan._notice.NoticeType` ~.type: Notice type class
+    :var `~vulcan._teacher.Teacher` ~.teacher: Teacher, who added the notice
     """
 
     id = IntegerField(key="Id")
