@@ -24,6 +24,7 @@ class Student:
 
     :var int ~.id: Student ID
     :var int ~.login_id: ID of the logged user
+    :var str ~.account_name: Student account name
     :var str ~.first_name: Student first name
     :var str ~.second_name: Student second name, optional
     :var str ~.last_name: Student last name (surname)
