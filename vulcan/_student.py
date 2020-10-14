@@ -20,8 +20,8 @@ class Gender(Enum):
 
 @immutable
 class Student:
-    """Student 
-    
+    """Student
+
     :var int ~.id: Student ID
     :var int ~.login_id: ID of the logged user
     :var str ~.first_name: Student first name
