@@ -10,6 +10,8 @@ from related import (
     TimeField,
 )
 
+from datetime import datetime
+
 from ._teacher import Teacher
 from ._utils import (
     log,
@@ -18,27 +20,33 @@ from ._utils import (
 
 @immutable
 class MessageRecipient:
+    """Message recipient
+
+    :var int ~.login_id: Recipient's login ID
+    :var str ~.name: Recipient's name
+    """
+
     login_id = IntegerField(key="LoginId")
     name = StringField(key="Nazwa")
 
 
 @immutable
 class Message:
-    """
-    Attributes:
-        id (:class:`int`): Message ID
-        sender_id (:class:`int`) Message sender's (teacher) ID
-        recipients (:class:`list`) List of :class:`vulcan._message.MessageRecipient` objects
-        title (:class:`str`) Title (subject) of the message
-        content (:class:`str`) Message content
-        sender (:class:`vulcan._teacher.Teacher`) Sender of the message (teacher)
-        sent_date (:class:`datetime.datetime`) Date when the message was sent
-        sent_time (:class:`datetime.time`) Time when the message was sent
-        sent_datetime (:class:`datetime.date`): Date with time when the message was sent
-        read_date (:class:`datetime.datetime`) Date when the message was read
-        read_time (:class:`datetime.time`) Time when the message was read
-        read_datetime (:class:`datetime.date`): Date with time when the message was read
-        is_read(:class:`bool`) Whether the message is read
+    """Message
+
+    :var int ~.id: Message ID
+    :var int ~.sender_id: Message sender's (teacher) ID
+    :var list ~.recipients: A list of :class:`vulcan._message.MessageRecipient` objects
+    :var str ~.title: Title (subject) of the message
+    :var str ~.content: Message content
+    :var `~vulcan._teacher.Teacher` ~.sender: Sender of the message (teacher)
+    :var `datetime.datetime` ~.sent_datetime: Date with time when the message was sent
+    :var `datetime.date` ~.sent_date: Date when the message was sent
+    :var `datetime.time` ~.sent_time: Time when the message was sent
+    :var `datetime.datetime` ~.read_datetime: Date with time when the message was read, optional
+    :var `datetime.date` ~.read_date: Date when the message was read, optional
+    :var `datetime.time` ~.read_time: Time when the message was read, optional
+    :var bool ~.is_read: Whether the message is read
     """
 
     id = IntegerField(key="WiadomoscId")
@@ -55,17 +63,17 @@ class Message:
 
     @property
     def sent_datetime(self):
-        return self._sent_date.combine(self._sent_time)
+        return datetime.combine(self.sent_date, self.sent_time)
 
     @property
     def read_datetime(self):
-        if self._read_date and self._read_time:
-            return self._read_date.combine(self._read_time)
+        if self.read_date and self.read_time:
+            return datetime.combine(self.read_date, self.read_time)
         return None
 
     @property
     def is_read(self):
-        return self.read_datetime is not None
+        return self.read_date is not None
 
     @classmethod
     def get(cls, api, date_from=None, date_to=None):

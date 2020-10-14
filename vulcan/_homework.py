@@ -18,15 +18,13 @@ from ._utils import sort_and_filter_dates
 
 @immutable
 class Homework:
-    """
-    Homework
+    """Homework
 
-    Attributes:
-        id (:class:`int`): Homework ID
-        description (:class:`str`): Homework description
-        date (:class:`datetime.date`): Homework deadline date
-        teacher (:class:`vulcan._teacher.Teacher`): Teacher, who added the homework
-        subject (:class:`vulcan._subject.Subject`): Subject, from which is the homework
+    :var int ~.id: Homework ID
+    :var str ~.description: Homework description
+    :var `datetime.date` ~.date: Homework deadline date
+    :var `~vulcan._teacher.Teacher` ~.teacher: Teacher, who added the homework
+    :var `~vulcan._subject.Subject` ~.subject: Subject, from which is the homework
     """
 
     id = IntegerField(key="Id")

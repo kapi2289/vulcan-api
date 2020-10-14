@@ -10,7 +10,9 @@ from ._school import School
 
 @unique
 class Gender(Enum):
-    """Studen gender"""
+    """
+    Student gender
+    """
 
     WOMAN = 0
     MAN = 1
@@ -18,22 +20,18 @@ class Gender(Enum):
 
 @immutable
 class Student:
-    """
-    Student
-
-    Attributes:
-        id (:class:`int`): Student ID
-        login_id (:class:`int`) ID of the logged user
-        first_name (:class:`str`): Student first name
-        account_name (:class:`str` or :class:`None`): Student full name
-        second_name (:class:`str` or :class:`None`): Student second name
-        last_name (:class:`str`): Student last name (surname)
-        name (:class:`str`): Student full name
-        gender (:class:`vulcan._student.Gender`): Student gender
-        nickname (:class:`str`): Student nickname
-        period (:class:`vulcan._period.Period`): Current student class period
-        class_ (:class:`vulcan._class.Class`): Student class
-        school (:class:`vulcan._school.School`): Student school
+    """Student 
+    
+    :var int ~.id: Student ID
+    :var int ~.login_id: ID of the logged user
+    :var str ~.first_name: Student first name
+    :var str ~.second_name: Student second name, optional
+    :var str ~.last_name: Student last name (surname)
+    :var `~vulcan._student.Gender` ~.gender: Student gender
+    :var str ~.nickname: Student nickname
+    :var `~vulcan._period.Period` ~.period: Current student class period
+    :var `~vulcan._class.Class` ~.class_: Student class
+    :var `~vulcan._school.School` ~.school: Student school
     """
 
     id = IntegerField(key="Id")
@@ -51,6 +49,10 @@ class Student:
 
     @property
     def name(self):
+        """Returns the student's full name as "Name SecondName Surname".
+
+        :rtype: str
+        """
         first = "{} {}".format(self.first_name, self.second_name).rstrip()
         return "{} {}".format(first, self.last_name)
 
