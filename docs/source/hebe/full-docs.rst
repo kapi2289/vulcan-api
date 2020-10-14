@@ -9,6 +9,9 @@ Client
 .. autoclass:: vulcan.VulcanHebe
     :members:
 
+.. autoclass:: vulcan.hebe._hebe_data.VulcanHebeData
+    :members:
+
 Core models
 ^^^^^^^^^^^
 
@@ -58,4 +61,7 @@ Data models
     :members:
 
 .. autoclass:: vulcan.hebe.data.GradeCategory
+    :members:
+
+.. autoclass:: vulcan.hebe.data.LuckyNumber
     :members:

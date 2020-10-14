@@ -68,9 +68,9 @@ class Student(Serializable):
         return next((period for period in self.periods if period.id == period_id), None)
 
     @classmethod
-    async def get(cls, api) -> List["Student"]:
+    async def get(cls, api, **kwargs) -> List["Student"]:
         """
         :rtype: List[:class:`~vulcan.hebe.model.Student`]
         """
-        data = await api.get(STUDENT_LIST)
+        data = await api.get(STUDENT_LIST, **kwargs)
         return list(Student.load(student) for student in data)

@@ -1,17 +1,27 @@
 # -*- coding: utf-8 -*-
-from datetime import datetime
-from typing import List, Union, AsyncIterator
+from typing import List
 
 from ._api import Api
+from ._hebe_data import VulcanHebeData
 from ._utils_hebe import log
-from .data import Grade
-from .model import Student, DateTime
+from .model import Student
 
 
 class VulcanHebe:
+    """A Vulcan (hebe) API client.
+
+    Contains methods for getting/setting the current student and for
+    setting the logging level. All data is fetched from an instance
+    of the :class:`~vulcan.hebe._hebe_data.VulcanHebeData`, accessible
+    using the ``data`` variable.
+
+    :var `~vulcan.hebe._hebe_data.VulcanHebeData` ~.data: the data client
+    """
+
     def __init__(self, keystore, account, logging_level: int = None):
         self._api = Api(keystore, account)
         self._students = []
+        self.data = VulcanHebeData(self._api)
 
         if logging_level:
             VulcanHebe.set_logging_level(logging_level)
@@ -26,6 +36,9 @@ class VulcanHebe:
         await self._api.close()
 
     async def select_student(self):
+        """Load a list of students associated with the account.
+        Set the first available student as default for the API.
+        """
         students = await self.get_students()
         self.student = students[-1]
 
@@ -64,22 +77,3 @@ class VulcanHebe:
         :type value: :class:`~vulcan.hebe.model.Student`
         """
         self._api.student = value
-
-    async def get_time(self) -> DateTime:
-        """Gets the current server time.
-
-        :rtype: :class:`~vulcan.hebe.model.DateTime`
-        """
-        return await DateTime.get(self._api)
-
-    async def get_grades(
-        self, last_sync: datetime = None, deleted=False, **kwargs
-    ) -> Union[AsyncIterator[Grade], List[int]]:
-        """Yields the student's grades.
-
-        :param `datetime.datetime` last_sync: date of the last sync,
-            gets only the objects updated since this date
-        :param bool deleted: whether to only get the deleted item IDs
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Grade`], List[int]]
-        """
-        return Grade.get(self._api, last_sync, deleted, **kwargs)
