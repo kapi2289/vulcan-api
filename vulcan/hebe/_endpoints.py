@@ -10,6 +10,7 @@ DATA_DELETED = "deleted"
 DATA_INTERNAL_TIME = "internal/time"
 DATA_LUCKY_NUMBER = "school/lucky"
 
+DATA_EXAM = "exam"
 DATA_GRADE = "grade"
 DATA_GRADE_SUMMARY = "grade/summary"
 DATA_GRADE_AVERAGE = "grade/average"

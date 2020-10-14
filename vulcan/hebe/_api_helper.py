@@ -37,6 +37,8 @@ class ApiHelper:
         params: dict = None,
         **kwargs,
     ) -> list:
+        if not self._api.student:
+            raise AttributeError("No student is selected.")
         if deleted:
             raise NotImplementedError(
                 "Getting deleted data IDs is not implemented yet."

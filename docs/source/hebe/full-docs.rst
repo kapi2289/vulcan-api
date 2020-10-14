@@ -48,11 +48,20 @@ Common models
 .. autoclass:: vulcan.hebe.model.Teacher
     :members:
 
+.. autoclass:: vulcan.hebe.model.TeamClass
+    :members:
+
+.. autoclass:: vulcan.hebe.model.TeamVirtual
+    :members:
+
 .. autoclass:: vulcan.hebe.model.Unit
     :members:
 
 Data models
 ^^^^^^^^^^^
+
+.. autoclass:: vulcan.hebe.data.Exam
+    :members:
 
 .. autoclass:: vulcan.hebe.data.Grade
     :members:

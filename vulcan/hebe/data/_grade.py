@@ -62,6 +62,7 @@ class Grade(Serializable):
     """A grade.
 
     :var int ~.id: grade's ID
+    :var str ~.key: grade's key (UUID)
     :var int ~.pupil_id: the related pupil's ID
     :var str ~.content_raw: grade's content (with comment)
     :var str ~.content: grade's content (without comment)
@@ -80,6 +81,7 @@ class Grade(Serializable):
     """
 
     id: int = IntegerField(key="Id")
+    key: str = StringField(key="Key")
     pupil_id: int = IntegerField(key="PupilId")
     content_raw: str = StringField(key="ContentRaw")
     content: str = StringField(key="Content")

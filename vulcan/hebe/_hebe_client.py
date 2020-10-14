@@ -40,7 +40,7 @@ class VulcanHebe:
         Set the first available student as default for the API.
         """
         students = await self.get_students()
-        self.student = students[-1]
+        self.student = students[0] if len(students) > 0 else None
 
     @staticmethod
     def set_logging_level(logging_level: int):
