@@ -1,12 +1,13 @@
 DEVICE_REGISTER = "api/mobile/register/new"
 STUDENT_LIST = "api/mobile/register/hebe"
-SERVER_TIME = "api/mobile/internal/time"
 
 DATA_ROOT = "api/mobile"
 DATA_BY_PUPIL = "byPupil"
 DATA_BY_PERSON = "byPerson"
 DATA_BY_PERIOD = "byPeriod"
 DATA_DELETED = "deleted"
+
+DATA_INTERNAL_TIME = "internal/time"
 
 DATA_GRADE = "grade"
 DATA_GRADE_SUMMARY = "grade/summary"

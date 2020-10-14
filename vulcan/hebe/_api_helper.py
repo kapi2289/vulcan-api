@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, date
 from enum import Enum, unique
-from typing import Iterator
 
 from ._endpoints import DATA_BY_PERSON, DATA_BY_PUPIL, DATA_BY_PERIOD, DATA_ROOT
 
@@ -29,7 +28,6 @@ class ApiHelper:
 
     async def get_list(
         self,
-        cls,
         endpoint: str,
         filter_type: FilterType,
         deleted: bool = False,
@@ -38,7 +36,7 @@ class ApiHelper:
         last_sync: datetime = None,
         params: dict = None,
         **kwargs,
-    ) -> Iterator:
+    ) -> list:
         if deleted:
             raise NotImplementedError(
                 "Getting deleted data IDs is not implemented yet."
@@ -70,15 +68,14 @@ class ApiHelper:
 
         query["lastId"] = "-2147483648"  # don't ask, it's just Vulcan
         query["pageSize"] = 500
-        query["lastSyncDate"] = (last_sync or datetime.utcnow()).strftime(
+        query["lastSyncDate"] = (last_sync or datetime(1970, 1, 1, 0, 0, 0)).strftime(
             "%Y-%m-%d %H:%m:%S"
         )
 
         if params:
             query.update(params)
 
-        data = await self._api.get(url, query, **kwargs)
-        return (cls.load(item) for item in data)
+        return await self._api.get(url, query, **kwargs)
 
     async def get_object(
         self,

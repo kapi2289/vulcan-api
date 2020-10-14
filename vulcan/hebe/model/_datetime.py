@@ -5,6 +5,7 @@ from datetime import datetime
 from related import immutable, IntegerField, DateField, TimeField
 
 from ._serializable import Serializable
+from .._endpoints import DATA_INTERNAL_TIME
 
 
 @immutable
@@ -27,3 +28,10 @@ class DateTime(Serializable):
         :rtype: :class:`datetime.datetime`
         """
         return datetime.combine(self.date, self.time)
+
+    def __str__(self):
+        return self.date_time.strftime("%Y-%m-%d %H:%m:%S")
+
+    @classmethod
+    async def get(cls, api):
+        return await api.helper.get_object(DateTime, DATA_INTERNAL_TIME)

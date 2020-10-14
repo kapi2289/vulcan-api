@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from typing import List
-
 from related import immutable, StringField, ChildField, SequenceField
 
 from ._period import Period
@@ -51,13 +49,21 @@ class Student(Serializable):
 
     @property
     def current_period(self) -> Period:
+        """Gets the currently ongoing period of the student.
+
+        :rtype: :class:`~vulcan.hebe.model.Period`
+        """
         return next((period for period in self.periods if period.current), None)
+
+    def period_by_id(self, period_id: int) -> Period:
+        """Gets a period matching the given period ID.
+
+        :param int period_id: the period ID to look for
+        :rtype: :class:`~vulcan.hebe.model.Period`
+        """
+        return next((period for period in self.periods if period.id == period_id), None)
 
     @classmethod
     async def get(cls, api):
-        """
-        :rtype: List[:class:`~vulcan.hebe.model.Student`]
-        """
         data = await api.get(STUDENT_LIST)
-
         return list(Student.load(student) for student in data)

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from typing import List
+from datetime import datetime
+from typing import List, Union, AsyncIterator
 
 from ._api import Api
-from ._api_helper import FilterType
-from ._endpoints import SERVER_TIME, DATA_GRADE
 from ._utils_hebe import log
 from .data import Grade
 from .model import Student, DateTime
@@ -71,9 +70,16 @@ class VulcanHebe:
 
         :rtype: :class:`~vulcan.hebe.model.DateTime`
         """
-        return DateTime.load(await self._api.get(SERVER_TIME))
+        return await DateTime.get(self._api)
 
-    async def get_grades(self, deleted=False, **kwargs):
-        return await self._api.helper.get_list(
-            Grade, DATA_GRADE, FilterType.BY_PUPIL, deleted=deleted, **kwargs
-        )
+    async def get_grades(
+        self, last_sync: datetime = None, deleted=False, **kwargs
+    ) -> Union[AsyncIterator[Grade], List[int]]:
+        """Yields the student's grades.
+
+        :param `datetime.datetime` last_sync: date of the last sync,
+            gets only the objects updated since this date
+        :param bool deleted: whether to only get the deleted item IDs
+        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Grade`], List[int]]
+        """
+        return Grade.get(self._api, last_sync, deleted, **kwargs)
