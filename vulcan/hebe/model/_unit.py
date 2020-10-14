@@ -18,10 +18,10 @@ class Unit(Serializable):
     :var str ~.rest_url: unit data's API base URL
     """
 
-    id = IntegerField(key="Id")
-    code = StringField(key="Symbol")
-    name = StringField(key="Name")
-    short_name = StringField(key="Short")
-    display_name = StringField(key="DisplayName")
-    address = StringField(key="Address")
-    rest_url = StringField(key="RestURL")
+    id: int = IntegerField(key="Id")
+    code: str = StringField(key="Symbol")
+    name: str = StringField(key="Name")
+    short_name: str = StringField(key="Short")
+    display_name: str = StringField(key="DisplayName")
+    address: str = StringField(key="Address")
+    rest_url: str = StringField(key="RestURL")

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from typing import List
 
 from related import immutable, StringField, ChildField, SequenceField
 
@@ -26,17 +27,20 @@ class Student(Serializable):
          the student's school year periods
     """
 
-    symbol = StringField(key="TopLevelPartition")
-    symbol_code = StringField(key="Partition")
+    symbol: str = StringField(key="TopLevelPartition")
+    symbol_code: str = StringField(key="Partition")
 
-    pupil = ChildField(Pupil, key="Pupil")
-    unit = ChildField(Unit, key="Unit")
-    school = ChildField(School, key="ConstituentUnit")
-    periods = SequenceField(Period, key="Periods")
+    pupil: Pupil = ChildField(Pupil, key="Pupil")
+    unit: Unit = ChildField(Unit, key="Unit")
+    school: School = ChildField(School, key="ConstituentUnit")
+    periods: List[Period] = SequenceField(Period, key="Periods")
 
-    # pylint: disable=E1101
     @property
     def full_name(self) -> str:
+        """Gets the student's full name in "FirstName SecondName LastName" format.
+
+        :rtype: str
+        """
         return " ".join(
             part
             for part in [
@@ -64,6 +68,9 @@ class Student(Serializable):
         return next((period for period in self.periods if period.id == period_id), None)
 
     @classmethod
-    async def get(cls, api):
+    async def get(cls, api) -> List["Student"]:
+        """
+        :rtype: List[:class:`~vulcan.hebe.model.Student`]
+        """
         data = await api.get(STUDENT_LIST)
         return list(Student.load(student) for student in data)

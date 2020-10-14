@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
+from datetime import datetime, date, time
 
 from related import immutable, IntegerField, DateField, TimeField
 
@@ -17,21 +17,24 @@ class DateTime(Serializable):
     :var `datetime.time` ~.time: a time object
     """
 
-    timestamp = IntegerField(key="Timestamp")
-    date = DateField(key="Date")
-    time = TimeField(key="Time")
+    timestamp: int = IntegerField(key="Timestamp")
+    date: date = DateField(key="Date")
+    time: time = TimeField(key="Time")
 
     @property
-    def date_time(self):
+    def date_time(self) -> datetime:
         """Combine the date and time of this object.
 
         :rtype: :class:`datetime.datetime`
         """
         return datetime.combine(self.date, self.time)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.date_time.strftime("%Y-%m-%d %H:%m:%S")
 
     @classmethod
-    async def get(cls, api):
+    async def get(cls, api) -> "DateTime":
+        """
+        :rtype: :class:`~vulcan.hebe.model.DateTime`
+        """
         return await api.helper.get_object(DateTime, DATA_INTERNAL_TIME)

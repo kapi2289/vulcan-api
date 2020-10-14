@@ -15,7 +15,7 @@ class Teacher(Serializable):
     :var str ~.display_name: teacher's display name
     """
 
-    id = IntegerField(key="Id")
-    name = StringField(key="Name")
-    surname = StringField(key="Surname")
-    display_name = StringField(key="DisplayName")
+    id: int = IntegerField(key="Id")
+    name: str = StringField(key="Name")
+    surname: str = StringField(key="Surname")
+    display_name: str = StringField(key="DisplayName")

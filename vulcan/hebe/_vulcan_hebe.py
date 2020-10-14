@@ -37,7 +37,7 @@ class VulcanHebe:
         """
         log.setLevel(logging_level)
 
-    async def get_students(self, cached=True):
+    async def get_students(self, cached=True) -> List[Student]:
         """Gets students assigned to this account.
 
         :param bool cached: whether to allow returning the cached list
@@ -49,7 +49,7 @@ class VulcanHebe:
         return self._students
 
     @property
-    def student(self):
+    def student(self) -> Student:
         """Gets/sets the currently selected student.
 
         :rtype: :class:`~vulcan.hebe.model.Student`
@@ -57,7 +57,7 @@ class VulcanHebe:
         return self._api.student
 
     @student.setter
-    def student(self, value):
+    def student(self, value: Student):
         """Changes the currently selected student.
 
         :param value: the student to select
@@ -65,7 +65,7 @@ class VulcanHebe:
         """
         self._api.student = value
 
-    async def get_time(self):
+    async def get_time(self) -> DateTime:
         """Gets the current server time.
 
         :rtype: :class:`~vulcan.hebe.model.DateTime`

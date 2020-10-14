@@ -19,10 +19,10 @@ class Period(Serializable):
     :var `~vulcan.hebe.model.DateTime` ~.end: the period end datetime
     """
 
-    id = IntegerField(key="Id")
-    level = IntegerField(key="Level")
-    number = IntegerField(key="Number")
-    current = BooleanField(key="Current")
-    last = BooleanField(key="Last")
-    start = ChildField(DateTime, key="Start")
-    end = ChildField(DateTime, key="End")
+    id: int = IntegerField(key="Id")
+    level: int = IntegerField(key="Level")
+    number: int = IntegerField(key="Number")
+    current: bool = BooleanField(key="Current")
+    last: bool = BooleanField(key="Last")
+    start: DateTime = ChildField(DateTime, key="Start")
+    end: DateTime = ChildField(DateTime, key="End")

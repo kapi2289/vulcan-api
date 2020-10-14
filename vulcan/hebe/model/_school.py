@@ -15,7 +15,7 @@ class School(Serializable):
     :var str ~.address: school address (location)
     """
 
-    id = IntegerField(key="Id")
-    name = StringField(key="Name")
-    short_name = StringField(key="Short")
-    address = StringField(key="Address")
+    id: int = IntegerField(key="Id")
+    name: str = StringField(key="Name")
+    short_name: str = StringField(key="Short")
+    address: str = StringField(key="Address")

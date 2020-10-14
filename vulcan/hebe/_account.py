@@ -24,10 +24,10 @@ class Account(Serializable):
     :var str ~.rest_url: the API base URL for the partition symbol
     """
 
-    login_id = IntegerField(key="LoginId")
-    user_login = StringField(key="UserLogin")
-    user_name = StringField(key="UserName")
-    rest_url = StringField(key="RestURL")
+    login_id: int = IntegerField(key="LoginId")
+    user_login: str = StringField(key="UserLogin")
+    user_name: str = StringField(key="UserName")
+    rest_url: str = StringField(key="RestURL")
 
     @staticmethod
     async def register(

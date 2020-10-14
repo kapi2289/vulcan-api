@@ -27,10 +27,10 @@ class Pupil(Serializable):
     :var `~vulcan.hebe.model.Gender` ~.gender: student's gender
     """
 
-    id = IntegerField(key="Id")
-    login_id = IntegerField(key="LoginId")
-    login_value = StringField(key="LoginValue")
-    first_name = StringField(key="FirstName")
-    second_name = StringField(key="SecondName")
-    last_name = StringField(key="Surname")
-    gender = ChildField(Gender, key="Sex")
+    id: int = IntegerField(key="Id")
+    login_id: int = IntegerField(key="LoginId")
+    login_value: str = StringField(key="LoginValue")
+    first_name: str = StringField(key="FirstName")
+    second_name: str = StringField(key="SecondName")
+    last_name: str = StringField(key="Surname")
+    gender: Gender = ChildField(Gender, key="Sex")

@@ -16,8 +16,8 @@ class Subject(Serializable):
     :var int ~.position: unknown, yet
     """
 
-    id = IntegerField(key="Id")
-    key = StringField(key="Key")
-    name = StringField(key="Name")
-    code = StringField(key="Kod")
-    position = IntegerField(key="Position")
+    id: int = IntegerField(key="Id")
+    key: str = StringField(key="Key")
+    name: str = StringField(key="Name")
+    code: str = StringField(key="Kod")
+    position: int = IntegerField(key="Position")

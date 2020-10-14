@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from typing import AsyncIterator, Union, List
 
 from related import immutable, IntegerField, StringField, FloatField, ChildField
 
@@ -17,9 +18,9 @@ class GradeCategory(Serializable):
     :var str ~.code: grade category's code (e.g. short name or abbreviation)
     """
 
-    id = IntegerField(key="Id")
-    name = StringField(key="Name")
-    code = StringField(key="Code")
+    id: int = IntegerField(key="Id")
+    name: str = StringField(key="Name")
+    code: str = StringField(key="Code")
 
 
 @immutable
@@ -42,18 +43,18 @@ class GradeColumn(Serializable):
     :var `~vulcan.hebe.model.Period` ~.period: a resolved period of this grade
     """
 
-    id = IntegerField(key="Id")
-    key = StringField(key="Key")
-    period_id = IntegerField(key="PeriodId")
-    name = StringField(key="Name")
-    code = StringField(key="Code")
-    group = StringField(key="Group")
-    number = IntegerField(key="Number")
-    weight = FloatField(key="Weight")
-    subject = ChildField(Subject, key="Subject")
-    category = ChildField(GradeCategory, key="Category")
+    id: int = IntegerField(key="Id")
+    key: str = StringField(key="Key")
+    period_id: int = IntegerField(key="PeriodId")
+    name: str = StringField(key="Name")
+    code: str = StringField(key="Code")
+    group: str = StringField(key="Group")
+    number: int = IntegerField(key="Number")
+    weight: float = FloatField(key="Weight")
+    subject: Subject = ChildField(Subject, key="Subject")
+    category: GradeCategory = ChildField(GradeCategory, key="Category")
 
-    period = ChildField(Period, key="Period", required=False)
+    period: Period = ChildField(Period, key="Period", required=False)
 
 
 @immutable
@@ -78,22 +79,27 @@ class Grade(Serializable):
     :var float ~.denominator: for point grades: the denominator value
     """
 
-    id = IntegerField(key="Id")
-    pupil_id = IntegerField(key="PupilId")
-    content_raw = StringField(key="ContentRaw")
-    content = StringField(key="Content")
-    date_created = ChildField(DateTime, key="DateCreated")
-    date_modified = ChildField(DateTime, key="DateModify")
-    teacher_created = ChildField(Teacher, key="Creator")
-    teacher_modified = ChildField(Teacher, key="Modifier")
-    column = ChildField(GradeColumn, key="Column")
-    value = FloatField(key="Value", required=False)
-    comment = StringField(key="Comment", required=False)
-    numerator = FloatField(key="Numerator", required=False)
-    denominator = FloatField(key="Denominator", required=False)
+    id: int = IntegerField(key="Id")
+    pupil_id: int = IntegerField(key="PupilId")
+    content_raw: str = StringField(key="ContentRaw")
+    content: str = StringField(key="Content")
+    date_created: DateTime = ChildField(DateTime, key="DateCreated")
+    date_modified: DateTime = ChildField(DateTime, key="DateModify")
+    teacher_created: Teacher = ChildField(Teacher, key="Creator")
+    teacher_modified: Teacher = ChildField(Teacher, key="Modifier")
+    column: GradeColumn = ChildField(GradeColumn, key="Column")
+    value: float = FloatField(key="Value", required=False)
+    comment: str = StringField(key="Comment", required=False)
+    numerator: float = FloatField(key="Numerator", required=False)
+    denominator: float = FloatField(key="Denominator", required=False)
 
     @classmethod
-    async def get(cls, api, last_sync, deleted, **kwargs):
+    async def get(
+        cls, api, last_sync, deleted, **kwargs
+    ) -> Union[AsyncIterator["Grade"], List[int]]:
+        """
+        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Grade`], List[int]]
+        """
         data = await api.helper.get_list(
             DATA_GRADE,
             FilterType.BY_PUPIL,

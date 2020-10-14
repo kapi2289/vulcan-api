@@ -32,11 +32,11 @@ class Keystore(Serializable):
     :var str ~.device_model: a device model string
     """
 
-    certificate = StringField(key="Certificate")
-    fingerprint = StringField(key="Fingerprint")
-    private_key = StringField(key="PrivateKey")
-    firebase_token = StringField(key="FirebaseToken")
-    device_model = StringField(key="DeviceModel")
+    certificate: str = StringField(key="Certificate")
+    fingerprint: str = StringField(key="Fingerprint")
+    private_key: str = StringField(key="PrivateKey")
+    firebase_token: str = StringField(key="FirebaseToken")
+    device_model: str = StringField(key="DeviceModel")
 
     @staticmethod
     def create(
