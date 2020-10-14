@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
-import math, time
-from datetime import datetime
+import math
 import platform
+import time
 import urllib
+from datetime import datetime
 
+# noinspection PyUnresolvedReferences
 from .._utils import (
     uuid,
     get_firebase_token,
@@ -31,12 +33,12 @@ def now_datetime():  # UTC+0
     return datetime.utcnow()
 
 
-def now_iso():  # ISO 8601, local timezone
-    return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+def now_iso(dt=None):  # ISO 8601, local timezone
+    return (dt or datetime.now()).strftime("%Y-%m-%d %H:%M:%S")
 
 
-def now_gmt():  # RFC 2822, UTC+0
-    return datetime.utcnow().strftime("%a, %d %b %Y %H:%M:%S GMT")
+def now_gmt(dt=None):  # RFC 2822, UTC+0
+    return (dt or datetime.utcnow()).strftime("%a, %d %b %Y %H:%M:%S GMT")
 
 
 def urlencode(s):

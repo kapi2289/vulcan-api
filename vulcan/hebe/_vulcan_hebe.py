@@ -73,7 +73,7 @@ class VulcanHebe:
         """
         return DateTime.load(await self._api.get(SERVER_TIME))
 
-    async def get_grades(self, deleted=False):
+    async def get_grades(self, deleted=False, **kwargs):
         return await self._api.helper.get_list(
-            Grade, DATA_GRADE, FilterType.BY_PUPIL, deleted=deleted
+            Grade, DATA_GRADE, FilterType.BY_PUPIL, deleted=deleted, **kwargs
         )

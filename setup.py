@@ -40,6 +40,7 @@ setup(
         "aiohttp",
         "cchardet",
         "aiodns",
+        "yarl",
     ],
     extras_require={"testing": ["pytest", "python-dotenv"]},
     classifiers=[

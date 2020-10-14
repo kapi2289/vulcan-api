@@ -5,6 +5,7 @@ from typing import Union
 
 import aiohttp
 from uonet_request_signer_hebe import get_signature_values
+from yarl import URL
 
 from ._api_helper import ApiHelper
 from ._keystore import Keystore
@@ -62,12 +63,13 @@ class Api:
         }
 
     def _build_headers(self, full_url: str, payload: str) -> dict:
+        dt = now_datetime()
         digest, canonical_url, signature = get_signature_values(
             self._keystore.fingerprint,
             self._keystore.private_key,
             payload,
             full_url,
-            now_datetime(),
+            dt,
         )
 
         headers = {
@@ -75,7 +77,7 @@ class Api:
             "vOS": APP_OS,
             "vDeviceModel": self._keystore.device_model,
             "vAPI": "1",
-            "vDate": now_gmt(),
+            "vDate": now_gmt(dt),
             "vCanonicalUrl": canonical_url,
             "Signature": signature,
         }
@@ -103,19 +105,26 @@ class Api:
             raise ValueError("Relative URL specified but no account loaded")
 
         payload = self._build_payload(body) if body and method == "POST" else None
-        payload = json.dumps(payload)
+        payload = json.dumps(payload) if payload else None
         headers = self._build_headers(full_url, payload)
 
         log.debug(" > {} to {}".format(method, full_url))
+
+        # a workaround for aiohttp incorrectly re-encoding the full URL
+        full_url = URL(full_url, encoded=True)
 
         async with self._session.request(
             method, full_url, data=payload, headers=headers, **kwargs
         ) as r:
             try:
                 response = await r.json()
-                if response["Status"]["Code"] != 0:
-                    raise RuntimeError(response["Status"]["Message"])
+                status = response["Status"]
                 envelope = response["Envelope"]
+
+                if status["Code"] != 0:
+                    log.debug(" ! " + str(status))
+                    raise RuntimeError(status["Message"])
+
                 log.debug(" < " + str(envelope))
                 return envelope  # TODO better error handling
             except ValueError:

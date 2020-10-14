@@ -37,6 +37,7 @@ class ApiHelper:
         date_to: date = None,
         last_sync: datetime = None,
         params: dict = None,
+        **kwargs,
     ) -> Iterator:
         if deleted:
             raise NotImplementedError(
@@ -61,11 +62,32 @@ class ApiHelper:
         elif filter_type == FilterType.BY_PERIOD:
             query["periodId"] = period.id
             query["pupilId"] = student.pupil.id
+
+        if date_from:
+            query["dateFrom"] = date_from.strftime("%d.%m.%Y")
+        if date_to:
+            query["dateTo"] = date_to.strftime("%d.%m.%Y")
+
+        query["lastId"] = "-2147483648"  # don't ask, it's just Vulcan
+        query["pageSize"] = 500
+        query["lastSyncDate"] = (last_sync or datetime.utcnow()).strftime(
+            "%Y-%m-%d %H:%m:%S"
+        )
+
         if params:
             query.update(params)
-        # query.update({
-        #     "lastSyncDate": (last_sync or datetime.utcnow()).strftime("%Y-%m-%d %H:%m:%S")
-        # })
 
-        data = await self._api.get(url, query)
+        data = await self._api.get(url, query, **kwargs)
         return (cls.load(item) for item in data)
+
+    async def get_object(
+        self,
+        cls,
+        endpoint: str,
+        query: dict = None,
+        **kwargs,
+    ) -> object:
+        url = "{}/{}".format(DATA_ROOT, endpoint)
+
+        data = await self._api.get(url, query, **kwargs)
+        return cls.load(data)
