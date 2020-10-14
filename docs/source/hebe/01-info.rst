@@ -18,7 +18,17 @@ A sample coroutine block looks as follows:
         loop = asyncio.get_event_loop()
         loop.run_until_complete(main())
 
-As all the requests are also async, the API uses ``aiohttp``'s sessions,
+
+Data fetching
+`````````````
+
+.. include:: 10-data-fetching.rst
+
+
+Sessions
+````````
+
+As all HTTP requests are also async, the API uses ``aiohttp``'s sessions,
 which need to be opened and closed when needed.
 
 Upon creation, the :class:`~vulcan.VulcanHebe` object creates a session,
