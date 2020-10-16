@@ -104,9 +104,13 @@ class Message:
             if isinstance(teacher_repr, int) or (
                 isinstance(teacher_repr, str) and teacher_repr.isnumeric()
             ):
-                teacher = to_model(Teacher, api.dict.get_teacher_json(int(teacher_repr)))
+                teacher = to_model(
+                    Teacher, api.dict.get_teacher_json(int(teacher_repr))
+                )
             elif isinstance(teacher_repr, str):
-                teacher = to_model(Teacher, api.dict.get_teacher_by_name_json(teacher_repr))
+                teacher = to_model(
+                    Teacher, api.dict.get_teacher_by_name_json(teacher_repr)
+                )
             elif isinstance(teacher_repr, Teacher):
                 teacher = teacher_repr
             else:
