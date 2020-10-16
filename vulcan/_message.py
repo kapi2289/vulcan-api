@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+
 from related import (
     IntegerField,
     StringField,
@@ -9,8 +11,6 @@ from related import (
     DateField,
     TimeField,
 )
-
-from datetime import datetime
 
 from ._teacher import Teacher
 from ._utils import (
@@ -104,9 +104,9 @@ class Message:
             if isinstance(teacher_repr, int) or (
                 isinstance(teacher_repr, str) and teacher_repr.isnumeric()
             ):
-                teacher = api.dict.get_teacher_json(int(teacher_repr))
+                teacher = to_model(Teacher, api.dict.get_teacher_json(int(teacher_repr)))
             elif isinstance(teacher_repr, str):
-                teacher = api.dict.get_teacher_by_name_json(teacher_repr)
+                teacher = to_model(Teacher, api.dict.get_teacher_by_name_json(teacher_repr))
             elif isinstance(teacher_repr, Teacher):
                 teacher = teacher_repr
             else:
