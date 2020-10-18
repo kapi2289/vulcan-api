@@ -27,3 +27,7 @@ class Teacher:
         :rtype: str
         """
         return "{} {}".format(self.first_name, self.last_name)
+
+    @property
+    def name_reversed(self):
+        return "{} {}".format(self.last_name, self.first_name)

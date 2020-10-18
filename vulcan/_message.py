@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
+
 from related import (
     IntegerField,
     StringField,
@@ -10,9 +12,10 @@ from related import (
     TimeField,
 )
 
-from datetime import datetime
-
 from ._teacher import Teacher
+from ._utils import (
+    log,
+)
 
 
 @immutable
@@ -93,3 +96,47 @@ class Message:
                 message["NadawcaId"]
             )
             yield to_model(cls, message)
+
+    @classmethod
+    def send(cls, api, title, content, teachers):
+        recipients = list()
+        for teacher_repr in teachers:
+            if isinstance(teacher_repr, int) or (
+                isinstance(teacher_repr, str) and teacher_repr.isnumeric()
+            ):
+                teacher = to_model(
+                    Teacher, api.dict.get_teacher_json(int(teacher_repr))
+                )
+            elif isinstance(teacher_repr, str):
+                teacher = to_model(
+                    Teacher, api.dict.get_teacher_by_name_json(teacher_repr)
+                )
+            elif isinstance(teacher_repr, dict):
+                teacher = to_model(Teacher, teacher_repr)
+            elif isinstance(teacher_repr, Teacher):
+                teacher = teacher_repr
+            else:
+                continue
+
+            recipients.append(
+                {
+                    "LoginId": teacher.login_id,
+                    "Nazwa": teacher.name_reversed,
+                }
+            )
+
+        if len(recipients) == 0:
+            raise ValueError("There must be at least 1 correct recipient.")
+
+        data = {
+            "NadawcaWiadomosci": api.student.account_name,
+            "Tytul": title,
+            "Tresc": content,
+            "Adresaci": recipients,
+        }
+
+        log.info("Sending a message...")
+        j = api.post("Uczen/DodajWiadomosc", json=data)
+        log.info("Message sent successfully!")
+
+        return j.get("Data", {}).get("WiadomoscId")

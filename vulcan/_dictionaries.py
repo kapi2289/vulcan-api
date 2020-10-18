@@ -58,6 +58,9 @@ class Dictionaries:
     def get_teacher_json(self, _id):
         return find(self.teachers_json, _id)
 
+    def get_teacher_by_name_json(self, name):
+        return find(self.teachers_json, name, key="Nazwa")
+
     def get_teacher_by_login_id_json(self, _id):
         return find(self.teachers_json, _id, key="LoginId")
 
@@ -82,4 +85,9 @@ class Dictionaries:
     @classmethod
     def get(cls, api):
         j = api.post("Uczen/Slowniki")
-        return to_model(cls, j.get("Data"))
+        data = j.get("Data")
+        for i, teacher in enumerate(data["Pracownicy"]):
+            data["Pracownicy"][i]["Nazwa"] = "{} {}".format(
+                teacher["Imie"], teacher["Nazwisko"]
+            )
+        return to_model(cls, data)
