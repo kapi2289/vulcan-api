@@ -111,6 +111,8 @@ class Message:
                 teacher = to_model(
                     Teacher, api.dict.get_teacher_by_name_json(teacher_repr)
                 )
+            elif isinstance(teacher_repr, dict):
+                teacher = to_model(Teacher, teacher_repr)
             elif isinstance(teacher_repr, Teacher):
                 teacher = teacher_repr
             else:
@@ -134,5 +136,7 @@ class Message:
         }
 
         log.info("Sending a message...")
-        api.post("Uczen/DodajWiadomosc", json=data)
+        j = api.post("Uczen/DodajWiadomosc", json=data)
         log.info("Message sent successfully!")
+
+        return j.get("Data", {}).get("WiadomoscId")
