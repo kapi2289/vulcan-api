@@ -74,27 +74,59 @@ PARAMS_GRADES = [
 ]
 
 PARAMS_MESSAGES = [
-    (
-        [
-            {
-                "WiadomoscId": 27214,
-                "NadawcaId": 3617,
-                "Tytul": "Temat wiadomości",
-                "Tresc": "Tak wygląda zawartość wiadomości.\nZazwyczaj ma wiele linijek.",
-                "DataWyslania": "01.03.2018",
-                "DataPrzeczytania": None,
-            },
-            {
-                "WiadomoscId": 28973,
-                "NadawcaId": 2137,
-                "Tytul": "Tytuł",
-                "Tresc": "Bardzo dużo",
-                "DataWyslania": "05.04.2018",
-                "DataPrzeczytania": None,
-            },
-        ]
-    )
+    [
+        {
+            "WiadomoscId": 27214,
+            "NadawcaId": 3617,
+            "Tytul": "Temat wiadomości",
+            "Tresc": "Tak wygląda zawartość wiadomości.\nZazwyczaj ma wiele linijek.",
+            "DataWyslania": "01.03.2018",
+            "DataPrzeczytania": None,
+        },
+        {
+            "WiadomoscId": 28973,
+            "NadawcaId": 2137,
+            "Tytul": "Tytuł",
+            "Tresc": "Bardzo dużo",
+            "DataWyslania": "05.04.2018",
+            "DataPrzeczytania": None,
+        },
+    ]
 ]
+
+PARAMS_ATTENDANCE = [
+    [
+        {
+            "IdKategoria": 1,
+            "Numer": 1,
+            "IdPoraLekcji": 76,
+            "IdPrzedmiot": 300,
+            "PrzedmiotNazwa": "Zajęcia z wychowawcą",
+        },
+        {
+            "IdKategoria": 2,
+            "Numer": 2,
+            "IdPoraLekcji": 77,
+            "IdPrzedmiot": 312,
+            "PrzedmiotNazwa": "Informatyka",
+        },
+        {
+            "IdKategoria": 2,
+            "Numer": 3,
+            "IdPoraLekcji": 78,
+            "IdPrzedmiot": 312,
+            "PrzedmiotNazwa": "Informatyka",
+        },
+        {
+            "IdKategoria": 2,
+            "Numer": 4,
+            "IdPoraLekcji": 79,
+            "IdPrzedmiot": 307,
+            "PrzedmiotNazwa": "Matematyka",
+        },
+    ]
+]
+
 
 PARAMS_DICTIONARIES_TEACHERS = [
     (1, 100, "AN", "Karolina Kowalska"),

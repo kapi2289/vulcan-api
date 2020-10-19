@@ -45,7 +45,7 @@ class TestMessages:
         recipients = [
             1,  # Teacher ID
             "Zofia Czerwińska",  # Teacher name
-            client.dictionaries.teachers[2],  # Teacher JSON
+            client.dictionaries.teachers[2],  # Teacher object
         ]
         message_id = client.send_message(recipients, "Temat", "Treść")
         assert message_id == 32798
