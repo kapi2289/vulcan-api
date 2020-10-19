@@ -81,7 +81,7 @@ class Attendance:
 
         for attendance in attendances:
             attendance["subject"] = api.dict.get_subject_json(attendance["IdPrzedmiot"])
-            attendance["category"] = api.dict.get_subject_json(
+            attendance["category"] = api.dict.get_attendance_category_json(
                 attendance["IdKategoria"]
             )
             attendance["time"] = api.dict.get_lesson_time_json(
