@@ -13,12 +13,13 @@ from related import (
 )
 
 from ._lesson import LessonTime
+from ._subject import Subject
 from ._utils import sort_and_filter_dates
 
 
 @immutable
 class AttendanceCategory:
-    """Attendance Category
+    """Attendance category
 
     :var int ~.id: Attendance ID
     :var str ~.name: Attendance name
@@ -44,17 +45,17 @@ class AttendanceCategory:
 class Attendance:
     """Attendance
 
-    :var `~vulcan._subject.Subject` ~.subject: Subject of the lesson
     :var `datetime.date` ~.date: Attendance date
-    :var `~vulcan._lesson.LessonTime` ~.time: Information about the lesson time
+    :var `~vulcan._subject.Subject` ~.subject: Subject of the lesson
     :var `~vulcan._attendance.AttendanceCategory` ~.category: Information about Attendance category
+    :var `~vulcan._lesson.LessonTime` ~.time: Information about the lesson time
     """
 
-    subject = StringField(key="PrzedmiotNazwa")
     date = DateField(key="DzienTekst")
 
-    time = ChildField(LessonTime, required=False)
+    subject = ChildField(Subject, required=False)
     category = ChildField(AttendanceCategory, required=False)
+    time = ChildField(LessonTime, required=False)
 
     @classmethod
     def get(cls, api, date_from, date_to):
@@ -79,11 +80,12 @@ class Attendance:
         )
 
         for attendance in attendances:
+            attendance["subject"] = api.dict.get_subject_json(attendance["IdPrzedmiot"])
+            attendance["category"] = api.dict.get_subject_json(
+                attendance["IdKategoria"]
+            )
             attendance["time"] = api.dict.get_lesson_time_json(
                 attendance["IdPoraLekcji"]
-            )
-            attendance["category"] = api.dict.get_attendance_category_json(
-                attendance["IdKategoria"]
             )
 
             yield to_model(cls, attendance)
