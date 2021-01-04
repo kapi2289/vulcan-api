@@ -63,6 +63,9 @@ Data models
 .. autoclass:: vulcan.hebe.data.Exam
     :members:
 
+.. autoclass:: vulcan.hebe.data.Homework
+    :members:
+
 .. autoclass:: vulcan.hebe.data.Grade
     :members:
 
