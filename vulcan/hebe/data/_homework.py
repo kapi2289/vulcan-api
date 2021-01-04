@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
 from typing import Union, AsyncIterator, List
 
-from related import immutable, IntegerField, StringField, ChildField, BooleanField, SequenceField
+from related import (
+    immutable,
+    IntegerField,
+    StringField,
+    ChildField,
+    BooleanField,
+    SequenceField,
+)
 
 from .._api_helper import FilterType
 from .._endpoints import DATA_HOMEWORK
@@ -37,9 +44,10 @@ class Homework(Serializable):
     attachments: list = SequenceField(list, key="Attachments")
     is_answer_required: Subject = BooleanField(key="IsAnswerRequired")
     deadline: DateTime = ChildField(DateTime, key="Deadline")
-    answer_deadline: DateTime = ChildField(DateTime, key="AnswerDeadline", required=False)
+    answer_deadline: DateTime = ChildField(
+        DateTime, key="AnswerDeadline", required=False
+    )
     answer_date: DateTime = ChildField(DateTime, key="AnswerDate", required=False)
-
 
     @classmethod
     async def get(
