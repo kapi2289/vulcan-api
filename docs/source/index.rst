@@ -2,7 +2,8 @@ Vulcan API docs
 ===============
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 3
 
-    getting-started
-    full-docs
+    installation.rst
+    getting-started.rst
+    full-docs.rst

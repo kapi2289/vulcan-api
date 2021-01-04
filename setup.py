@@ -4,7 +4,7 @@ import io
 import re
 from os import path
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 here = path.abspath(path.dirname(__file__))
 
@@ -17,7 +17,7 @@ with io.open(path.join(here, "vulcan/__init__.py"), "rt", encoding="utf8") as f:
 setup(
     name="vulcan-api",
     version=version,
-    packages=["vulcan"],
+    packages=find_packages(),
     author="Kacper Ziubryniewicz",
     author_email="kapi2289@gmail.com",
     description="Nieoficjalne API do dzienniczka elektronicznego UONET+",
@@ -27,14 +27,20 @@ setup(
     license="MIT",
     url="https://github.com/kapi2289/vulcan-api",
     project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
-    python_requires=">=3.5,<4.0",
+    python_requires=">=3.6,<4.0",
     install_requires=[
         "requests",
         "pyopenssl",
         "uonet-request-signer",
+        "uonet-request-signer-hebe",
         "pytz",
         "aenum",
         "related",
+        "asyncio",
+        "aiohttp",
+        "cchardet",
+        "aiodns",
+        "yarl",
     ],
     extras_require={"testing": ["pytest", "python-dotenv"]},
     classifiers=[
@@ -45,10 +51,10 @@ setup(
         "Natural Language :: Polish",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Topic :: Education",
         "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
         "Topic :: Software Development :: Libraries :: Python Modules",

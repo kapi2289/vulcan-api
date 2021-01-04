@@ -33,7 +33,9 @@ def now():
     return math.floor(time.time())
 
 
-def uuid():
+def uuid(seed=None):
+    if seed:
+        return str(_uuid.uuid5(_uuid.NAMESPACE_X500, str(seed)))
     return str(_uuid.uuid4())
 
 
@@ -46,6 +48,7 @@ def signature(certificate, data):
 
 
 def get_components():
+    log.info("Getting Vulcan components...")
     r = requests.get("http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt")
     components = (c.split(",") for c in r.text.split())
     components = {a[0]: a[1] for a in components}
@@ -54,6 +57,7 @@ def get_components():
 
 
 def get_firebase_token():
+    log.info("Getting Firebase token...")
     aid = "4609707972546570896:3626695765779152704"
     device = aid.split(":")[0]
     app = "pl.vulcan.uonetmobile"
