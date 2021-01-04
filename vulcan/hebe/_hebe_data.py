@@ -3,7 +3,7 @@ from datetime import datetime, date
 from typing import Union, AsyncIterator, List
 
 from ._api import Api
-from .data import Grade, LuckyNumber, Exam
+from .data import Grade, LuckyNumber, Exam, Homework
 from .model import DateTime
 
 
@@ -61,3 +61,15 @@ class VulcanHebeData:
         :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Exam`], List[int]]
         """
         return Exam.get(self._api, last_sync, deleted, **kwargs)
+
+    async def get_homeworks(
+        self, last_sync: datetime = None, deleted=False, **kwargs
+    ) -> Union[AsyncIterator[Grade], List[int]]:
+        """Yields the student's homeworks.
+
+        :param `datetime.datetime` last_sync: date of the last sync,
+            gets only the objects updated since this date
+        :param bool deleted: whether to only get the deleted item IDs
+        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Homework`], List[int]]
+        """
+        return Homework.get(self._api, last_sync, deleted, **kwargs)
