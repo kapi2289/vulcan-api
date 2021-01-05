@@ -62,10 +62,10 @@ class VulcanHebeData:
         """
         return Exam.get(self._api, last_sync, deleted, **kwargs)
 
-    async def get_homeworks(
+    async def get_homework(
         self, last_sync: datetime = None, deleted=False, **kwargs
     ) -> Union[AsyncIterator[Grade], List[int]]:
-        """Yields the student's homeworks.
+        """Yields the student's homework list.
 
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
