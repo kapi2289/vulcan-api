@@ -66,6 +66,18 @@ Data models
 .. autoclass:: vulcan.hebe.data.Homework
     :members:
 
+.. autoclass:: vulcan.hebe.data.Lesson
+    :members:
+
+.. autoclass:: vulcan.hebe.data.LessonTime
+    :members:
+
+.. autoclass:: vulcan.hebe.data.LessonRoom
+    :members:
+
+.. autoclass:: vulcan.hebe.data.LessonGroup
+    :members:
+
 .. autoclass:: vulcan.hebe.data.Grade
     :members:
 
