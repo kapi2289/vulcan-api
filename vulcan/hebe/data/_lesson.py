@@ -51,9 +51,9 @@ class LessonRoom(Serializable):
 class Lesson(Serializable):
     """A lesson.
 
-    :var int ~.id: lesson's ID
-    :var `~vulcan.hebe.model.DateTime` ~.date: lesson's date
-    :var `~vulcan.hebe.data.LessonTime` ~.time: lesson's time
+    :var int ~.id: Lesson's ID
+    :var `~vulcan.hebe.model.DateTime` ~.date: Lesson's date
+    :var `~vulcan.hebe.data.LessonTime` ~.time: Lesson's time
     :var `~vulcan.hebe.data.LessonRoom` ~.room: Classroom, in which is the lesson
     :var `~vulcan.hebe.model.Teacher` ~.teacher: Teacher of the lesson
     :var `~vulcan.hebe.model.Teacher` ~.second_teacher: Seccond teacher of the lesson
