@@ -13,26 +13,16 @@ from related import (
 
 from .._api_helper import FilterType
 from .._endpoints import DATA_TIMETABLE
-from ..model import Serializable, DateTime, Teacher, Subject, TeamClass, TeamVirtual
-from ..._utils import TIME_FORMAT_H_M, sort_and_filter_dates
-
-
-@immutable
-class LessonTime(Serializable):
-    """Lesson time (start-end range)
-
-    :var int ~.id: Lesson time ID
-    :var `datetime.time` ~.from_: Lesson start time
-    :var `datetime.time` ~.to: Lesson end time
-    :var str ~.displayed_time: lesson's displayed time
-    :var int ~.position: Lesson position
-    """
-
-    id: int = IntegerField(key="Id")
-    from_: TimeField = TimeField(key="Start", formatter=TIME_FORMAT_H_M)
-    to: TimeField = TimeField(key="End", formatter=TIME_FORMAT_H_M)
-    displayed_time: str = StringField(key="Display")
-    position: int = IntegerField(key="Position")
+from ..model import (
+    Serializable,
+    DateTime,
+    Teacher,
+    Subject,
+    TeamClass,
+    TeamVirtual,
+    TimeSlot,
+)
+from ..._utils import TIME_FORMAT_H_M
 
 
 @immutable
@@ -51,9 +41,9 @@ class LessonRoom(Serializable):
 class Lesson(Serializable):
     """A lesson.
 
-    :var int ~.id: Lesson's ID
-    :var `~vulcan.hebe.model.DateTime` ~.date: Lesson's date
-    :var `~vulcan.hebe.data.LessonTime` ~.time: Lesson's time
+    :var int ~.id: lesson's ID
+    :var `~vulcan.hebe.model.DateTime` ~.date: lesson's date
+    :var `~vulcan.hebe.model.TimeSlot` ~.time: lesson's time
     :var `~vulcan.hebe.data.LessonRoom` ~.room: Classroom, in which is the lesson
     :var `~vulcan.hebe.model.Teacher` ~.teacher: Teacher of the lesson
     :var `~vulcan.hebe.model.Teacher` ~.second_teacher: Seccond teacher of the lesson
@@ -68,7 +58,7 @@ class Lesson(Serializable):
 
     id: int = IntegerField(key="Id", required=False)
     date: DateTime = ChildField(DateTime, key="Date", required=False)
-    time: LessonTime = ChildField(LessonTime, key="TimeSlot", required=False)
+    time: TimeSlot = ChildField(TimeSlot, key="TimeSlot", required=False)
     room: LessonRoom = ChildField(LessonRoom, key="Room", required=False)
     teacher: Teacher = ChildField(Teacher, key="TeacherPrimary", required=False)
     second_teacher: Teacher = ChildField(
