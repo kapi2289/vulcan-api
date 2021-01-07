@@ -2,6 +2,6 @@
 
 from ._exam import Exam
 from ._homework import Homework
-from ._lesson import Lesson, LessonTime, LessonRoom, LessonGroup
+from ._lesson import Lesson, LessonTime, LessonRoom
 from ._grade import Grade, GradeColumn, GradeCategory
 from ._lucky_number import LuckyNumber
