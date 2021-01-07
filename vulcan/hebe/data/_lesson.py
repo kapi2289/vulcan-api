@@ -29,8 +29,8 @@ from ..._utils import TIME_FORMAT_H_M
 class LessonRoom(Serializable):
     """Lesson room
 
-    :var int ~.id: Lesson room ID
-    :var str ~.code: Classroom code
+    :var int ~.id: lesson room ID
+    :var str ~.code: classroom code
     """
 
     id: int = IntegerField(key="Id")
@@ -44,16 +44,16 @@ class Lesson(Serializable):
     :var int ~.id: lesson's ID
     :var `~vulcan.hebe.model.DateTime` ~.date: lesson's date
     :var `~vulcan.hebe.model.TimeSlot` ~.time: lesson's time
-    :var `~vulcan.hebe.data.LessonRoom` ~.room: Classroom, in which is the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.teacher: Teacher of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: Seccond teacher of the lesson
-    :var `~vulcan.hebe.model.Subject` ~.subject: Subject on the lesson
-    :var str ~.event: An event happening during this lesson
-    :var str ~.changes: Lesson changes
-    :var `~vulcan.hebe.model.TeamClass` ~.team_class: The class that has the lesson
-    :var str ~.pupil_alias: Pupil Alias
-    :var `~vulcan.hebe.model.TeamVirtual` ~.group: Group, that has the lesson
-    :var bool ~.visible: Lesson visibility (whether the timetable applies to the given student)
+    :var `~vulcan.hebe.data.LessonRoom` ~.room: classroom, in which is the lesson
+    :var `~vulcan.hebe.model.Teacher` ~.teacher: teacher of the lesson
+    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: seccond teacher of the lesson
+    :var `~vulcan.hebe.model.Subject` ~.subject: subject on the lesson
+    :var str ~.event: an event happening during this lesson
+    :var str ~.changes: lesson changes
+    :var `~vulcan.hebe.model.TeamClass` ~.team_class: the class that has the lesson
+    :var str ~.pupil_alias: pupil alias
+    :var `~vulcan.hebe.model.TeamVirtual` ~.group: group, that has the lesson
+    :var bool ~.visible: lesson visibility (whether the timetable applies to the given student)
     """
 
     id: int = IntegerField(key="Id", required=False)
