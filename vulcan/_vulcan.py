@@ -146,3 +146,14 @@ class Vulcan:
         :rtype: Iterator[:class:`~vulcan._message.Message`]
         """
         return Message.get(self._api, date_from, date_to)
+
+    def send_message(self, teachers, title, content):
+        """
+        Sends message to given teachers
+
+        :param list teachers: List of recipients (ids, names or `~vulcan._teacher.Teacher` objects)
+        :param str title: Title of the message
+        :param str content: Content of the message
+        :rtype: int
+        """
+        return Message.send(self._api, title, content, teachers)

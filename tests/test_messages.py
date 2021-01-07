@@ -6,9 +6,9 @@ from .utils import PARAMS_MESSAGES
 
 
 @pytest.mark.online
-@pytest.mark.parametrize("messages_expected", PARAMS_MESSAGES)
 class TestMessages:
-    def test_private(self, client, messages_expected):
+    @pytest.mark.parametrize("messages_expected", PARAMS_MESSAGES)
+    def test_getting(self, client, messages_expected):
         messages = client.get_messages()
 
         for message_expected in messages_expected:
@@ -40,3 +40,12 @@ class TestMessages:
                 )
             else:
                 assert message_expected["DataPrzeczytania"] is None
+
+    def test_sending(self, client):
+        recipients = [
+            1,  # Teacher ID
+            "Zofia Czerwińska",  # Teacher name
+            client.dictionaries.teachers[2],  # Teacher object
+        ]
+        message_id = client.send_message(recipients, "Temat", "Treść")
+        assert message_id == 32798
