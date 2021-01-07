@@ -48,24 +48,6 @@ class LessonRoom(Serializable):
 
 
 @immutable
-class LessonGroup(Serializable):
-    """Lesson time (start-end range)
-
-    :var int ~.id: Group ID
-    :var str ~.key: Lesson's group key (UUID)
-    :var str ~.shortcut: Group shortcut
-    :var str ~.name: Group full name
-    :var str ~.part_type: Group sorting type (eg. gender or advancement level)
-    """
-
-    id: int = IntegerField(key="Id")
-    key: str = StringField(key="Key")
-    shortcut: str = StringField(key="Shortcut")
-    name: str = StringField(key="Name")
-    part_type: str = StringField(key="PartType")
-
-
-@immutable
 class Lesson(Serializable):
     """A lesson.
 
@@ -80,7 +62,7 @@ class Lesson(Serializable):
     :var str ~.changes: Lesson changes
     :var `~vulcan.hebe.model.TeamClass` ~.team_class: The class that has the lesson
     :var str ~.pupil_alias: Pupil Alias
-    :var `~vulcan.hebe.data.LessonGroup` ~.group: Group, that has the lesson
+    :var `~vulcan.hebe.model.TeamVirtual` ~.group: Group, that has the lesson
     :var bool ~.visible: Lesson visibility (whether the timetable applies to the given student)
     """
 
@@ -97,7 +79,7 @@ class Lesson(Serializable):
     changes: str = StringField(key="Change", required=False)
     team_class: TeamClass = ChildField(TeamClass, key="Clazz", required=False)
     pupil_alias: str = StringField(key="PupilAlias", required=False)
-    group: LessonGroup = ChildField(LessonGroup, key="Distribution", required=False)
+    group: TeamVirtual = ChildField(TeamVirtual, key="Distribution", required=False)
     visible = BooleanField(key="Visible", required=False)
 
     @classmethod
