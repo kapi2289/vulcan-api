@@ -114,4 +114,6 @@ class VulcanHebeData:
             it's using the `date_from` date (Default value = None)
         :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Attendance`], List[int]]
         """
-        return Attendance.get(self._api, last_sync, deleted, date_from, date_to, **kwargs)\
+        return Attendance.get(
+            self._api, last_sync, deleted, date_from, date_to, **kwargs
+        )
