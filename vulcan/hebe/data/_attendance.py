@@ -29,18 +29,18 @@ from ..model import (
 class PresenceType(Serializable):
     """Presence type
 
-    :var int ~.id: Attendance ID
-    :var str ~.name: Attendance name
-    :var str ~.symbol: Attendance symbol
-    :var int ~.category_id: Attendance category ID
-    :var str ~.category_name: Attendance category name
-    :var int ~.position: Attendance position
-    :var bool ~.presence: Presence on lesson
-    :var bool ~.absence: Absence on lesson
-    :var bool ~.exemption: Exemption from lesson
-    :var bool ~.late: Is late for lesson
-    :var bool ~.justified: Justified absence
-    :var bool ~.deleted: Whether the entry is deleted
+    :var int ~.id: attendance ID
+    :var str ~.name: attendance name
+    :var str ~.symbol: attendance symbol
+    :var int ~.category_id: attendance category ID
+    :var str ~.category_name: attendance category name
+    :var int ~.position: attendance position
+    :var bool ~.presence: presence on lesson
+    :var bool ~.absence: absence on lesson
+    :var bool ~.exemption: exemption from lesson
+    :var bool ~.late: is late for lesson
+    :var bool ~.justified: justified absence
+    :var bool ~.deleted: whether the entry is deleted
     """
 
     id = IntegerField(key="Id")
@@ -61,32 +61,32 @@ class PresenceType(Serializable):
 class Attendance(Serializable):
     """A grade.
 
-    :var int ~.lesson_id: Lesson ID
-    :var int ~.id: Attendance ID
-    :var int ~.lesson_number: Lesson number
-    :var str ~.global_key: Attendance global key
-    :var int ~.lesson_class_id: Lesson class ID
-    :var str ~.global_key: Lesson class global key
-    :var bool ~.calculate_presence: Does it count for absences
-    :var bool ~.replacement: Is it replaced
-    :var `~vulcan.hebe.model.Subject` ~.subject: Subject of the lesson
-    :var str ~.topic: Topic of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.teacher: Teacher of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: Seccond teacher of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.main_teacher: Pupil main teacher
-    :var `~vulcan.hebe.model.TeamClass` ~.team_class: The class that had lesson
-    :var str ~.class_alias: Class short name
+    :var int ~.lesson_id: lesson ID
+    :var int ~.id: attendance ID
+    :var int ~.lesson_number: lesson number
+    :var str ~.global_key: attendance global key
+    :var int ~.lesson_class_id: lesson class ID
+    :var str ~.global_key: lesson class global key
+    :var bool ~.calculate_presence: does it count for absences
+    :var bool ~.replacement: os it replaced
+    :var `~vulcan.hebe.model.Subject` ~.subject: subject of the lesson
+    :var str ~.topic: topic of the lesson
+    :var `~vulcan.hebe.model.Teacher` ~.teacher: teacher of the lesson
+    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: seccond teacher of the lesson
+    :var `~vulcan.hebe.model.Teacher` ~.main_teacher: pupil main teacher
+    :var `~vulcan.hebe.model.TeamClass` ~.team_class: the class that had lesson
+    :var str ~.class_alias: class short name
     :var `~vulcan.hebe.model.DateTime` ~.date: lesson's date
     :var `~vulcan.hebe.model.TimeSlot` ~.time: lesson's time
-    :var `~vulcan.hebe.model.DateTime` ~.date_modified: Attendance modification date, if not modified it is created date
-    :var int ~.id: Aux presence ID
-    :var str ~.justification_status: Attendance justification status
-    :var `~vulcan.hebe.data.PresenceType` ~.presence_type: PresenceType
-    :var str ~.note: Attendance note
-    :var str ~.public_resources: Attendance public esources
-    :var str ~.remote_resources: Attendance remote resources
-    :var `~vulcan.hebe.model.TeamVirtual` ~.group: Group, that has the lesson
-    :var bool ~.visible: Attendance visibility
+    :var `~vulcan.hebe.model.DateTime` ~.date_modified: attendance modification date, if not modified it is created date
+    :var int ~.id: aux presence ID
+    :var str ~.justification_status: attendance justification status
+    :var `~vulcan.hebe.data.PresenceType` ~.presence_type: presence type
+    :var str ~.note: attendance note
+    :var str ~.public_resources: attendance public esources
+    :var str ~.remote_resources: attendance remote resources
+    :var `~vulcan.hebe.model.TeamVirtual` ~.group: group, that has the lesson
+    :var bool ~.visible: attendance visibility
 
 
     """
