@@ -21,7 +21,7 @@ class Homework(Serializable):
 
     :var int ~.id: homework's external ID
     :var str ~.key: homework's key (UUID)
-    :var int ~.id: homework's internal ID
+    :var int ~.homework_id: homework's internal ID
     :var str ~.content: homework's content
     :var `~vulcan.hebe.model.DateTime` ~.date_created: homework's creation date
     :var `~vulcan.hebe.model.Teacher` ~.creator: the teacher who added
