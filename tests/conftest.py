@@ -10,7 +10,7 @@ from vulcan import Vulcan
 @pytest.mark.online
 @pytest.fixture
 def client():
-    cert = Vulcan.register("FK100000", "powiatwulkanowy", "123456")
+    cert = Vulcan.register("FK100000", "powiatwulkanowy", "999999")
     assert (
         md5(cert.pfx.encode("utf-8")).hexdigest() == "4c168702befb4c6ef356c77fd23fedaa"
     )
