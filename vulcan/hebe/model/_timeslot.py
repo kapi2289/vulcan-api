@@ -10,11 +10,11 @@ from ._serializable import Serializable
 class TimeSlot(Serializable):
     """Lesson time (start-end range)
 
-    :var int ~.id: Lesson time ID
-    :var `datetime.time` ~.from_: Lesson start time
-    :var `datetime.time` ~.to: Lesson end time
+    :var int ~.id: lesson time ID
+    :var `datetime.time` ~.from_: lesson start time
+    :var `datetime.time` ~.to: lesson end time
     :var str ~.displayed_time: lesson's displayed time
-    :var int ~.position: Lesson position
+    :var int ~.position: lesson position
     """
 
     id: int = IntegerField(key="Id")
