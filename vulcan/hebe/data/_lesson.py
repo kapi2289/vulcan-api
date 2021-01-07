@@ -28,11 +28,11 @@ class LessonTime(Serializable):
     :var int ~.position: Lesson position
     """
 
-    id = IntegerField(key="Id")
-    from_ = TimeField(key="Start", formatter=TIME_FORMAT_H_M)
-    to = TimeField(key="End", formatter=TIME_FORMAT_H_M)
-    displayed_time = StringField(key="Display")
-    position = IntegerField(key="Position")
+    id: int = IntegerField(key="Id")
+    from_: TimeField = TimeField(key="Start", formatter=TIME_FORMAT_H_M)
+    to: TimeField = TimeField(key="End", formatter=TIME_FORMAT_H_M)
+    displayed_time: str = StringField(key="Display")
+    position: int = IntegerField(key="Position")
 
 
 @immutable
@@ -43,8 +43,8 @@ class LessonRoom(Serializable):
     :var str ~.code: Classroom code
     """
 
-    id = IntegerField(key="Id")
-    code = StringField(key="Code")
+    id: int = IntegerField(key="Id")
+    code: str = StringField(key="Code")
 
 
 @immutable
@@ -58,7 +58,7 @@ class LessonGroup(Serializable):
     :var str ~.part_type: Group sorting type (eg. gender or advancement level)
     """
 
-    id = IntegerField(key="Id")
+    id: int = IntegerField(key="Id")
     key: str = StringField(key="Key")
     shortcut: str = StringField(key="Shortcut")
     name: str = StringField(key="Name")
