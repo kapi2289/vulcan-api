@@ -50,8 +50,11 @@ def signature(certificate, data):
 def get_components():
     log.info("Getting Vulcan components...")
     r = requests.get("http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt")
-    components = (c.split(",") for c in r.text.split())
-    components = {a[0]: a[1] for a in components}
+    if r.headers["Content-Type"] == "text/plain":
+        components = (c.split(",") for c in r.text.split())
+        components = {a[0]: a[1] for a in components}
+    else:
+        components = {}
     components.update({"FK1": "http://api.fakelog.cf"})
     return components
 
