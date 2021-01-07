@@ -8,7 +8,7 @@ from vulcan import Vulcan
 
 
 @pytest.mark.online
-@pytest.fixture
+@pytest.fixture(scope="module")
 def client():
     cert = Vulcan.register("FK100000", "powiatwulkanowy", "123456")
     assert (
