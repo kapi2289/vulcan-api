@@ -59,7 +59,7 @@ class PresenceType(Serializable):
 
 @immutable
 class Attendance(Serializable):
-    """A grade.
+    """Attendance.
 
     :var int ~.lesson_id: lesson ID
     :var int ~.id: attendance ID
@@ -87,7 +87,6 @@ class Attendance(Serializable):
     :var str ~.remote_resources: attendance remote resources
     :var `~vulcan.hebe.model.TeamVirtual` ~.group: group, that has the lesson
     :var bool ~.visible: attendance visibility
-
 
     """
 
