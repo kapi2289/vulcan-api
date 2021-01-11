@@ -132,7 +132,7 @@ class Attendance(Serializable):
             date_to = date_from
         date_to = date_to + datetime.timedelta(
             days=1
-        )  # Vulcan requires the date_to to be one greater the date it is supposed to be
+        )
         """
         :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Attendance`], List[int]]
         """
