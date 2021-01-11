@@ -46,7 +46,7 @@ class Lesson(Serializable):
     :var `~vulcan.hebe.model.TimeSlot` ~.time: lesson's time
     :var `~vulcan.hebe.data.LessonRoom` ~.room: classroom, in which is the lesson
     :var `~vulcan.hebe.model.Teacher` ~.teacher: teacher of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: seccond teacher of the lesson
+    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: second teacher of the lesson
     :var `~vulcan.hebe.model.Subject` ~.subject: subject on the lesson
     :var str ~.event: an event happening during this lesson
     :var str ~.changes: lesson changes
@@ -76,16 +76,16 @@ class Lesson(Serializable):
     async def get(
         cls, api, last_sync, deleted, date_from, date_to, **kwargs
     ) -> Union[AsyncIterator["Lesson"], List[int]]:
+        """
+        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Lesson`], List[int]]
+        """
         if date_from == None:
             date_from = datetime.date.today()
         if date_to == None:
             date_to = date_from
         date_to = date_to + datetime.timedelta(
             days=1
-        )
-        """
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Lesson`], List[int]]
-        """
+        )  # Vulcan requires the date_to to be one greater the date it is supposed to be
         data = await api.helper.get_list(
             DATA_TIMETABLE,
             FilterType.BY_PUPIL,
