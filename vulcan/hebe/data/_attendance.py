@@ -72,7 +72,7 @@ class Attendance(Serializable):
     :var `~vulcan.hebe.model.Subject` ~.subject: subject of the lesson
     :var str ~.topic: topic of the lesson
     :var `~vulcan.hebe.model.Teacher` ~.teacher: teacher of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: seccond teacher of the lesson
+    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: second teacher of the lesson
     :var `~vulcan.hebe.model.Teacher` ~.main_teacher: pupil main teacher
     :var `~vulcan.hebe.model.TeamClass` ~.team_class: the class that had lesson
     :var str ~.class_alias: class short name
@@ -83,7 +83,7 @@ class Attendance(Serializable):
     :var str ~.justification_status: attendance justification status
     :var `~vulcan.hebe.data.PresenceType` ~.presence_type: presence type
     :var str ~.note: attendance note
-    :var str ~.public_resources: attendance public esources
+    :var str ~.public_resources: attendance public resources
     :var str ~.remote_resources: attendance remote resources
     :var `~vulcan.hebe.model.TeamVirtual` ~.group: group, that has the lesson
     :var bool ~.visible: attendance visibility
@@ -126,16 +126,16 @@ class Attendance(Serializable):
     async def get(
         cls, api, last_sync, deleted, date_from, date_to, **kwargs
     ) -> Union[AsyncIterator["Attendance"], List[int]]:
+        """
+        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Attendance`], List[int]]
+        """
         if date_from == None:
             date_from = datetime.date.today()
         if date_to == None:
             date_to = date_from
         date_to = date_to + datetime.timedelta(
             days=1
-        )
-        """
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Attendance`], List[int]]
-        """
+        )  # Vulcan requires the date_to to be one greater the date it is supposed to be
         data = await api.helper.get_list(
             DATA_ATTENDANCE,
             FilterType.BY_PUPIL,
