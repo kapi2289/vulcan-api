@@ -34,6 +34,7 @@ class ApiHelper:
         date_from: date = None,
         date_to: date = None,
         last_sync: datetime = None,
+        folder: int = None,
         params: dict = None,
         **kwargs,
     ) -> list:
@@ -67,6 +68,9 @@ class ApiHelper:
             query["dateFrom"] = date_from.strftime("%d.%m.%Y")
         if date_to:
             query["dateTo"] = date_to.strftime("%d.%m.%Y")
+
+        if folder is not None:
+            query["folder"] = folder
 
         query["lastId"] = "-2147483648"  # don't ask, it's just Vulcan
         query["pageSize"] = 500

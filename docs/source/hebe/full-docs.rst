@@ -54,13 +54,31 @@ Common models
 .. autoclass:: vulcan.hebe.model.TeamVirtual
     :members:
 
+.. autoclass:: vulcan.hebe.model.TimeSlot
+    :members:
+
 .. autoclass:: vulcan.hebe.model.Unit
     :members:
 
 Data models
 ^^^^^^^^^^^
 
+.. autoclass:: vulcan.hebe.data.Attendance
+    :members:
+ 
+.. autoclass:: vulcan.hebe.data.PresenceType
+    :members:
+    
 .. autoclass:: vulcan.hebe.data.Exam
+    :members:
+
+.. autoclass:: vulcan.hebe.data.Homework
+    :members:
+
+.. autoclass:: vulcan.hebe.data.Lesson
+    :members:
+
+.. autoclass:: vulcan.hebe.data.LessonRoom
     :members:
 
 .. autoclass:: vulcan.hebe.data.Grade
