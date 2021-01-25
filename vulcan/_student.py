@@ -39,9 +39,9 @@ class Student:
     login_id = IntegerField(key="UzytkownikLoginId")
     account_name = StringField(key="UzytkownikNazwa")
     first_name = StringField(key="Imie")
-    second_name = StringField(key="Imie2", required=False)
     last_name = StringField(key="Nazwisko")
     gender = ChildField(Gender, key="UczenPlec")
+    second_name = StringField(key="Imie2", required=False)
     nickname = StringField(key="Pseudonim", required=False)
 
     period = ChildField(Period, required=False)
