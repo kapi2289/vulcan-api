@@ -7,7 +7,7 @@
 </p>
 <p align="center">
     <a href="https://travis-ci.com/kapi2289/vulcan-api"><img src="https://travis-ci.com/kapi2289/vulcan-api.svg?branch=master" alt="Tests status"></a>
-    <a href="https://vulcan-api.readthedocs.io/pl/latest/?badge=latest"><img src="https://img.shields.io/readthedocs/vulcan-api.svg" alt="Documentation status"></a>
+    <a href="https://vulcan-api.readthedocs.io/en/latest/?badge=latest"><img src="https://img.shields.io/readthedocs/vulcan-api.svg" alt="Documentation status"></a>
 </p>
 <p align="center">
     <a href="https://pypi.org/project/vulcan-api/"><img src="https://img.shields.io/pypi/dd/vulcan-api.svg" alt="Daily downloads"></a>
