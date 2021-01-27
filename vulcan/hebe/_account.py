@@ -55,5 +55,6 @@ class Account(Serializable):
 
         api = Api(keystore)
         response = await api.post(full_url, body)
+        await api.close()
 
         return Account.load(response)
