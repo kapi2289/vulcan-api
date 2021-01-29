@@ -69,7 +69,7 @@ class VulcanHebeData:
             it's using the `date_from` date (Default value = None)
         :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Exam`], List[int]]
         """
-        return Exam.get(self._api, last_sync, deleted, **kwargs)
+        return Exam.get(self._api, last_sync, deleted, date_from, date_to, **kwargs)
 
     async def get_homework(
         self,
@@ -90,7 +90,7 @@ class VulcanHebeData:
             it's using the `date_from` date (Default value = None)
         :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Homework`], List[int]]
         """
-        return Homework.get(self._api, last_sync, deleted, **kwargs)
+        return Homework.get(self._api, last_sync, deleted, date_from, date_to, **kwargs)
 
     async def get_lessons(
         self,

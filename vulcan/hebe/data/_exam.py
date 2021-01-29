@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from typing import Union, AsyncIterator, List
+import datetime
 
 from related import immutable, IntegerField, StringField, ChildField
 
