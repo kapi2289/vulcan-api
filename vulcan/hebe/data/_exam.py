@@ -44,15 +44,23 @@ class Exam(Serializable):
 
     @classmethod
     async def get(
-        cls, api, last_sync, deleted, **kwargs
+        cls, api, last_sync, deleted, date_from, date_to, **kwargs
     ) -> Union[AsyncIterator["Exam"], List[int]]:
         """
         :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Exam`], List[int]]
         """
+        if date_from == None:
+            date_from = datetime.date.today()
+        if date_to == None:
+            date_to = date_from
+        date_to = date_to + datetime.timedelta(
+            days=1
         data = await api.helper.get_list(
             DATA_EXAM,
             FilterType.BY_PUPIL,
             deleted=deleted,
+            date_from=date_from,
+            date_to=date_to,
             last_sync=last_sync,
             **kwargs
         )

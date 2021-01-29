@@ -51,25 +51,43 @@ class VulcanHebeData:
         return Grade.get(self._api, last_sync, deleted, **kwargs)
 
     async def get_exams(
-        self, last_sync: datetime = None, deleted=False, **kwargs
+        self, 
+        last_sync: datetime = None, 
+        deleted=False,
+        date_from=None,
+        date_to=None, 
+        **kwargs
     ) -> Union[AsyncIterator[Grade], List[int]]:
         """Yields the student's exams.
 
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
         :param bool deleted: whether to only get the deleted item IDs
+        :param `datetime.date` date_from: Date, from which to fetch exams, if not provided
+            it's using the today date (Default value = None)
+        :param `datetime.date` date_to: Date, to which to fetch exams, if not provided
+            it's using the `date_from` date (Default value = None)
         :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Exam`], List[int]]
         """
         return Exam.get(self._api, last_sync, deleted, **kwargs)
 
     async def get_homework(
-        self, last_sync: datetime = None, deleted=False, **kwargs
+        self, 
+        last_sync: datetime = None, 
+        deleted=False,
+        date_from=None,
+        date_to=None, 
+        **kwargs
     ) -> Union[AsyncIterator[Homework], List[int]]:
         """Yields the student's homework.
 
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
         :param bool deleted: whether to only get the deleted item IDs
+        :param `datetime.date` date_from: Date, from which to fetch homeworks, if not provided
+            it's using the today date (Default value = None)
+        :param `datetime.date` date_to: Date, to which to fetch homeworks, if not provided
+            it's using the `date_from` date (Default value = None)
         :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Homework`], List[int]]
         """
         return Homework.get(self._api, last_sync, deleted, **kwargs)
