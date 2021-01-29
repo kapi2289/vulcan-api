@@ -51,11 +51,11 @@ class VulcanHebeData:
         return Grade.get(self._api, last_sync, deleted, **kwargs)
 
     async def get_exams(
-        self, 
-        last_sync: datetime = None, 
+        self,
+        last_sync: datetime = None,
         deleted=False,
         date_from=None,
-        date_to=None, 
+        date_to=None,
         **kwargs
     ) -> Union[AsyncIterator[Grade], List[int]]:
         """Yields the student's exams.
@@ -72,11 +72,11 @@ class VulcanHebeData:
         return Exam.get(self._api, last_sync, deleted, **kwargs)
 
     async def get_homework(
-        self, 
-        last_sync: datetime = None, 
+        self,
+        last_sync: datetime = None,
         deleted=False,
         date_from=None,
-        date_to=None, 
+        date_to=None,
         **kwargs
     ) -> Union[AsyncIterator[Homework], List[int]]:
         """Yields the student's homework.
