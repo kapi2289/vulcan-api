@@ -65,9 +65,9 @@ class ApiHelper:
             query["pupilId"] = student.pupil.id
 
         if date_from:
-            query["dateFrom"] = date_from.strftime("%d.%m.%Y")
+            query["dateFrom"] = date_from.strftime("%Y-%m-%d")
         if date_to:
-            query["dateTo"] = date_to.strftime("%d.%m.%Y")
+            query["dateTo"] = date_to.strftime("%Y-%m-%d")
 
         if folder is not None:
             query["folder"] = folder
