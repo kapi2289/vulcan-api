@@ -1,0 +1,7 @@
+pytest~=4.3.1
+related~=0.7.2
+aenum~=2.1.2
+aiohttp~=3.6.2
+yarl~=1.4.2
+requests~=2.21.0
+pytz~=2018.9
