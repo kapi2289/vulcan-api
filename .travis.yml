@@ -10,7 +10,6 @@ jobs:
       - pip install isort
     script:
       - isort --check-only --profile black .
-  include:
   - name: Black
     before_install:
       - skip
