@@ -5,5 +5,5 @@ Vulcan API docs
     :maxdepth: 3
 
     installation.rst
-    getting-started.rst
-    full-docs.rst
+    hebe/index.rst
+    hebe/full-docs.rst

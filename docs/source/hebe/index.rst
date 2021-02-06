@@ -1,4 +1,4 @@
-Dzienniczek VULCAN (hebe) API
+Getting started
 =============================
 
 .. toctree::

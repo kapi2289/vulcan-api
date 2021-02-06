@@ -24,6 +24,7 @@ jobs:
     before_install:
       - skip
     install:
-      - pip install black
+      - pip install isort black
     script:
+      - isort --profile black .
       - black --check --verbose .

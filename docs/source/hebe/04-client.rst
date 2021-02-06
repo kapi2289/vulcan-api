@@ -23,10 +23,10 @@ To select a student:
 Simple data fetching
 ````````````````````
 
-All data is fetched from the :class:`~vulcan.hebe._hebe_data.VulcanHebeData` class,
+All data is fetched from the :class:`~vulcan._hebe_data.VulcanHebeData` class,
 available as ``client.data`` variable.
 
-.. note:: Read the :class:`~vulcan.hebe._hebe_data.VulcanHebeData` docs to see
+.. note:: Read the :class:`~vulcan._hebe_data.VulcanHebeData` docs to see
     all public data fetching methods.
 
 .. code-block:: python

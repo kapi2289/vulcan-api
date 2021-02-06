@@ -1,4 +1,4 @@
-Dzienniczek VULCAN (hebe) API docs
+Full API documentation
 ==================================
 
 .. toctree::
@@ -9,7 +9,7 @@ Client
 .. autoclass:: vulcan.VulcanHebe
     :members:
 
-.. autoclass:: vulcan.hebe._hebe_data.VulcanHebeData
+.. autoclass:: vulcan._hebe_data.VulcanHebeData
     :members:
 
 Core models
@@ -21,74 +21,74 @@ Core models
 .. autoclass:: vulcan.Account
     :members:
 
-.. autoclass:: vulcan.hebe.model.Serializable
+.. autoclass:: vulcan.model.Serializable
     :members:
 
 Common models
 ^^^^^^^^^^^^^
 
-.. autoclass:: vulcan.hebe.model.Student
+.. autoclass:: vulcan.model.Student
     :members:
 
-.. autoclass:: vulcan.hebe.model.DateTime
+.. autoclass:: vulcan.model.DateTime
     :members:
 
-.. autoclass:: vulcan.hebe.model.Period
+.. autoclass:: vulcan.model.Period
     :members:
 
-.. autoclass:: vulcan.hebe.model.Pupil
+.. autoclass:: vulcan.model.Pupil
     :members:
 
-.. autoclass:: vulcan.hebe.model.School
+.. autoclass:: vulcan.model.School
     :members:
 
-.. autoclass:: vulcan.hebe.model.Subject
+.. autoclass:: vulcan.model.Subject
     :members:
 
-.. autoclass:: vulcan.hebe.model.Teacher
+.. autoclass:: vulcan.model.Teacher
     :members:
 
-.. autoclass:: vulcan.hebe.model.TeamClass
+.. autoclass:: vulcan.model.TeamClass
     :members:
 
-.. autoclass:: vulcan.hebe.model.TeamVirtual
+.. autoclass:: vulcan.model.TeamVirtual
     :members:
 
-.. autoclass:: vulcan.hebe.model.TimeSlot
+.. autoclass:: vulcan.model.TimeSlot
     :members:
 
-.. autoclass:: vulcan.hebe.model.Unit
+.. autoclass:: vulcan.model.Unit
     :members:
 
 Data models
 ^^^^^^^^^^^
 
-.. autoclass:: vulcan.hebe.data.Attendance
+.. autoclass:: vulcan.data.Attendance
     :members:
  
-.. autoclass:: vulcan.hebe.data.PresenceType
+.. autoclass:: vulcan.data.PresenceType
     :members:
     
-.. autoclass:: vulcan.hebe.data.Exam
+.. autoclass:: vulcan.data.Exam
     :members:
 
-.. autoclass:: vulcan.hebe.data.Homework
+.. autoclass:: vulcan.data.Homework
     :members:
 
-.. autoclass:: vulcan.hebe.data.Lesson
+.. autoclass:: vulcan.data.Lesson
     :members:
 
-.. autoclass:: vulcan.hebe.data.LessonRoom
+.. autoclass:: vulcan.data.LessonRoom
     :members:
 
-.. autoclass:: vulcan.hebe.data.Grade
+.. autoclass:: vulcan.data.Grade
     :members:
 
-.. autoclass:: vulcan.hebe.data.GradeColumn
+.. autoclass:: vulcan.data.GradeColumn
     :members:
 
-.. autoclass:: vulcan.hebe.data.GradeCategory
+.. autoclass:: vulcan.data.GradeCategory
     :members:
 
-.. autoclass:: vulcan.hebe.data.LuckyNumber
+.. autoclass:: vulcan.data.LuckyNumber
     :members:

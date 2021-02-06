@@ -19,13 +19,13 @@ and naming conventions in the API.
     ``https://uonetplus.vulcan.net.pl/<symbol>/<code>``
 
 
-* :class:`~vulcan.hebe.model.Unit` - a group of schools, sharing a similar name. May contain
+* :class:`~vulcan.model.Unit` - a group of schools, sharing a similar name. May contain
   only one school.
-* :class:`~vulcan.hebe.model.School` - a part of a ``unit``.
+* :class:`~vulcan.model.School` - a part of a ``unit``.
 
 
 * :class:`~vulcan.Keystore` - login data for an instance of the API. **Might
   be tied (registered) to multiple accounts.**
 * :class:`~vulcan.Account` - an account from a single ``symbol``, containing
   one or more ``students``, accessed using a corresponding ``keystore``.
-* :class:`~vulcan.hebe.model.Student` - a person, school attendant.
+* :class:`~vulcan.model.Student` - a person, school attendant.
