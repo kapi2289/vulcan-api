@@ -15,8 +15,8 @@ class Period(Serializable):
     :var int ~.number: number of the period in the school year
     :var bool ~.current: whether the period is currently ongoing
     :var bool ~.last: whether the period is last in the school year
-    :var `~vulcan.hebe.model.DateTime` ~.start: the period start datetime
-    :var `~vulcan.hebe.model.DateTime` ~.end: the period end datetime
+    :var `~vulcan.model.DateTime` ~.start: the period start datetime
+    :var `~vulcan.model.DateTime` ~.end: the period end datetime
     """
 
     id: int = IntegerField(key="Id")

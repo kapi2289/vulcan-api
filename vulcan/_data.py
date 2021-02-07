@@ -7,7 +7,7 @@ from .data import Attendance, Exam, Grade, Homework, Lesson, LuckyNumber
 from .model import DateTime
 
 
-class VulcanHebeData:
+class VulcanData:
     """A data client for the API.
 
     Contains methods for getting all data objects, some in
@@ -25,7 +25,7 @@ class VulcanHebeData:
     async def get_time(self) -> DateTime:
         """Gets the current server time.
 
-        :rtype: :class:`~vulcan.hebe.model.DateTime`
+        :rtype: :class:`~vulcan.model.DateTime`
         """
         return await DateTime.get(self._api)
 
@@ -34,7 +34,7 @@ class VulcanHebeData:
 
         :param `datetime.date` day: date of the lucky number to get.
             Defaults to ``None`` (today).
-        :rtype: :class:`~vulcan.hebe.data.LuckyNumber`
+        :rtype: :class:`~vulcan.data.LuckyNumber`
         """
         return await LuckyNumber.get(self._api, day or date.today())
 
@@ -46,7 +46,7 @@ class VulcanHebeData:
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
         :param bool deleted: whether to only get the deleted item IDs
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Grade`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Grade`], List[int]]
         """
         return Grade.get(self._api, last_sync, deleted, **kwargs)
 
@@ -58,7 +58,7 @@ class VulcanHebeData:
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
         :param bool deleted: whether to only get the deleted item IDs
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Exam`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Exam`], List[int]]
         """
         return Exam.get(self._api, last_sync, deleted, **kwargs)
 
@@ -70,7 +70,7 @@ class VulcanHebeData:
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
         :param bool deleted: whether to only get the deleted item IDs
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Homework`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Homework`], List[int]]
         """
         return Homework.get(self._api, last_sync, deleted, **kwargs)
 
@@ -91,7 +91,7 @@ class VulcanHebeData:
             it's using the today date (Default value = None)
         :param `datetime.date` date_to: Date, to which to fetch lessons, if not provided
             it's using the `date_from` date (Default value = None)
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Lesson`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Lesson`], List[int]]
         """
         return Lesson.get(self._api, last_sync, deleted, date_from, date_to, **kwargs)
 
@@ -112,7 +112,7 @@ class VulcanHebeData:
             it's using the today date (Default value = None)
         :param `datetime.date` date_to: Date, to which to fetch attendance, if not provided
             it's using the `date_from` date (Default value = None)
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Attendance`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Attendance`], List[int]]
         """
         return Attendance.get(
             self._api, last_sync, deleted, date_from, date_to, **kwargs

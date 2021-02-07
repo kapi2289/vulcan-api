@@ -1,7 +1,7 @@
 Technical info
 ^^^^^^^^^^^^^^
 
-The ``hebe`` API is asynchronous (using ``asyncio``) and works using
+The Vulcan API is asynchronous (using ``asyncio``) and works using
 coroutines. All the code presented in this documentation needs to be placed
 inside a coroutine block (except imports, obviously).
 
@@ -31,12 +31,12 @@ Sessions
 As all HTTP requests are also async, the API uses ``aiohttp``'s sessions,
 which need to be opened and closed when needed.
 
-Upon creation, the :class:`~vulcan.VulcanHebe` object creates a session,
+Upon creation, the :class:`~vulcan.Vulcan` object creates a session,
 which needs to be closed before the program terminates.
 
 .. code-block:: python
 
-    client = VulcanHebe(keystore, account)
+    client = Vulcan(keystore, account)
     # use the client here
     await client.close()
 
@@ -45,7 +45,7 @@ and closing automatically.
 
 .. code-block:: python
 
-    client = VulcanHebe(keystore, account)
+    client = Vulcan(keystore, account)
     async with client:
         # use the client here
 

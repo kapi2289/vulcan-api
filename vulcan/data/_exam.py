@@ -16,15 +16,15 @@ class Exam(Serializable):
     :var str ~.key: exam's key (UUID)
     :var str ~.type: exam's type
     :var str ~.topic: exam's topic
-    :var `~vulcan.hebe.model.DateTime` ~.date_created: exam's creation date
-    :var `~vulcan.hebe.model.DateTime` ~.date_modified: exam's modification date
+    :var `~vulcan.model.DateTime` ~.date_created: exam's creation date
+    :var `~vulcan.model.DateTime` ~.date_modified: exam's modification date
         (may be the same as ``date_created`` if it was never modified)
-    :var `~vulcan.hebe.model.DateTime` ~.deadline: exam's date and time
-    :var `~vulcan.hebe.model.Teacher` ~.creator: the teacher who added
+    :var `~vulcan.model.DateTime` ~.deadline: exam's date and time
+    :var `~vulcan.model.Teacher` ~.creator: the teacher who added
         the exam
-    :var `~vulcan.hebe.model.Subject` ~.subject: the exam's subject
-    :var `~vulcan.hebe.model.TeamClass` ~.team_class: the class taking the exam
-    :var `~vulcan.hebe.model.TeamVirtual` ~.team_virtual: the class distribution
+    :var `~vulcan.model.Subject` ~.subject: the exam's subject
+    :var `~vulcan.model.TeamClass` ~.team_class: the class taking the exam
+    :var `~vulcan.model.TeamVirtual` ~.team_virtual: the class distribution
         taking the exam, optional
     """
 
@@ -47,7 +47,7 @@ class Exam(Serializable):
         cls, api, last_sync, deleted, **kwargs
     ) -> Union[AsyncIterator["Exam"], List[int]]:
         """
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Exam`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Exam`], List[int]]
         """
         data = await api.helper.get_list(
             DATA_EXAM,

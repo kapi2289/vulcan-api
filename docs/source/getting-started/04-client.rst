@@ -5,9 +5,9 @@ To create the API client:
 
 .. code-block:: python
 
-    from vulcan import VulcanHebe
+    from vulcan import Vulcan
 
-    client = VulcanHebe(keystore, account)
+    client = Vulcan(keystore, account)
 
 To select a student:
 
@@ -23,10 +23,10 @@ To select a student:
 Simple data fetching
 ````````````````````
 
-All data is fetched from the :class:`~vulcan._hebe_data.VulcanHebeData` class,
+All data is fetched from the :class:`~vulcan._data.VulcanData` class,
 available as ``client.data`` variable.
 
-.. note:: Read the :class:`~vulcan._hebe_data.VulcanHebeData` docs to see
+.. note:: Read the :class:`~vulcan._data.VulcanData` docs to see
     all public data fetching methods.
 
 .. code-block:: python

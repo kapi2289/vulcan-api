@@ -4,7 +4,7 @@ There are three return types of those methods:
 
 - object - applies to methods returning a single object (e.g. the currently
   selected student, the today's lucky number, the server date-time)
-- list - applies to :func:`~vulcan.VulcanHebe.get_students`. The list is either
+- list - applies to :func:`~vulcan.Vulcan.get_students`. The list is either
   read from the server or the in-memory cache.
 - `AsyncIterator` - applies to all other data fetching methods. The returned
   iterator may be used like this:

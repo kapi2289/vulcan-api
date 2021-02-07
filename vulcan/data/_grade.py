@@ -36,11 +36,11 @@ class GradeColumn(Serializable):
     :var str ~.group: unknown, yet
     :var int ~.number: unknown, yet
     :var int ~.weight: weight of this column's grades
-    :var `~vulcan.hebe.model.Subject` ~.subject: the subject from which
+    :var `~vulcan.model.Subject` ~.subject: the subject from which
         grades in this column are given
-    :var `~vulcan.hebe.data.GradeCategory` ~.category: category (base type)
+    :var `~vulcan.data.GradeCategory` ~.category: category (base type)
         of grades in this column
-    :var `~vulcan.hebe.model.Period` ~.period: a resolved period of this grade
+    :var `~vulcan.model.Period` ~.period: a resolved period of this grade
     """
 
     id: int = IntegerField(key="Id")
@@ -66,14 +66,14 @@ class Grade(Serializable):
     :var int ~.pupil_id: the related pupil's ID
     :var str ~.content_raw: grade's content (with comment)
     :var str ~.content: grade's content (without comment)
-    :var `~vulcan.hebe.model.DateTime` ~.date_created: grade's creation date
-    :var `~vulcan.hebe.model.DateTime` ~.date_modified: grade's modification date
+    :var `~vulcan.model.DateTime` ~.date_created: grade's creation date
+    :var `~vulcan.model.DateTime` ~.date_modified: grade's modification date
         (may be the same as ``date_created`` if it was never modified)
-    :var `~vulcan.hebe.model.Teacher` ~.teacher_created: the teacher who added
+    :var `~vulcan.model.Teacher` ~.teacher_created: the teacher who added
         the grade
-    :var `~vulcan.hebe.model.Teacher` ~.teacher_modified: the teacher who modified
+    :var `~vulcan.model.Teacher` ~.teacher_modified: the teacher who modified
         the grade
-    :var `~vulcan.hebe.data.GradeColumn` ~.column: grade's column
+    :var `~vulcan.data.GradeColumn` ~.column: grade's column
     :var float ~.value: grade's value, may be `None` if 0.0
     :var str ~.comment: grade's comment, visible in parentheses in ``content_raw``
     :var float ~.numerator: for point grades: the numerator value
@@ -100,7 +100,7 @@ class Grade(Serializable):
         cls, api, last_sync, deleted, **kwargs
     ) -> Union[AsyncIterator["Grade"], List[int]]:
         """
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Grade`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Grade`], List[int]]
         """
         data = await api.helper.get_list(
             DATA_GRADE,

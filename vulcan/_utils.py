@@ -15,7 +15,7 @@ APP_VERSION = "1.4.2"
 APP_OS = "Android"
 APP_USER_AGENT = "Dart/2.10 (dart:io)"
 
-log = logging.getLogger("hebe")
+log = logging.getLogger("client")
 log.setLevel(logging.INFO)
 
 handler = logging.StreamHandler()

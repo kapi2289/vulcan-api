@@ -6,10 +6,10 @@ Full API documentation
 Client
 ^^^^^^
 
-.. autoclass:: vulcan.VulcanHebe
+.. autoclass:: vulcan.Vulcan
     :members:
 
-.. autoclass:: vulcan._hebe_data.VulcanHebeData
+.. autoclass:: vulcan._data.VulcanData
     :members:
 
 Core models

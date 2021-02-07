@@ -69,23 +69,23 @@ class Attendance(Serializable):
     :var str ~.global_key: lesson class global key
     :var bool ~.calculate_presence: does it count for absences
     :var bool ~.replacement: os it replaced
-    :var `~vulcan.hebe.model.Subject` ~.subject: subject of the lesson
+    :var `~vulcan.model.Subject` ~.subject: subject of the lesson
     :var str ~.topic: topic of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.teacher: teacher of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: second teacher of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.main_teacher: pupil main teacher
-    :var `~vulcan.hebe.model.TeamClass` ~.team_class: the class that had lesson
+    :var `~vulcan.model.Teacher` ~.teacher: teacher of the lesson
+    :var `~vulcan.model.Teacher` ~.second_teacher: second teacher of the lesson
+    :var `~vulcan.model.Teacher` ~.main_teacher: pupil main teacher
+    :var `~vulcan.model.TeamClass` ~.team_class: the class that had lesson
     :var str ~.class_alias: class short name
-    :var `~vulcan.hebe.model.DateTime` ~.date: lesson's date
-    :var `~vulcan.hebe.model.TimeSlot` ~.time: lesson's time
-    :var `~vulcan.hebe.model.DateTime` ~.date_modified: attendance modification date, if not modified it is created date
+    :var `~vulcan.model.DateTime` ~.date: lesson's date
+    :var `~vulcan.model.TimeSlot` ~.time: lesson's time
+    :var `~vulcan.model.DateTime` ~.date_modified: attendance modification date, if not modified it is created date
     :var int ~.id: aux presence ID
     :var str ~.justification_status: attendance justification status
-    :var `~vulcan.hebe.data.PresenceType` ~.presence_type: presence type
+    :var `~vulcan.data.PresenceType` ~.presence_type: presence type
     :var str ~.note: attendance note
     :var str ~.public_resources: attendance public resources
     :var str ~.remote_resources: attendance remote resources
-    :var `~vulcan.hebe.model.TeamVirtual` ~.group: group, that has the lesson
+    :var `~vulcan.model.TeamVirtual` ~.group: group, that has the lesson
     :var bool ~.visible: attendance visibility
 
     """
@@ -126,7 +126,7 @@ class Attendance(Serializable):
         cls, api, last_sync, deleted, date_from, date_to, **kwargs
     ) -> Union[AsyncIterator["Attendance"], List[int]]:
         """
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Attendance`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Attendance`], List[int]]
         """
         if date_from == None:
             date_from = datetime.date.today()

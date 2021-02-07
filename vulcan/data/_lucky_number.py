@@ -21,7 +21,7 @@ class LuckyNumber(Serializable):
     @classmethod
     async def get(cls, api, day: date, **kwargs) -> "LuckyNumber":
         """
-        :rtype: :class:`~vulcan.hebe.data.LuckyNumber`
+        :rtype: :class:`~vulcan.data.LuckyNumber`
         """
         return await api.helper.get_object(
             LuckyNumber,

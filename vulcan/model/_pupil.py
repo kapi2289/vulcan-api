@@ -24,7 +24,7 @@ class Pupil(Serializable):
     :var str ~.first_name: student's first name
     :var str ~.second_name: student's second name, optional
     :var str ~.last_name: student's last name / surname
-    :var `~vulcan.hebe.model.Gender` ~.gender: student's gender
+    :var `~vulcan.model.Gender` ~.gender: student's gender
     """
 
     id: int = IntegerField(key="Id")

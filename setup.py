@@ -31,7 +31,7 @@ setup(
     install_requires=[
         "requests",
         "pyopenssl",
-        "uonet-request-signer-hebe",
+        "uonet-request-signer.,
         "pytz",
         "aenum",
         "related",

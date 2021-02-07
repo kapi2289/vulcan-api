@@ -2,29 +2,29 @@
 from typing import List
 
 from ._api import Api
-from ._hebe_data import VulcanHebeData
+from ._data import VulcanData
 from ._utils import log
 from .model import Student
 
 
-class VulcanHebe:
-    """A Vulcan (hebe) API client.
+class Vulcan:
+    """Vulcan API client.
 
     Contains methods for getting/setting the current student and for
     setting the logging level. All data is fetched from an instance
-    of the :class:`~vulcan.hebe._hebe_data.VulcanHebeData`, accessible
+    of the :class:`~vulcan._data.VulcanData`, accessible
     using the ``data`` variable.
 
-    :var `~vulcan.hebe._hebe_data.VulcanHebeData` ~.data: the data client
+    :var `~vulcan._data.VulcanData` ~.data: the data client
     """
 
     def __init__(self, keystore, account, logging_level: int = None):
         self._api = Api(keystore, account)
         self._students = []
-        self.data = VulcanHebeData(self._api)
+        self.data = VulcanData(self._api)
 
         if logging_level:
-            VulcanHebe.set_logging_level(logging_level)
+            Vulcan.set_logging_level(logging_level)
 
     async def __aenter__(self):
         await self._api.open()
@@ -54,7 +54,7 @@ class VulcanHebe:
         """Gets students assigned to this account.
 
         :param bool cached: whether to allow returning the cached list
-        :rtype: List[:class:`~vulcan.hebe.model.Student`]
+        :rtype: List[:class:`~vulcan.model.Student`]
         """
         if self._students and cached:
             return self._students
@@ -65,7 +65,7 @@ class VulcanHebe:
     def student(self) -> Student:
         """Gets/sets the currently selected student.
 
-        :rtype: :class:`~vulcan.hebe.model.Student`
+        :rtype: :class:`~vulcan.model.Student`
         """
         return self._api.student
 
@@ -74,6 +74,6 @@ class VulcanHebe:
         """Changes the currently selected student.
 
         :param value: the student to select
-        :type value: :class:`~vulcan.hebe.model.Student`
+        :type value: :class:`~vulcan.model.Student`
         """
         self._api.student = value

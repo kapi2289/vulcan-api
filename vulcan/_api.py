@@ -33,7 +33,7 @@ class Api:
     level, automatically generating the required headers
     and other values.
 
-    :var `~vulcan.hebe._api_helper.ApiHelper` ~.helper: a wrapper for getting
+    :var `~vulcan._api_helper.ApiHelper` ~.helper: a wrapper for getting
          most data objects more easily
     """
 

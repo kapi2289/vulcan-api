@@ -43,17 +43,17 @@ class Lesson(Serializable):
     """A lesson.
 
     :var int ~.id: lesson's ID
-    :var `~vulcan.hebe.model.DateTime` ~.date: lesson's date
-    :var `~vulcan.hebe.model.TimeSlot` ~.time: lesson's time
-    :var `~vulcan.hebe.data.LessonRoom` ~.room: classroom, in which is the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.teacher: teacher of the lesson
-    :var `~vulcan.hebe.model.Teacher` ~.second_teacher: second teacher of the lesson
-    :var `~vulcan.hebe.model.Subject` ~.subject: subject on the lesson
+    :var `~vulcan.model.DateTime` ~.date: lesson's date
+    :var `~vulcan.model.TimeSlot` ~.time: lesson's time
+    :var `~vulcan.data.LessonRoom` ~.room: classroom, in which is the lesson
+    :var `~vulcan.model.Teacher` ~.teacher: teacher of the lesson
+    :var `~vulcan.model.Teacher` ~.second_teacher: second teacher of the lesson
+    :var `~vulcan.model.Subject` ~.subject: subject on the lesson
     :var str ~.event: an event happening during this lesson
     :var str ~.changes: lesson changes
-    :var `~vulcan.hebe.model.TeamClass` ~.team_class: the class that has the lesson
+    :var `~vulcan.model.TeamClass` ~.team_class: the class that has the lesson
     :var str ~.pupil_alias: pupil alias
-    :var `~vulcan.hebe.model.TeamVirtual` ~.group: group, that has the lesson
+    :var `~vulcan.model.TeamVirtual` ~.group: group, that has the lesson
     :var bool ~.visible: lesson visibility (whether the timetable applies to the given student)
     """
 
@@ -78,7 +78,7 @@ class Lesson(Serializable):
         cls, api, last_sync, deleted, date_from, date_to, **kwargs
     ) -> Union[AsyncIterator["Lesson"], List[int]]:
         """
-        :rtype: Union[AsyncIterator[:class:`~vulcan.hebe.data.Lesson`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Lesson`], List[int]]
         """
         if date_from == None:
             date_from = datetime.date.today()

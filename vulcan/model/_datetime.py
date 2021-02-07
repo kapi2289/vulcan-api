@@ -35,6 +35,6 @@ class DateTime(Serializable):
     @classmethod
     async def get(cls, api, **kwargs) -> "DateTime":
         """
-        :rtype: :class:`~vulcan.hebe.model.DateTime`
+        :rtype: :class:`~vulcan.model.DateTime`
         """
         return await api.helper.get_object(DateTime, DATA_INTERNAL_TIME, *kwargs)

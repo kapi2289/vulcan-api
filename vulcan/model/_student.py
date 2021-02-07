@@ -17,13 +17,13 @@ class Student(Serializable):
 
     :var str ~.symbol: the "partition" symbol - can be a town or county name
     :var str ~.symbol_code: the school unit code - often a 6 digit number
-    :var `~vulcan.hebe.model.Pupil` ~.pupil: contains the student's IDs,
+    :var `~vulcan.model.Pupil` ~.pupil: contains the student's IDs,
          names and email
-    :var `~vulcan.hebe.model.Unit` ~.unit: info about the school unit
+    :var `~vulcan.model.Unit` ~.unit: info about the school unit
          (e.g. several school buildings)
-    :var `~vulcan.hebe.model.School` ~.school: info about the school
+    :var `~vulcan.model.School` ~.school: info about the school
          (a single building of the unit)
-    :var List[`~vulcan.hebe.model.Period`] ~.periods: a list of
+    :var List[`~vulcan.model.Period`] ~.periods: a list of
          the student's school year periods
     """
 
@@ -55,7 +55,7 @@ class Student(Serializable):
     def current_period(self) -> Period:
         """Gets the currently ongoing period of the student.
 
-        :rtype: :class:`~vulcan.hebe.model.Period`
+        :rtype: :class:`~vulcan.model.Period`
         """
         return next((period for period in self.periods if period.current), None)
 
@@ -63,14 +63,14 @@ class Student(Serializable):
         """Gets a period matching the given period ID.
 
         :param int period_id: the period ID to look for
-        :rtype: :class:`~vulcan.hebe.model.Period`
+        :rtype: :class:`~vulcan.model.Period`
         """
         return next((period for period in self.periods if period.id == period_id), None)
 
     @classmethod
     async def get(cls, api, **kwargs) -> List["Student"]:
         """
-        :rtype: List[:class:`~vulcan.hebe.model.Student`]
+        :rtype: List[:class:`~vulcan.model.Student`]
         """
         data = await api.get(STUDENT_LIST, **kwargs)
         return list(Student.load(student) for student in data)

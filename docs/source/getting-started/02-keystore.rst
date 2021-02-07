@@ -10,7 +10,7 @@ any account to which it's registered:
 
     keystore = Keystore.create()
     # or with an explicitly passed device model
-    keystore = Keystore.create(device_model="Vulcan hebe API")
+    keystore = Keystore.create(device_model="Vulcan API")
 
 The keystore is now ready to be registered in exchange for an :class:`~vulcan.Account`,
 but it's best to save it for later use:
