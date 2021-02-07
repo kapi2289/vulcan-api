@@ -41,25 +41,15 @@ class Student(Serializable):
 
         :rtype: str
         """
-        if self.pupil.second_name:
-            return " ".join(
-                part
-                for part in [
-                    self.pupil.first_name.strip(),
-                    self.pupil.second_name.strip(),
-                    self.pupil.last_name.strip(),
-                ]
-                if part
-            )
-        else:
-            return " ".join(
-                part
-                for part in [
-                    self.pupil.first_name.strip(),
-                    self.pupil.last_name.strip(),
-                ]
-                if part
-            )
+        return " ".join(
+            part
+            for part in [
+                self.pupil.first_name.strip(),
+                self.pupil.second_name.strip() if self.pupil.second_name else None,
+                self.pupil.last_name.strip(),
+            ]
+            if part
+        )
 
     @property
     def current_period(self) -> Period:
