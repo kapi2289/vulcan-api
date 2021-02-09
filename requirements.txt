@@ -1,8 +1,8 @@
-pytest~=4.3.1
+pytest~=6.2.2
 related~=0.7.2
 aenum~=2.1.2
-aiohttp~=3.6.2
-yarl~=1.4.2
-requests~=2.21.0
-pytz~=2018.9
+aiohttp~=3.7.3
+yarl~=1.6.3
+requests~=2.25.1
+pytz~=2021.1
 uonet-request-signer-hebe=0.1.1
