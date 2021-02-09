@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import AsyncIterator, List, Union
 
-from related import (
-    ChildField,
-    IntegerField,
-    SequenceField,
-    StringField,
-    immutable,
-)
+from related import ChildField, IntegerField, SequenceField, StringField, immutable
 
 from .._api_helper import FilterType
 from .._endpoints import DATA_ADDRESSBOOK
