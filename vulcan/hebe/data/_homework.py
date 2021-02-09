@@ -35,7 +35,7 @@ class Homework(Serializable):
     :var `~vulcan.hebe.model.Teacher` ~.creator: the teacher who added
         the homework
     :var `~vulcan.hebe.model.Subject` ~.subject: the homework's subject
-    :var list  ~.attachments: attachments added to homework
+    :var List[Attachment] ~.attachments: attachments added to homework
     :var bool ~.is_answer_required: Is an answer required
     :var `~vulcan.hebe.model.DateTime` ~.deadline: homework's date and time
     :var `~vulcan.hebe.model.DateTime` ~.answer_deadline: homework's answer deadline
@@ -49,7 +49,7 @@ class Homework(Serializable):
     date_created: DateTime = ChildField(DateTime, key="DateCreated")
     creator: Teacher = ChildField(Teacher, key="Creator")
     subject: Subject = ChildField(Subject, key="Subject")
-    attachments: list = SequenceField(Attachment, key="Attachments")
+    attachments: List[Attachment] = SequenceField(Attachment, key="Attachments", repr=True)
     is_answer_required: Subject = BooleanField(key="IsAnswerRequired")
     deadline: DateTime = ChildField(DateTime, key="Deadline")
     answer_deadline: DateTime = ChildField(
