@@ -3,7 +3,7 @@ from datetime import date, datetime
 from typing import AsyncIterator, List, Union
 
 from ._api import Api
-from .data import Attendance, Exam, Grade, Homework, Lesson, LuckyNumber
+from .data import Addressbook, Attendance, Exam, Grade, Homework, Lesson, LuckyNumber
 from .model import DateTime
 
 
@@ -37,6 +37,15 @@ class VulcanData:
         :rtype: :class:`~vulcan.data.LuckyNumber`
         """
         return await LuckyNumber.get(self._api, day or date.today())
+
+    async def get_addressbook(
+        self, **kwargs
+    ) -> Union[AsyncIterator[Addressbook], List[int]]:
+        """Yields the addressbook.
+
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Addressbook`], List[int]]
+        """
+        return Addressbook.get(self._api, **kwargs)
 
     async def get_grades(
         self, last_sync: datetime = None, deleted=False, **kwargs

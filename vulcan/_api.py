@@ -118,10 +118,15 @@ class Api:
         ) as r:
             try:
                 response = await r.json()
+                print(response)
                 status = response["Status"]
                 envelope = response["Envelope"]
 
-                if status["Code"] != 0:
+                if status["Code"] == 108:
+                    log.debug(" ! " + str(status))
+                    raise VulcanAPIException("The certificate is not authorized.")
+
+                elif status["Code"] != 0:
                     log.debug(" ! " + str(status))
                     raise RuntimeError(status["Message"])
 

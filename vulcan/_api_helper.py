@@ -10,6 +10,7 @@ class FilterType(Enum):
     BY_PUPIL = 0
     BY_PERSON = 1
     BY_PERIOD = 2
+    BY_LOGIN_ID = None
 
     def get_endpoint(self):
         if self == FilterType.BY_PUPIL:
@@ -45,7 +46,7 @@ class ApiHelper:
                 "Getting deleted data IDs is not implemented yet."
             )
 
-        if filter_type:
+        if filter_type and not filter_type.BY_LOGIN_ID:
             url = "{}/{}/{}".format(DATA_ROOT, endpoint, filter_type.get_endpoint())
         else:
             url = "{}/{}".format(DATA_ROOT, endpoint)
@@ -58,7 +59,9 @@ class ApiHelper:
             query["unitId"] = student.unit.id
             query["pupilId"] = student.pupil.id
             query["periodId"] = period.id
-        elif filter_type == FilterType.BY_PERSON:
+        elif (
+            filter_type == FilterType.BY_PERSON or filter_type == FilterType.BY_LOGIN_ID
+        ):
             query["loginId"] = account.login_id
         elif filter_type == FilterType.BY_PERIOD:
             query["periodId"] = period.id

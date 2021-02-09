@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from ._addressbook import Addressbook, Role
 from ._attendance import Attendance, PresenceType
 from ._exam import Exam
 from ._grade import Grade, GradeCategory, GradeColumn
