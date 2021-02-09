@@ -49,7 +49,9 @@ class Homework(Serializable):
     date_created: DateTime = ChildField(DateTime, key="DateCreated")
     creator: Teacher = ChildField(Teacher, key="Creator")
     subject: Subject = ChildField(Subject, key="Subject")
-    attachments: List[Attachment] = SequenceField(Attachment, key="Attachments", repr=True)
+    attachments: List[Attachment] = SequenceField(
+        Attachment, key="Attachments", repr=True
+    )
     is_answer_required: Subject = BooleanField(key="IsAnswerRequired")
     deadline: DateTime = ChildField(DateTime, key="Deadline")
     answer_deadline: DateTime = ChildField(
