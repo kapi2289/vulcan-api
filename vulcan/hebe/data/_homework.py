@@ -12,7 +12,7 @@ from related import (
 
 from .._api_helper import FilterType
 from .._endpoints import DATA_HOMEWORK
-from ..model import Serializable, DateTime, Teacher, Subject, TeamClass, TeamVirtual
+from ..model import Serializable, DateTime, Teacher, Subject, Attachment, TeamClass, TeamVirtual
 
 
 @immutable
@@ -41,7 +41,7 @@ class Homework(Serializable):
     date_created: DateTime = ChildField(DateTime, key="DateCreated")
     creator: Teacher = ChildField(Teacher, key="Creator")
     subject: Subject = ChildField(Subject, key="Subject")
-    attachments: list = SequenceField(dict, key="Attachments")
+    attachments: list = SequenceField(Attachment, key="Attachments")
     is_answer_required: Subject = BooleanField(key="IsAnswerRequired")
     deadline: DateTime = ChildField(DateTime, key="Deadline")
     answer_deadline: DateTime = ChildField(
