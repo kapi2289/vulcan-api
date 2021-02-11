@@ -1,6 +1,6 @@
 pytest~=6.2.2
 related~=0.7.2
-aenum~=2.1.2
+aenum~=3.0.0
 aiohttp~=3.7.3
 yarl~=1.6.3
 requests~=2.25.1

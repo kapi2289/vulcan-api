@@ -63,9 +63,15 @@ Common models
 Data models
 ^^^^^^^^^^^
 
+.. autoclass:: vulcan.data.Addressbook
+    :members:
+
+.. autoclass:: vulcan.data.Role
+    :members:
+
 .. autoclass:: vulcan.data.Attendance
     :members:
- 
+
 .. autoclass:: vulcan.data.PresenceType
     :members:
     
