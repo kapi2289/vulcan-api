@@ -52,7 +52,7 @@ class GradeColumn(Serializable):
     number: int = IntegerField(key="Number")
     weight: float = FloatField(key="Weight")
     subject: Subject = ChildField(Subject, key="Subject")
-    category: GradeCategory = ChildField(GradeCategory, key="Category")
+    category: GradeCategory = ChildField(GradeCategory, key="Category", required=False)
 
     period: Period = ChildField(Period, key="Period", required=False)
 
