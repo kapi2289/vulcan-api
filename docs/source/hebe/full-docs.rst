@@ -60,6 +60,9 @@ Common models
 .. autoclass:: vulcan.hebe.model.Unit
     :members:
 
+.. autoclass:: vulcan.hebe.model.Attachment
+    :members:
+
 Data models
 ^^^^^^^^^^^
 
