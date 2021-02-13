@@ -36,7 +36,6 @@ setup(
         "pytz",
         "aenum",
         "related",
-        "asyncio",
         "aiohttp",
         "cchardet",
         "aiodns",
@@ -44,7 +43,6 @@ setup(
     ],
     extras_require={"testing": ["pytest", "python-dotenv"]},
     classifiers=[
-        "License :: OSI Approved :: MIT License",
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
