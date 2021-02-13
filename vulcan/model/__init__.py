@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from ._attachment import Attachment
 from ._datetime import DateTime
 from ._period import Period
 from ._pupil import Gender, Pupil
