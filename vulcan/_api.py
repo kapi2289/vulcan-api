@@ -118,7 +118,6 @@ class Api:
         ) as r:
             try:
                 response = await r.json()
-                print(response)
                 status = response["Status"]
                 envelope = response["Envelope"]
 

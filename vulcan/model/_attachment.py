@@ -2,7 +2,7 @@
 
 from related import StringField, immutable
 
-from ..model import Serializable
+from ._serializable import Serializable
 
 
 @immutable

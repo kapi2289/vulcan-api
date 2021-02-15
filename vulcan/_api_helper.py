@@ -45,8 +45,7 @@ class ApiHelper:
             raise NotImplementedError(
                 "Getting deleted data IDs is not implemented yet."
             )
-
-        if filter_type and not filter_type.BY_LOGIN_ID:
+        if filter_type and filter_type != FilterType.BY_LOGIN_ID:
             url = "{}/{}/{}".format(DATA_ROOT, endpoint, filter_type.get_endpoint())
         else:
             url = "{}/{}".format(DATA_ROOT, endpoint)
