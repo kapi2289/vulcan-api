@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from ..model import Serializable
+from ._serializable import Serializable
 from related import StringField, immutable
 
 
