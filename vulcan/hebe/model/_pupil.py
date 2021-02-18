@@ -29,8 +29,8 @@ class Pupil(Serializable):
 
     id: int = IntegerField(key="Id")
     login_id: int = IntegerField(key="LoginId")
-    login_value: str = StringField(key="LoginValue")
     first_name: str = StringField(key="FirstName")
     last_name: str = StringField(key="Surname")
     gender: Gender = ChildField(Gender, key="Sex")
     second_name: str = StringField(key="SecondName", required=False)
+    login_value: str = StringField(key="LoginValue", required=False)
