@@ -37,7 +37,8 @@ class Student(Serializable):
 
     @property
     def full_name(self) -> str:
-        """Gets the student's full name in "FirstName SecondName LastName" format or  "FirstName LastName" format if there is no second name.
+        """Gets the student's full name in "FirstName SecondName LastName" format or  "FirstName LastName" format if
+        there is no second name.
 
         :rtype: str
         """

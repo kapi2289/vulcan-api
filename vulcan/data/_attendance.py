@@ -2,20 +2,12 @@
 import datetime
 from typing import AsyncIterator, List, Union
 
-from related import (
-    BooleanField,
-    ChildField,
-    FloatField,
-    IntegerField,
-    StringField,
-    immutable,
-)
+from related import BooleanField, ChildField, IntegerField, StringField, immutable
 
 from .._api_helper import FilterType
 from .._endpoints import DATA_ATTENDANCE
 from ..model import (
     DateTime,
-    Period,
     Serializable,
     Subject,
     Teacher,
@@ -128,9 +120,9 @@ class Attendance(Serializable):
         """
         :rtype: Union[AsyncIterator[:class:`~vulcan.data.Attendance`], List[int]]
         """
-        if date_from == None:
+        if date_from is None:
             date_from = datetime.date.today()
-        if date_to == None:
+        if date_to is None:
             date_to = date_from
         date_to = date_to + datetime.timedelta(
             days=1

@@ -38,7 +38,7 @@ def get_base_url(token):
     try:
         return components[code]
     except KeyError:
-        raise VulcanAPIException("Niepoprawny token!")
+        raise VulcanAPIException("Invalid token!")
 
 
 def get_components():

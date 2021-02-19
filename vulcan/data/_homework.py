@@ -12,15 +12,7 @@ from related import (
 
 from .._api_helper import FilterType
 from .._endpoints import DATA_HOMEWORK
-from ..model import (
-    Attachment,
-    DateTime,
-    Serializable,
-    Subject,
-    Teacher,
-    TeamClass,
-    TeamVirtual,
-)
+from ..model import Attachment, DateTime, Serializable, Subject, Teacher
 
 
 @immutable
