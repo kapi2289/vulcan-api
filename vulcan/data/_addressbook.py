@@ -56,7 +56,7 @@ class Addressbook(Serializable):
     last_name: str = StringField(key="Surname")
     initials: str = StringField(key="Initials")
 
-    roles: list[Role] = SequenceField(Role, key="Roles", repr=True)
+    roles: List[Role] = SequenceField(Role, key="Roles", repr=True)
 
     @classmethod
     async def get(cls, api, **kwargs) -> Union[AsyncIterator["Addressbook"], List[int]]:
