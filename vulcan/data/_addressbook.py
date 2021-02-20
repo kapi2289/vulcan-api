@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from typing import AsyncIterator, List, Union
 
-from related import ChildField, IntegerField, SequenceField, StringField, immutable
+from related import IntegerField, SequenceField, StringField, immutable
 
 from .._api_helper import FilterType
 from .._endpoints import DATA_ADDRESSBOOK
-from ..model import DateTime, Period, Serializable
+from ..model import Serializable
 
 
 @immutable
@@ -52,11 +52,11 @@ class Addressbook(Serializable):
 
     id: str = StringField(key="Id")
     login_id: int = IntegerField(key="LoginId")
-    first_namename: str = StringField(key="Name")
+    first_name: str = StringField(key="Name")
     last_name: str = StringField(key="Surname")
     initials: str = StringField(key="Initials")
 
-    roles: list[Role] = SequenceField(Role, key="Roles", repr=True)
+    roles: List[Role] = SequenceField(Role, key="Roles", repr=True)
 
     @classmethod
     async def get(cls, api, **kwargs) -> Union[AsyncIterator["Addressbook"], List[int]]:

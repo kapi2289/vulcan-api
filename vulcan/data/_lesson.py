@@ -2,19 +2,10 @@
 import datetime
 from typing import AsyncIterator, List, Union
 
-from related import (
-    BooleanField,
-    ChildField,
-    IntegerField,
-    SequenceField,
-    StringField,
-    TimeField,
-    immutable,
-)
+from related import BooleanField, ChildField, IntegerField, StringField, immutable
 
 from .._api_helper import FilterType
 from .._endpoints import DATA_TIMETABLE
-from .._utils import TIME_FORMAT_H_M
 from ..model import (
     DateTime,
     Serializable,
@@ -36,6 +27,20 @@ class LessonRoom(Serializable):
 
     id: int = IntegerField(key="Id")
     code: str = StringField(key="Code")
+
+
+@immutable
+class LessonChanges(Serializable):
+    """Lesson room
+
+    :var int ~.id: lesson change room ID
+    :var int ~.type: lesson change type
+    :var bool ~.code: team separation
+    """
+
+    id: int = IntegerField(key="Id")
+    type: int = IntegerField(key="Type")
+    separation: bool = BooleanField(key="Separation")
 
 
 @immutable
@@ -67,11 +72,11 @@ class Lesson(Serializable):
     )
     subject: Subject = ChildField(Subject, key="Subject", required=False)
     event: str = StringField(key="Event", required=False)
-    changes: str = StringField(key="Change", required=False)
+    changes: LessonChanges = ChildField(LessonChanges, key="Change", required=False)
     team_class: TeamClass = ChildField(TeamClass, key="Clazz", required=False)
     pupil_alias: str = StringField(key="PupilAlias", required=False)
     group: TeamVirtual = ChildField(TeamVirtual, key="Distribution", required=False)
-    visible = BooleanField(key="Visible", required=False)
+    visible: bool = BooleanField(key="Visible", required=False)
 
     @classmethod
     async def get(
@@ -80,9 +85,9 @@ class Lesson(Serializable):
         """
         :rtype: Union[AsyncIterator[:class:`~vulcan.data.Lesson`], List[int]]
         """
-        if date_from == None:
+        if date_from is None:
             date_from = datetime.date.today()
-        if date_to == None:
+        if date_to is None:
             date_to = date_from
         date_to = date_to + datetime.timedelta(
             days=1

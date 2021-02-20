@@ -12,4 +12,3 @@ from ._teacher import Teacher
 from ._team import TeamClass, TeamVirtual
 from ._timeslot import TimeSlot
 from ._unit import Unit
-from ._attachment import Attachment
