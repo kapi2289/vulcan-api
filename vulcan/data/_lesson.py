@@ -33,7 +33,7 @@ class LessonRoom(Serializable):
 class LessonChanges(Serializable):
     """Lesson changes
 
-    :var int ~.id: lesson change room ID
+    :var int ~.id: lesson change ID
     :var int ~.type: lesson change type
     :var bool ~.code: team separation
     """
