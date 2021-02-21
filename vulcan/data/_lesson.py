@@ -31,7 +31,7 @@ class LessonRoom(Serializable):
 
 @immutable
 class LessonChanges(Serializable):
-    """Lesson room
+    """Lesson changes
 
     :var int ~.id: lesson change room ID
     :var int ~.type: lesson change type
