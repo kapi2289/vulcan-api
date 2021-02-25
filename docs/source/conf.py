@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 # -- Project information -----------------------------------------------------
 
 project = "Vulcan API"
-copyright = "2020, Kacper Ziubryniewicz"
+copyright = "2021, Kacper Ziubryniewicz"
 author = "Kacper Ziubryniewicz"
 
 # The short X.Y version

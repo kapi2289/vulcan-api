@@ -1,78 +1,177 @@
 # -*- coding: utf-8 -*-
 
-import requests
-from related import to_model
+import json
+from typing import Union
 
-from ._certificate import Certificate
-from ._dictionaries import Dictionaries
-from ._utils import now, uuid, signature, VulcanAPIException, log, APP_NAME, APP_VERSION
+import aiohttp
+from uonet_request_signer_hebe import get_signature_values
+from yarl import URL
+
+from ._api_helper import ApiHelper
+from ._keystore import Keystore
+from ._utils import (
+    APP_NAME,
+    APP_OS,
+    APP_USER_AGENT,
+    APP_VERSION,
+    VulcanAPIException,
+    log,
+    millis,
+    now_datetime,
+    now_gmt,
+    now_iso,
+    urlencode,
+    uuid,
+)
+from .model import Period, Student
 
 
 class Api:
-    def __init__(self, certificate):
-        self._session = requests.session()
-        if isinstance(certificate, Certificate):
-            self.cert = certificate
-        else:
-            self.cert = to_model(Certificate, certificate)
-        self.base_url = self.cert.base_url + "mobile-api/Uczen.v3."
-        self.full_url = None
-        self.dict = None
-        self.student = None
+    """The API service class.
 
-    def _payload(self, json):
-        payload = {
-            "RemoteMobileTimeKey": now() + 1,
-            "TimeKey": now(),
-            "RequestId": uuid(),
-            "RemoteMobileAppVersion": APP_VERSION,
-            "RemoteMobileAppName": APP_NAME,
-        }
+    Provides methods for sending GET/POST requests on a higher
+    level, automatically generating the required headers
+    and other values.
 
-        if self.student:
-            payload["IdOkresKlasyfikacyjny"] = self.student.period.id
-            payload["IdUczen"] = self.student.id
-            payload["IdOddzial"] = self.student.class_.id
-            payload["LoginId"] = self.student.login_id
+    :var `~vulcan._api_helper.ApiHelper` ~.helper: a wrapper for getting
+         most data objects more easily
+    """
 
-        if json:
-            payload.update(json)
+    def __init__(self, keystore: Keystore, account=None):
+        self._session = aiohttp.ClientSession()
+        # if not isinstance(keystore, Keystore):
+        #     raise ValueError("The argument must be a Keystore")
+        self._keystore = keystore
+        if account:
+            self._account = account
+            self._rest_url = account.rest_url
+        self._student = None
+        self._period = None
+        self.helper = ApiHelper(self)
 
-        return payload
-
-    def _headers(self, json):
+    def _build_payload(self, envelope: dict) -> dict:
         return {
-            "User-Agent": "MobileUserAgent",
-            "RequestCertificateKey": self.cert.key,
-            "Connection": "close",
-            "RequestSignatureValue": signature(self.cert, json),
+            "AppName": APP_NAME,
+            "AppVersion": APP_VERSION,
+            "CertificateId": self._keystore.fingerprint,
+            "Envelope": envelope,
+            "FirebaseToken": self._keystore.firebase_token,
+            "API": 1,
+            "RequestId": uuid(),
+            "Timestamp": millis(),
+            "TimestampFormatted": now_iso(),
         }
 
-    def _request(self, method, endpoint, json=None, as_json=True, **kwargs):
-        payload = self._payload(json)
-        headers = self._headers(payload)
-        url = endpoint if endpoint.startswith("http") else self.full_url + endpoint
+    def _build_headers(self, full_url: str, payload: str) -> dict:
+        dt = now_datetime()
+        digest, canonical_url, signature = get_signature_values(
+            self._keystore.fingerprint,
+            self._keystore.private_key,
+            payload,
+            full_url,
+            dt,
+        )
 
-        r = self._session.request(method, url, json=payload, headers=headers, **kwargs)
+        headers = {
+            "User-Agent": APP_USER_AGENT,
+            "vOS": APP_OS,
+            "vDeviceModel": self._keystore.device_model,
+            "vAPI": "1",
+            "vDate": now_gmt(dt),
+            "vCanonicalUrl": canonical_url,
+            "Signature": signature,
+        }
 
-        if as_json:
+        if digest:
+            headers["Digest"] = digest
+            headers["Content-Type"] = "application/json"
+
+        return headers
+
+    async def _request(
+        self, method: str, url: str, body: dict = None, **kwargs
+    ) -> Union[dict, list]:
+        if self._session.closed:
+            raise RuntimeError("The AioHttp session is already closed.")
+
+        full_url = (
+            url
+            if url.startswith("http")
+            else self._rest_url + url
+            if self._rest_url
+            else None
+        )
+        if not full_url:
+            raise ValueError("Relative URL specified but no account loaded")
+
+        payload = self._build_payload(body) if body and method == "POST" else None
+        payload = json.dumps(payload) if payload else None
+        headers = self._build_headers(full_url, payload)
+
+        log.debug(" > {} to {}".format(method, full_url))
+
+        # a workaround for aiohttp incorrectly re-encoding the full URL
+        full_url = URL(full_url, encoded=True)
+
+        async with self._session.request(
+            method, full_url, data=payload, headers=headers, **kwargs
+        ) as r:
             try:
-                log.debug(r.text)
-                return r.json()
+                response = await r.json()
+                status = response["Status"]
+                envelope = response["Envelope"]
+
+                if status["Code"] == 108:
+                    log.debug(" ! " + str(status))
+                    raise VulcanAPIException("The certificate is not authorized.")
+
+                elif status["Code"] != 0:
+                    log.debug(" ! " + str(status))
+                    raise RuntimeError(status["Message"])
+
+                log.debug(" < " + str(envelope))
+                return envelope  # TODO better error handling
             except ValueError:
                 raise VulcanAPIException("An unexpected exception occurred.")
 
-        return r
-
-    def get(self, endpoint, json=None, as_json=True, **kwargs):
-        return self._request("GET", endpoint, json=json, as_json=as_json, **kwargs)
-
-    def post(self, endpoint, json=None, as_json=True, **kwargs):
-        return self._request("POST", endpoint, json=json, as_json=as_json, **kwargs)
-
-    def set_student(self, student):
-        self.student = student
-        self.full_url = (
-            self.cert.base_url + student.school.symbol + "/mobile-api/Uczen.v3."
+    async def get(self, url: str, query: dict = None, **kwargs) -> Union[dict, list]:
+        query = (
+            "&".join(x + "=" + urlencode(query[x]) for x in query) if query else None
         )
-        self.dict = Dictionaries.get(self)
+        if query:
+            url += "?" + query
+        return await self._request("GET", url, body=None, **kwargs)
+
+    async def post(self, url: str, body: dict, **kwargs) -> Union[dict, list]:
+        return await self._request("POST", url, body, **kwargs)
+
+    async def open(self):
+        if self._session.closed:
+            self._session = aiohttp.ClientSession()
+
+    async def close(self):
+        await self._session.close()
+
+    @property
+    def account(self):
+        return self._account
+
+    @property
+    def student(self) -> Student:
+        return self._student
+
+    @student.setter
+    def student(self, student: Student):
+        if not self._account:
+            raise AttributeError("Load an Account first!")
+        self._rest_url = self._account.rest_url + student.unit.code + "/"
+        self._student = student
+        self.period = student.current_period
+
+    @property
+    def period(self) -> Period:
+        return self._period
+
+    @period.setter
+    def period(self, period: Period):
+        self._period = period

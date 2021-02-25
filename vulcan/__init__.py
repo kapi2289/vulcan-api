@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+from ._account import Account
+from ._client import Vulcan
+from ._keystore import Keystore
 
-from ._vulcan import Vulcan
-from .hebe import VulcanHebe, Keystore, Account
-
-__version__ = "1.3.1"
+__version__ = "2.0.0"
 __doc__ = "Unofficial API for UONET+ e-register"
 
-__all__ = ["Vulcan", "VulcanHebe", "Keystore", "Account"]
+__all__ = ["Vulcan", "Keystore", "Account"]

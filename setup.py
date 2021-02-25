@@ -4,7 +4,7 @@ import io
 import re
 from os import path
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 here = path.abspath(path.dirname(__file__))
 
@@ -23,7 +23,7 @@ setup(
     description="Nieoficjalne API do dzienniczka elektronicznego UONET+",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    keywords=["Vulcan", "UONET+", "Dzienniczek+", "API", "e-dziennik"],
+    keywords=["Vulcan", "UONET+", "Dzienniczek+", "API", "e-dziennik", "hebe"],
     license="MIT",
     url="https://github.com/kapi2289/vulcan-api",
     project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
@@ -31,7 +31,6 @@ setup(
     install_requires=[
         "requests",
         "pyopenssl",
-        "uonet-request-signer",
         "uonet-request-signer-hebe",
         "pytz",
         "aenum",
@@ -43,7 +42,7 @@ setup(
     ],
     extras_require={"testing": ["pytest", "python-dotenv"]},
     classifiers=[
-        "Development Status :: 3 - Alpha",
+        "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: Polish",
