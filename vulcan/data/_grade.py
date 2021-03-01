@@ -48,10 +48,10 @@ class GradeColumn(Serializable):
     period_id: int = IntegerField(key="PeriodId")
     name: str = StringField(key="Name")
     code: str = StringField(key="Code")
-    group: str = StringField(key="Group")
     number: int = IntegerField(key="Number")
     weight: float = FloatField(key="Weight")
     subject: Subject = ChildField(Subject, key="Subject")
+    group: str = StringField(key="Group", required=False)
     category: GradeCategory = ChildField(GradeCategory, key="Category", required=False)
 
     period: Period = ChildField(Period, key="Period", required=False)
