@@ -3,7 +3,16 @@ from datetime import date, datetime
 from typing import AsyncIterator, List, Union
 
 from ._api import Api
-from .data import Addressbook, Attendance, Exam, Grade, Homework, Lesson, LuckyNumber
+from .data import (
+    Addressbook,
+    Attendance,
+    ChangedLesson,
+    Exam,
+    Grade,
+    Homework,
+    Lesson,
+    LuckyNumber,
+)
 from .model import DateTime
 
 
@@ -89,7 +98,7 @@ class VulcanData:
         deleted=False,
         date_from=None,
         date_to=None,
-        **kwargs
+        **kwargs,
     ) -> Union[AsyncIterator[Lesson], List[int]]:
         """Yields the student's lessons.
 
@@ -104,13 +113,36 @@ class VulcanData:
         """
         return Lesson.get(self._api, last_sync, deleted, date_from, date_to, **kwargs)
 
+    async def get_changed_lessons(
+        self,
+        last_sync: datetime = None,
+        deleted=False,
+        date_from=None,
+        date_to=None,
+        **kwargs,
+    ) -> Union[AsyncIterator[Lesson], List[int]]:
+        """Yields the student's lessons.
+
+        :param `datetime.datetime` last_sync: date of the last sync,
+            gets only the objects updated since this date
+        :param bool deleted: whether to only get the deleted item IDs
+        :param `datetime.date` date_from: Date, from which to fetch lessons, if not provided
+            it's using the today date (Default value = None)
+        :param `datetime.date` date_to: Date, to which to fetch lessons, if not provided
+            it's using the `date_from` date (Default value = None)
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Lesson`], List[int]]
+        """
+        return ChangedLesson.get(
+            self._api, last_sync, deleted, date_from, date_to, **kwargs
+        )
+
     async def get_attendance(
         self,
         last_sync: datetime = None,
         deleted=False,
         date_from=None,
         date_to=None,
-        **kwargs
+        **kwargs,
     ) -> Union[AsyncIterator[Attendance], List[int]]:
         """Fetches attendance from the given date
 
