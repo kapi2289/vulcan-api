@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import asyncio
 import logging
 import math
 import platform
@@ -8,6 +9,7 @@ import urllib
 import uuid as _uuid
 from datetime import datetime
 
+import aiohttp
 import requests
 
 APP_NAME = "DzienniczekPlus 2.0"
@@ -32,25 +34,29 @@ def default_device_model():
     return "Vulcan API (Python {})".format(platform.python_version())
 
 
-def get_base_url(token):
+async def get_base_url(token):
     code = token[0:3]
-    components = get_components()
+    components = await get_components()
     try:
         return components[code]
     except KeyError:
         raise VulcanAPIException("Invalid token!")
 
 
-def get_components():
+async def get_components():
     log.info("Getting Vulcan components...")
-    r = requests.get("http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt")
-    if r.headers["Content-Type"] == "text/plain":
-        components = (c.split(",") for c in r.text.split())
-        components = {a[0]: a[1] for a in components}
-    else:
-        components = {}
-    components.update({"FK1": "http://api.fakelog.cf"})
-    return components
+    async with aiohttp.ClientSession() as session:
+        async with session.get(
+            "http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt"
+        ) as r:
+            if r.headers["Content-Type"] == "text/plain":
+                r_txt = await r.text()
+                components = (c.split(",") for c in r_txt.split())
+                components = {a[0]: a[1] for a in components}
+            else:
+                components = {}
+            components.update({"FK1": "http://api.fakelog.cf"})
+            return components
 
 
 def get_firebase_token():

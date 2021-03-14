@@ -43,7 +43,7 @@ class Account(Serializable):
             "SelfIdentifier": uuid(keystore.fingerprint),
         }
 
-        base_url = get_base_url(token)
+        base_url = await get_base_url(token)
         full_url = "/".join([base_url, symbol, DEVICE_REGISTER])
 
         log.info("Registering to {}...".format(symbol))
