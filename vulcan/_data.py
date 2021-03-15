@@ -121,7 +121,7 @@ class VulcanData:
         date_to=None,
         **kwargs,
     ) -> Union[AsyncIterator[ChangedLesson], List[int]]:
-        """Yields the student's lessons.
+        """Yields the student's changed lessons.
 
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
@@ -130,7 +130,7 @@ class VulcanData:
             it's using the today date (Default value = None)
         :param `datetime.date` date_to: Date, to which to fetch lessons, if not provided
             it's using the `date_from` date (Default value = None)
-        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Lesson`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.ChangedLesson`], List[int]]
         """
         return ChangedLesson.get(
             self._api, last_sync, deleted, date_from, date_to, **kwargs
