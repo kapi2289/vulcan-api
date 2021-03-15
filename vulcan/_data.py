@@ -120,7 +120,7 @@ class VulcanData:
         date_from=None,
         date_to=None,
         **kwargs,
-    ) -> Union[AsyncIterator[Lesson], List[int]]:
+    ) -> Union[AsyncIterator[ChangedLesson], List[int]]:
         """Yields the student's lessons.
 
         :param `datetime.datetime` last_sync: date of the last sync,
