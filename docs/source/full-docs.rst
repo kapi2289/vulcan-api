@@ -90,7 +90,7 @@ Data models
 .. autoclass:: vulcan.data.ChangedLesson
     :members:
 
-.. autoclass:: vulcan.data.LessonChange
+.. autoclass:: vulcan.data.LessonChanges
     :members:
 
 .. autoclass:: vulcan.data.LessonRoom
