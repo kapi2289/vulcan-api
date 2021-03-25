@@ -23,5 +23,5 @@ class Unit(Serializable):
     name: str = StringField(key="Name")
     short_name: str = StringField(key="Short")
     display_name: str = StringField(key="DisplayName")
-    address: str = StringField(key="Address")
     rest_url: str = StringField(key="RestURL")
+    address: str = StringField(key="Address", required=False)
