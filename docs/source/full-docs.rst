@@ -105,5 +105,11 @@ Data models
 .. autoclass:: vulcan.data.GradeCategory
     :members:
 
+.. autoclass:: vulcan.data.Message
+    :members:
+
+.. autoclass:: vulcan.data.Address
+    :members:
+
 .. autoclass:: vulcan.data.LuckyNumber
     :members:
