@@ -12,6 +12,7 @@ from .data import (
     Homework,
     Lesson,
     LuckyNumber,
+    Message,
 )
 from .model import DateTime
 
@@ -55,6 +56,18 @@ class VulcanData:
         :rtype: Union[AsyncIterator[:class:`~vulcan.data.Addressbook`], List[int]]
         """
         return Addressbook.get(self._api, **kwargs)
+
+    async def get_messages(
+        self, last_sync: datetime = None, folder=1, **kwargs
+    ) -> Union[AsyncIterator[Message], List[int]]:
+        """Yields messages.
+
+        :param `datetime.datetime` last_sync: date of the last sync,
+            gets only the objects updated since this date
+        :param int folder: message folder 
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Message`], List[int]]
+        """
+        return Message.get(self._api, last_sync, folder, **kwargs)
 
     async def get_grades(
         self, last_sync: datetime = None, deleted=False, **kwargs
