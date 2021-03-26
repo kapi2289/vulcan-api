@@ -64,7 +64,7 @@ class VulcanData:
 
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
-        :param int folder: message folder 
+        :param int folder: message folder
         :rtype: Union[AsyncIterator[:class:`~vulcan.data.Message`], List[int]]
         """
         return Message.get(self._api, last_sync, folder, **kwargs)
