@@ -35,7 +35,7 @@ class Message(Serializable):
     :var int ~.status: Message status
     :var str ~.content: Message content
     :var `~vulcan.data.Address` ~.sender: Sender of the message
-    :var List[Address] ~.receiver: Receiver of the message
+    :var List[Address] ~.receivers: Receiver of the message
     :var List[Attachment] ~.attachments: attachments added to message
     """
 
@@ -46,7 +46,7 @@ class Message(Serializable):
     status: int = IntegerField(key="Status", required=False)
     content: str = StringField(key="Content", required=False)
     sender: Address = ChildField(Address, key="Sender", required=False)
-    receiver: List[Address] = SequenceField(
+    receivers: List[Address] = SequenceField(
         Address, key="Receiver", repr=True, required=False
     )
     attachments: List[Attachment] = SequenceField(
