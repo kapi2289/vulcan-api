@@ -10,7 +10,7 @@ from ..model import Attachment, DateTime, Serializable
 
 @immutable
 class Address(Serializable):
-    """An address.
+    """An address - "descriptor" used in the system containing the user's Login ID, his names and a hash of the data.
 
     :var str ~.login_id: login id
     :var str ~.address_name: address name
@@ -35,7 +35,7 @@ class Message(Serializable):
     :var int ~.status: Message status
     :var str ~.content: Message content
     :var `~vulcan.data.Address` ~.sender: Sender of the message
-    :var list[Address] ~.receiver: Receiver of the message
+    :var List[Address] ~.receiver: Receiver of the message
     :var List[Attachment] ~.attachments: attachments added to message
     """
 
