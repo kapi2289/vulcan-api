@@ -60,7 +60,7 @@ class VulcanData:
     async def get_messages(
         self, last_sync: datetime = None, folder=1, **kwargs
     ) -> Union[AsyncIterator[Message], List[int]]:
-        """Yields messages.
+        """Yields messages received by the currently registered account.
 
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
