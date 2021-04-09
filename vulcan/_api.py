@@ -125,6 +125,18 @@ class Api:
                     log.debug(" ! " + str(status))
                     raise VulcanAPIException("The certificate is not authorized.")
 
+                elif status["Code"] == 200:
+                    log.debug(" ! " + str(status))
+                    raise VulcanAPIException("Invalid token.")
+
+                elif status["Code"] == 203:
+                    log.debug(" ! " + str(status))
+                    raise VulcanAPIException("Invalid PIN.")
+
+                elif status["Code"] == 204:
+                    log.debug(" ! " + str(status))
+                    raise VulcanAPIException("Expired token.")
+
                 elif status["Code"] != 0:
                     log.debug(" ! " + str(status))
                     raise RuntimeError(status["Message"])
