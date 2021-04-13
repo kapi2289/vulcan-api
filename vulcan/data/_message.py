@@ -29,9 +29,9 @@ class Message(Serializable):
     """A message.
 
     :var int ~.id: Message id
-    :var str ~.title: Subject of the message
-    :var `~vulcan.hebe.model.DateTime` ~.sent_datetime: Date with time when the message was sent
-    :var `~vulcan.hebe.model.DateTime` ~.read_datetime: Date with time when the message was read
+    :var str ~.subject: Subject of the message
+    :var `~vulcan.hebe.model.DateTime` ~.sent_date: Date with time when the message was sent
+    :var `~vulcan.hebe.model.DateTime` ~.read_date: Date with time when the message was read
     :var int ~.status: Message status
     :var str ~.content: Message content
     :var `~vulcan.data.Address` ~.sender: Sender of the message
