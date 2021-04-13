@@ -50,3 +50,18 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel
         twine upload dist/*
+    - name: Add GitHub release assets
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          dist/*.whl
+          dist/*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload workflow artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: vulcan-api
+        path: |
+          dist/*.whl
+          dist/*.tar.gz
