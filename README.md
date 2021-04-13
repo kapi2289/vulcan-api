@@ -6,7 +6,7 @@
     <a href="https://discord.gg/sTHCrXB"><img src="https://img.shields.io/discord/619178050562686988?color=7289DA&label=discord" alt="Discord"></a>
 </p>
 <p align="center">
-    <a href="https://travis-ci.com/kapi2289/vulcan-api"><img src="https://travis-ci.com/kapi2289/vulcan-api.svg?branch=master" alt="Tests status"></a>
+    <a href="https://github.com/kapi2289/vulcan-api/actions/workflows/test.yml"><img src="https://img.shields.io/github/workflow/status/kapi2289/vulcan-api/Run%20tests/master" alt="Tests status"></a>
     <a href="https://vulcan-api.readthedocs.io/en/latest/?badge=latest"><img src="https://img.shields.io/readthedocs/vulcan-api.svg" alt="Documentation status"></a>
 </p>
 <p align="center">

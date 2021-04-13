@@ -1,0 +1,27 @@
+name: Run tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install test dependencies
+        uses: BSFishy/pip-action@v1
+        with:
+          packages: |
+            black
+            isort
+      - name: Check code with black
+        run: black --check .
+      - name: Check code with isort
+        run: isort --profile black . --check-only

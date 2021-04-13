@@ -1,0 +1,69 @@
+name: Publish Python Package
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: Install test dependencies
+        uses: BSFishy/pip-action@v1
+        with:
+          packages: |
+            black
+            isort
+      - name: Check code with black
+        run: black --check .
+      - name: Check code with isort
+        run: isort --profile black . --check-only
+
+  deploy:
+    name: Deploy to PyPI
+    runs-on: ubuntu-latest
+    needs:
+      - test
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install publish dependencies
+      uses: BSFishy/pip-action@v1
+      with:
+        packages: |
+          setuptools
+          wheel
+          twine
+    - name: Build and publish
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        python setup.py sdist bdist_wheel
+        twine upload dist/*
+    - name: Add GitHub release assets
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          dist/*.whl
+          dist/*.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload workflow artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: vulcan-api
+        path: |
+          dist/*.whl
+          dist/*.tar.gz
