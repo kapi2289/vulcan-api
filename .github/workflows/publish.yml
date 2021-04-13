@@ -6,6 +6,7 @@ on:
 
 jobs:
   test:
+    name: Run tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -26,6 +27,7 @@ jobs:
         run: isort --profile black . --check-only
 
   deploy:
+    name: Deploy to PyPI
     runs-on: ubuntu-latest
     needs:
       - test
