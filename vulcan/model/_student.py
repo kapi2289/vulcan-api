@@ -15,6 +15,7 @@ from ._unit import Unit
 class Student(Serializable):
     """A student object, along with his school, class and period information
 
+    :var str ~.class_: student class
     :var str ~.symbol: the "partition" symbol - can be a town or county name
     :var str ~.symbol_code: the school unit code - often a 6 digit number
     :var `~vulcan.model.Pupil` ~.pupil: contains the student's IDs,
@@ -27,6 +28,7 @@ class Student(Serializable):
          the student's school year periods
     """
 
+    class_: str = StringField(key="ClassDisplay")
     symbol: str = StringField(key="TopLevelPartition")
     symbol_code: str = StringField(key="Partition")
 
