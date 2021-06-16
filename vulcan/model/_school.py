@@ -18,4 +18,4 @@ class School(Serializable):
     id: int = IntegerField(key="Id")
     name: str = StringField(key="Name")
     short_name: str = StringField(key="Short")
-    address: str = StringField(key="Address")
+    address: str = StringField(key="Address", required=False)
