@@ -55,7 +55,7 @@ async def get_components():
                 components = {a[0]: a[1] for a in components}
             else:
                 components = {}
-            components.update({"FK1": "http://api.fakelog.cf"})
+            components.update({"FK1": "http://api.fakelog.tk"})
             return components
 
 
