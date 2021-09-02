@@ -28,15 +28,15 @@ class Exam(Serializable):
         taking the exam, optional
     """
 
-    id: int = IntegerField(key="Id", required=False)
-    key: str = StringField(key="Key", required=False)
-    type: str = StringField(key="Type", required=False)
-    topic: str = StringField(key="Content", required=False)
-    date_created: DateTime = ChildField(DateTime, key="DateCreated", required=False)
-    date_modified: DateTime = ChildField(DateTime, key="DateModify", required=False)
-    deadline: DateTime = ChildField(DateTime, key="Deadline", required=False)
-    creator: Teacher = ChildField(Teacher, key="Creator", required=False)
-    subject: Subject = ChildField(Subject, key="Subject", required=False)
+    id: int = IntegerField(key="Id")
+    key: str = StringField(key="Key")
+    type: str = StringField(key="Type")
+    topic: str = StringField(key="Content")
+    date_created: DateTime = ChildField(DateTime, key="DateCreated")
+    date_modified: DateTime = ChildField(DateTime, key="DateModify")
+    deadline: DateTime = ChildField(DateTime, key="Deadline")
+    creator: Teacher = ChildField(Teacher, key="Creator")
+    subject: Subject = ChildField(Subject, key="Subject")
     team_class: TeamClass = ChildField(TeamClass, key="Class", required=False)
     team_virtual: TeamVirtual = ChildField(
         TeamVirtual, key="Distribution", required=False
