@@ -37,7 +37,7 @@ class Exam(Serializable):
     deadline: DateTime = ChildField(DateTime, key="Deadline")
     creator: Teacher = ChildField(Teacher, key="Creator")
     subject: Subject = ChildField(Subject, key="Subject")
-    team_class: TeamClass = ChildField(TeamClass, key="Class")
+    team_class: TeamClass = ChildField(TeamClass, key="Class", required=False)
     team_virtual: TeamVirtual = ChildField(
         TeamVirtual, key="Distribution", required=False
     )
