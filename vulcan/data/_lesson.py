@@ -89,9 +89,6 @@ class Lesson(Serializable):
             date_from = datetime.date.today()
         if date_to is None:
             date_to = date_from
-        date_to = date_to + datetime.timedelta(
-            days=1
-        )  # Vulcan requires the date_to to be one greater the date it is supposed to be
         data = await api.helper.get_list(
             DATA_TIMETABLE,
             FilterType.BY_PUPIL,
@@ -158,9 +155,6 @@ class ChangedLesson(Serializable):
             date_from = datetime.date.today()
         if date_to is None:
             date_to = date_from
-        date_to = date_to + datetime.timedelta(
-            days=1
-        )  # Vulcan requires the date_to to be one greater the date it is supposed to be
         data = await api.helper.get_list(
             DATA_TIMETABLE_CHANGES,
             FilterType.BY_PUPIL,
