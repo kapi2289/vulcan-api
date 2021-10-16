@@ -121,8 +121,8 @@ class Api:
                 status = response["Status"]
                 envelope = response["Envelope"]
 
-                if status["Code"] == 100:
-                    log.debug(" ! " + str(status))
+                # check for the presence of a b64 string preceded with ': '
+                if status["Code"] == 100 and ": " in status["Message"]:
                     raise VulcanAPIException("Invalid signature values.")
 
                 elif status["Code"] == 108:
