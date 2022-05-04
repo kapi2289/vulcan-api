@@ -8,6 +8,15 @@ from uonet_request_signer_hebe import get_signature_values
 from yarl import URL
 
 from ._api_helper import ApiHelper
+from ._exceptions import (
+    ExpiredTokenException,
+    InvalidPINException,
+    InvalidSignatureValuesException,
+    InvalidSymbolException,
+    InvalidTokenException,
+    UnauthorizedCertificateException,
+    VulcanAPIException,
+)
 from ._keystore import Keystore
 from ._utils import (
     APP_NAME,
@@ -21,15 +30,6 @@ from ._utils import (
     now_iso,
     urlencode,
     uuid,
-)
-from .exceptions import (
-    ExpiredTokenException,
-    InvalidPINException,
-    InvalidSignatureValuesException,
-    InvalidSymbolException,
-    InvalidTokenException,
-    UnauthorizedCertificateException,
-    VulcanAPIException,
 )
 from .model import Period, Student
 
@@ -131,27 +131,27 @@ class Api:
 
                 # check for the presence of a b64 string preceded with ': '
                 if status["Code"] == 100 and ": " in status["Message"]:
-                    raise InvalidSignatureValuesException
+                    raise InvalidSignatureValuesException()
 
                 elif status["Code"] == 108:
                     log.debug(" ! " + str(status))
-                    raise UnauthorizedCertificateException
+                    raise UnauthorizedCertificateException()
 
                 elif status["Code"] == 200:
                     log.debug(" ! " + str(status))
-                    raise InvalidTokenException
+                    raise InvalidTokenException()
 
                 elif status["Code"] == 203:
                     log.debug(" ! " + str(status))
-                    raise InvalidPINException
+                    raise InvalidPINException()
 
                 elif status["Code"] == 204:
                     log.debug(" ! " + str(status))
-                    raise ExpiredTokenException
+                    raise ExpiredTokenException()
 
                 elif status["Code"] == -1:
                     log.debug(" ! " + str(status))
-                    raise InvalidSymbolException
+                    raise InvalidSymbolException()
 
                 elif status["Code"] != 0:
                     log.debug(" ! " + str(status))

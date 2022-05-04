@@ -10,7 +10,7 @@ from datetime import datetime
 
 import aiohttp
 
-from .exceptions import InvalidTokenException
+from ._exceptions import InvalidTokenException
 
 APP_NAME = "DzienniczekPlus 2.0"
 APP_VERSION = "1.4.2"
@@ -36,7 +36,7 @@ async def get_base_url(token):
     try:
         return components[code]
     except KeyError:
-        raise InvalidTokenException
+        raise InvalidTokenException()
 
 
 async def get_components():
