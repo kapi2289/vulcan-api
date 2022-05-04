@@ -29,7 +29,6 @@ setup(
     project_urls={"Documentation": "https://vulcan-api.readthedocs.io/"},
     python_requires=">=3.6,<4.0",
     install_requires=[
-        "requests",
         "pyopenssl",
         "uonet-request-signer-hebe",
         "pytz",

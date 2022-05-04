@@ -14,7 +14,6 @@ from ._utils import (
     APP_OS,
     APP_USER_AGENT,
     APP_VERSION,
-    VulcanAPIException,
     log,
     millis,
     now_datetime,
@@ -22,6 +21,15 @@ from ._utils import (
     now_iso,
     urlencode,
     uuid,
+)
+from .exceptions import (
+    ExpiredTokenException,
+    InvalidPINException,
+    InvalidSignatureValuesException,
+    InvalidSymbolException,
+    InvalidTokenException,
+    UnauthorizedCertificateException,
+    VulcanAPIException,
 )
 from .model import Period, Student
 
@@ -37,8 +45,8 @@ class Api:
          most data objects more easily
     """
 
-    def __init__(self, keystore: Keystore, account=None):
-        self._session = aiohttp.ClientSession()
+    def __init__(self, keystore: Keystore, account=None, session=None):
+        self._session = aiohttp.ClientSession() if not session else session
         # if not isinstance(keystore, Keystore):
         #     raise ValueError("The argument must be a Keystore")
         self._keystore = keystore
@@ -123,30 +131,34 @@ class Api:
 
                 # check for the presence of a b64 string preceded with ': '
                 if status["Code"] == 100 and ": " in status["Message"]:
-                    raise VulcanAPIException("Invalid signature values.")
+                    raise InvalidSignatureValuesException
 
                 elif status["Code"] == 108:
                     log.debug(" ! " + str(status))
-                    raise VulcanAPIException("The certificate is not authorized.")
+                    raise UnauthorizedCertificateException
 
                 elif status["Code"] == 200:
                     log.debug(" ! " + str(status))
-                    raise VulcanAPIException("Invalid token.")
+                    raise InvalidTokenException
 
                 elif status["Code"] == 203:
                     log.debug(" ! " + str(status))
-                    raise VulcanAPIException("Invalid PIN.")
+                    raise InvalidPINException
 
                 elif status["Code"] == 204:
                     log.debug(" ! " + str(status))
-                    raise VulcanAPIException("Expired token.")
+                    raise ExpiredTokenException
+
+                elif status["Code"] == -1:
+                    log.debug(" ! " + str(status))
+                    raise InvalidSymbolException
 
                 elif status["Code"] != 0:
                     log.debug(" ! " + str(status))
-                    raise RuntimeError(status["Message"])
+                    raise VulcanAPIException(status["Message"])
 
                 log.debug(" < " + str(envelope))
-                return envelope  # TODO better error handling
+                return envelope
             except ValueError:
                 raise VulcanAPIException("An unexpected exception occurred.")
 

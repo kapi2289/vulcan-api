@@ -35,13 +35,13 @@ class Keystore(Serializable):
     device_model: str = StringField(key="DeviceModel")
 
     @staticmethod
-    def create(
+    async def create(
         firebase_token: str = None, device_model: str = default_device_model()
     ) -> "Keystore":
         log.info("Generating key pair...")
         keystore = Keystore(
             *generate_key_pair(),
-            firebase_token if firebase_token else get_firebase_token(),
+            firebase_token if firebase_token else await get_firebase_token(),
             device_model
         )
         log.info(

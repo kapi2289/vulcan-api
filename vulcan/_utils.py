@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import asyncio
 import logging
 import math
 import platform
@@ -10,7 +9,8 @@ import uuid as _uuid
 from datetime import datetime
 
 import aiohttp
-import requests
+
+from .exceptions import InvalidTokenException
 
 APP_NAME = "DzienniczekPlus 2.0"
 APP_VERSION = "1.4.2"
@@ -26,10 +26,6 @@ log.addHandler(handler)
 TIME_FORMAT_H_M = "%H:%M"
 
 
-class VulcanAPIException(Exception):
-    pass
-
-
 def default_device_model():
     return "Vulcan API (Python {})".format(platform.python_version())
 
@@ -40,7 +36,7 @@ async def get_base_url(token):
     try:
         return components[code]
     except KeyError:
-        raise VulcanAPIException("Invalid token!")
+        raise InvalidTokenException
 
 
 async def get_components():
@@ -59,32 +55,34 @@ async def get_components():
             return components
 
 
-def get_firebase_token():
-    log.info("Getting Firebase token...")
-    aid = "4609707972546570896:3626695765779152704"
-    device = aid.split(":")[0]
-    app = "pl.edu.vulcan.hebe"
+async def get_firebase_token():
+    async with aiohttp.ClientSession() as session:
+        log.info("Getting Firebase token...")
+        aid = "4609707972546570896:3626695765779152704"
+        device = aid.split(":")[0]
+        app = "pl.edu.vulcan.hebe"
 
-    data = {
-        "sender": "987828170337",
-        "X-scope": "*",
-        "X-gmp_app_id": "1:987828170337:android:ac97431a0a4578c3",
-        "app": app,
-        "device": device,
-    }
+        data = {
+            "sender": "987828170337",
+            "X-scope": "*",
+            "X-gmp_app_id": "1:987828170337:android:ac97431a0a4578c3",
+            "app": app,
+            "device": device,
+        }
 
-    headers = {
-        "Authorization": "AidLogin {}".format(aid),
-        "User-Agent": "Android-GCM/1.5",
-        "app": app,
-    }
+        headers = {
+            "Authorization": "AidLogin {}".format(aid),
+            "User-Agent": "Android-GCM/1.5",
+            "app": app,
+        }
 
-    r = requests.post(
-        "https://android.clients.google.com/c2dm/register3", data=data, headers=headers
-    )
-    token = r.text.split("=")[1]
-
-    return token
+        async with session.post(
+            "https://android.clients.google.com/c2dm/register3",
+            data=data,
+            headers=headers,
+        ) as r:
+            r_txt = await r.text()
+            return r_txt.split("=")[1]
 
 
 def millis():
