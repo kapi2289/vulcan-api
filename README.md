@@ -15,17 +15,6 @@
     <a href="https://pypi.org/project/vulcan-api/"><img src="https://img.shields.io/pypi/dm/vulcan-api.svg" alt="Monthly downloads"></a>
 </p>
 
-## Important information
-
-After February 21st the old mobile app "Dzienniczek+" was shutdown by Vulcan, along with its API.
-This library provides compatibility with the new app's API (starting with v2.0.0), but because
-of the incompatibility between both APIs' signing mechanisms, a manual migration is required.
-
-A device using the system must be registered again (using the token, symbol and PIN). Additionally,
-data models and synchronisation method differ, and the API is now asynchronous.
-
-For the details, refer to the [Documentation](https://vulcan-api.readthedocs.io/).
-
 ## Description
 
 Unofficial API for UONET+ e-register from [Vulcan](https://vulcan.edu.pl/). It's using the mobile API, so you can register it as a mobile device.

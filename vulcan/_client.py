@@ -18,8 +18,8 @@ class Vulcan:
     :var `~vulcan._data.VulcanData` ~.data: the data client
     """
 
-    def __init__(self, keystore, account, logging_level: int = None):
-        self._api = Api(keystore, account)
+    def __init__(self, keystore, account, session=None, logging_level: int = None):
+        self._api = Api(keystore, account, session)
         self._students = []
         self.data = VulcanData(self._api)
 
