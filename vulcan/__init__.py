@@ -3,6 +3,7 @@
 from ._account import Account
 from ._client import Vulcan
 from ._exceptions import (
+    ExpiredTokenException,
     InvalidPINException,
     InvalidSignatureValuesException,
     InvalidSymbolException,
@@ -19,6 +20,7 @@ __all__ = [
     "Vulcan",
     "Keystore",
     "Account",
+    "ExpiredTokenException",
     "InvalidPINException",
     "InvalidSignatureValuesException",
     "InvalidSymbolException",
