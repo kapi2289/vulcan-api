@@ -27,11 +27,11 @@ TIME_FORMAT_H_M = "%H:%M"
 
 
 def default_device_model():
-    return "Vulcan API (Python {})".format(platform.python_version())
+    return f"Vulcan API (Python {platform.python_version()})"
 
 
 async def get_base_url(token):
-    code = token[0:3]
+    code = token[:3]
     components = await get_components()
     try:
         return components[code]
@@ -43,15 +43,15 @@ async def get_components():
     log.info("Getting Vulcan components...")
     async with aiohttp.ClientSession() as session:
         async with session.get(
-            "http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt"
-        ) as r:
+                    "http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt"
+                ) as r:
             if r.headers["Content-Type"] == "text/plain":
                 r_txt = await r.text()
                 components = (c.split(",") for c in r_txt.split())
                 components = {a[0]: a[1] for a in components}
             else:
                 components = {}
-            components.update({"FK1": "http://api.fakelog.tk"})
+            components["FK1"] = "http://api.fakelog.tk"
             return components
 
 
@@ -71,10 +71,11 @@ async def get_firebase_token():
         }
 
         headers = {
-            "Authorization": "AidLogin {}".format(aid),
+            "Authorization": f"AidLogin {aid}",
             "User-Agent": "Android-GCM/1.5",
             "app": app,
         }
+
 
         async with session.post(
             "https://android.clients.google.com/c2dm/register3",

@@ -76,4 +76,4 @@ class Student(Serializable):
         :rtype: List[:class:`~vulcan.model.Student`]
         """
         data = await api.get(STUDENT_LIST, **kwargs)
-        return list(Student.load(student) for student in data)
+        return [Student.load(student) for student in data]

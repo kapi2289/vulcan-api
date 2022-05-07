@@ -46,9 +46,9 @@ class ApiHelper:
                 "Getting deleted data IDs is not implemented yet."
             )
         if filter_type and filter_type != FilterType.BY_LOGIN_ID:
-            url = "{}/{}/{}".format(DATA_ROOT, endpoint, filter_type.get_endpoint())
+            url = f"{DATA_ROOT}/{endpoint}/{filter_type.get_endpoint()}"
         else:
-            url = "{}/{}".format(DATA_ROOT, endpoint)
+            url = f"{DATA_ROOT}/{endpoint}"
         query = {}
         account = self._api.account
         student = self._api.student
@@ -58,9 +58,7 @@ class ApiHelper:
             query["unitId"] = student.unit.id
             query["pupilId"] = student.pupil.id
             query["periodId"] = period.id
-        elif (
-            filter_type == FilterType.BY_PERSON or filter_type == FilterType.BY_LOGIN_ID
-        ):
+        elif filter_type in [FilterType.BY_PERSON, FilterType.BY_LOGIN_ID]:
             query["loginId"] = account.login_id
         elif filter_type == FilterType.BY_PERIOD:
             query["periodId"] = period.id
@@ -81,7 +79,7 @@ class ApiHelper:
         )
 
         if params:
-            query.update(params)
+            query |= params
 
         return await self._api.get(url, query, **kwargs)
 
@@ -92,7 +90,7 @@ class ApiHelper:
         query: dict = None,
         **kwargs,
     ) -> object:
-        url = "{}/{}".format(DATA_ROOT, endpoint)
+        url = f"{DATA_ROOT}/{endpoint}"
 
         data = await self._api.get(url, query, **kwargs)
         return cls.load(data)

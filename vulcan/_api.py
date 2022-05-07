@@ -46,7 +46,7 @@ class Api:
     """
 
     def __init__(self, keystore: Keystore, account=None, session=None):
-        self._session = aiohttp.ClientSession() if not session else session
+        self._session = session or aiohttp.ClientSession()
         # if not isinstance(keystore, Keystore):
         #     raise ValueError("The argument must be a Keystore")
         self._keystore = keystore
@@ -116,14 +116,14 @@ class Api:
         payload = json.dumps(payload) if payload else None
         headers = self._build_headers(full_url, payload)
 
-        log.debug(" > {} to {}".format(method, full_url))
+        log.debug(f" > {method} to {full_url}")
 
         # a workaround for aiohttp incorrectly re-encoding the full URL
         full_url = URL(full_url, encoded=True)
 
         async with self._session.request(
-            method, full_url, data=payload, headers=headers, **kwargs
-        ) as r:
+                method, full_url, data=payload, headers=headers, **kwargs
+            ) as r:
             try:
                 response = await r.json()
                 status = response["Status"]
@@ -134,40 +134,43 @@ class Api:
                     raise InvalidSignatureValuesException()
 
                 elif status["Code"] == 108:
-                    log.debug(" ! " + str(status))
+                    log.debug(f" ! {str(status)}")
                     raise UnauthorizedCertificateException()
 
                 elif status["Code"] == 200:
-                    log.debug(" ! " + str(status))
+                    log.debug(f" ! {str(status)}")
                     raise InvalidTokenException()
 
                 elif status["Code"] == 203:
-                    log.debug(" ! " + str(status))
+                    log.debug(f" ! {str(status)}")
                     raise InvalidPINException()
 
                 elif status["Code"] == 204:
-                    log.debug(" ! " + str(status))
+                    log.debug(f" ! {str(status)}")
                     raise ExpiredTokenException()
 
                 elif status["Code"] == -1:
-                    log.debug(" ! " + str(status))
+                    log.debug(f" ! {str(status)}")
                     raise InvalidSymbolException()
 
                 elif status["Code"] != 0:
-                    log.debug(" ! " + str(status))
+                    log.debug(f" ! {str(status)}")
                     raise VulcanAPIException(status["Message"])
 
-                log.debug(" < " + str(envelope))
+                log.debug(f" < {str(envelope)}")
                 return envelope
             except ValueError:
                 raise VulcanAPIException("An unexpected exception occurred.")
 
     async def get(self, url: str, query: dict = None, **kwargs) -> Union[dict, list]:
         query = (
-            "&".join(x + "=" + urlencode(query[x]) for x in query) if query else None
+            "&".join(f"{x}={urlencode(query[x])}" for x in query)
+            if query
+            else None
         )
+
         if query:
-            url += "?" + query
+            url += f"?{query}"
         return await self._request("GET", url, body=None, **kwargs)
 
     async def post(self, url: str, body: dict, **kwargs) -> Union[dict, list]:
