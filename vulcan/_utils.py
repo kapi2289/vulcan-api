@@ -6,7 +6,7 @@ import platform
 import time
 import urllib
 import uuid as _uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 import aiohttp
 
@@ -35,8 +35,8 @@ async def get_base_url(token):
     components = await get_components()
     try:
         return components[code]
-    except KeyError:
-        raise InvalidTokenException()
+    except KeyError as e:
+        raise InvalidTokenException() from e
 
 
 async def get_components():
@@ -61,7 +61,6 @@ async def get_firebase_token():
         aid = "4609707972546570896:3626695765779152704"
         device = aid.split(":")[0]
         app = "pl.edu.vulcan.hebe"
-
         data = {
             "sender": "987828170337",
             "X-scope": "*",
@@ -90,8 +89,8 @@ def millis():
     return math.floor(time.time() * 1000)
 
 
-def now_datetime():  # UTC+0
-    return datetime.utcnow()
+def now_datetime():  # RFC 2822, UTC+0
+    return datetime.now(timezone.utc)
 
 
 def now_iso(dt=None):  # ISO 8601, local timezone
@@ -99,7 +98,7 @@ def now_iso(dt=None):  # ISO 8601, local timezone
 
 
 def now_gmt(dt=None):  # RFC 2822, UTC+0
-    return (dt or datetime.utcnow()).strftime("%a, %d %b %Y %H:%M:%S GMT")
+    return (dt or datetime.now(timezone.utc)).strftime("%a, %d %b %Y %H:%M:%S GMT")
 
 
 def uuid(seed=None):
