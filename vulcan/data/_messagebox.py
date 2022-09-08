@@ -9,7 +9,7 @@ from ..model import Serializable
 
 @immutable
 class MessageBox(Serializable):
-    """A messagebox.
+    """A message box (not a folder, but an account/person/recipient).
 
     :var int ~.id: MessageBox id
     :var str ~.global_key: MessageBox Global Key

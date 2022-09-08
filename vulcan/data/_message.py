@@ -63,7 +63,7 @@ class Message(Serializable):
         data = await api.helper.get_list(
             DATA_MESSAGE,
             FilterType.BY_MESSAGEBOX,
-            message_box=message_box.global_key,
+            message_box=message_box,
             last_sync=last_sync,
             folder=folder,
             **kwargs
