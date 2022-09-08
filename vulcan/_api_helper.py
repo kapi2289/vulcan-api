@@ -2,7 +2,13 @@
 from datetime import date, datetime
 from enum import Enum, unique
 
-from ._endpoints import DATA_BY_PERIOD, DATA_BY_PERSON, DATA_BY_PUPIL, DATA_ROOT
+from ._endpoints import (
+    DATA_BY_MESSAGEBOX,
+    DATA_BY_PERIOD,
+    DATA_BY_PERSON,
+    DATA_BY_PUPIL,
+    DATA_ROOT,
+)
 
 
 @unique
@@ -10,6 +16,7 @@ class FilterType(Enum):
     BY_PUPIL = 0
     BY_PERSON = 1
     BY_PERIOD = 2
+    BY_MESSAGEBOX = 3
     BY_LOGIN_ID = None
 
     def get_endpoint(self):
@@ -19,6 +26,8 @@ class FilterType(Enum):
             return DATA_BY_PERSON
         elif self == FilterType.BY_PERIOD:
             return DATA_BY_PERIOD
+        elif self == FilterType.BY_MESSAGEBOX:
+            return DATA_BY_MESSAGEBOX
         else:
             return None
 
@@ -35,6 +44,7 @@ class ApiHelper:
         date_from: date = None,
         date_to: date = None,
         last_sync: datetime = None,
+        message_box: str = None,
         folder: int = None,
         params: dict = None,
         **kwargs,
@@ -46,9 +56,9 @@ class ApiHelper:
                 "Getting deleted data IDs is not implemented yet."
             )
         if filter_type and filter_type != FilterType.BY_LOGIN_ID:
-            url = "{}/{}/{}".format(DATA_ROOT, endpoint, filter_type.get_endpoint())
+            url = f"{DATA_ROOT}/{endpoint}/{filter_type.get_endpoint()}"
         else:
-            url = "{}/{}".format(DATA_ROOT, endpoint)
+            url = f"{DATA_ROOT}/{endpoint}"
         query = {}
         account = self._api.account
         student = self._api.student
@@ -58,19 +68,20 @@ class ApiHelper:
             query["unitId"] = student.unit.id
             query["pupilId"] = student.pupil.id
             query["periodId"] = period.id
-        elif (
-            filter_type == FilterType.BY_PERSON or filter_type == FilterType.BY_LOGIN_ID
-        ):
+        elif filter_type in [FilterType.BY_PERSON, FilterType.BY_LOGIN_ID]:
             query["loginId"] = account.login_id
         elif filter_type == FilterType.BY_PERIOD:
             query["periodId"] = period.id
             query["pupilId"] = student.pupil.id
+        elif filter_type == FilterType.BY_MESSAGEBOX:
+            if not message_box:
+                raise AttributeError("No message box specified.")
+            query["box"] = message_box
 
         if date_from:
             query["dateFrom"] = date_from.strftime("%Y-%m-%d")
         if date_to:
             query["dateTo"] = date_to.strftime("%Y-%m-%d")
-
         if folder is not None:
             query["folder"] = folder
 
@@ -82,17 +93,11 @@ class ApiHelper:
 
         if params:
             query.update(params)
-
         return await self._api.get(url, query, **kwargs)
 
     async def get_object(
-        self,
-        cls,
-        endpoint: str,
-        query: dict = None,
-        **kwargs,
+        self, cls, endpoint: str, query: dict = None, **kwargs
     ) -> object:
-        url = "{}/{}".format(DATA_ROOT, endpoint)
-
+        url = f"{DATA_ROOT}/{endpoint}"
         data = await self._api.get(url, query, **kwargs)
         return cls.load(data)

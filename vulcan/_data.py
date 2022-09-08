@@ -13,6 +13,7 @@ from .data import (
     Lesson,
     LuckyNumber,
     Message,
+    MessageBox,
 )
 from .model import DateTime
 
@@ -58,16 +59,24 @@ class VulcanData:
         return Addressbook.get(self._api, **kwargs)
 
     async def get_messages(
-        self, last_sync: datetime = None, folder=1, **kwargs
+        self, message_box: str, last_sync: datetime = None, folder=1, **kwargs
     ) -> Union[AsyncIterator[Message], List[int]]:
-        """Yields messages received by the currently registered account.
+        """Yields messages received in the specified message box.
 
+        :param str message_box: the MessageBox's Global Key to get the messages from, can be obtained from get_message_boxes
         :param `datetime.datetime` last_sync: date of the last sync,
             gets only the objects updated since this date
         :param int folder: message folder: 1 - received; 2 - sent; 3 - deleted
         :rtype: Union[AsyncIterator[:class:`~vulcan.data.Message`], List[int]]
         """
-        return Message.get(self._api, last_sync, folder, **kwargs)
+        return Message.get(self._api, message_box, last_sync, folder, **kwargs)
+
+    async def get_message_boxes(self, **kwargs) -> AsyncIterator[MessageBox]:
+        """Yields message boxes.
+
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.MessageBox`]
+        """
+        return MessageBox.get(self._api, **kwargs)
 
     async def get_grades(
         self, last_sync: datetime = None, deleted=False, **kwargs
