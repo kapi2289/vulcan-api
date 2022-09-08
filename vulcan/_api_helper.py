@@ -2,7 +2,13 @@
 from datetime import date, datetime
 from enum import Enum, unique
 
-from ._endpoints import DATA_BY_PERIOD, DATA_BY_PERSON, DATA_BY_PUPIL, DATA_ROOT
+from ._endpoints import (
+    DATA_BY_MESSAGEBOX,
+    DATA_BY_PERIOD,
+    DATA_BY_PERSON,
+    DATA_BY_PUPIL,
+    DATA_ROOT,
+)
 
 
 @unique
@@ -10,6 +16,7 @@ class FilterType(Enum):
     BY_PUPIL = 0
     BY_PERSON = 1
     BY_PERIOD = 2
+    BY_MESSAGEBOX = 3
     BY_LOGIN_ID = None
 
     def get_endpoint(self):
@@ -19,6 +26,8 @@ class FilterType(Enum):
             return DATA_BY_PERSON
         elif self == FilterType.BY_PERIOD:
             return DATA_BY_PERIOD
+        elif self == FilterType.BY_MESSAGEBOX:
+            return DATA_BY_MESSAGEBOX
         else:
             return None
 
@@ -35,6 +44,7 @@ class ApiHelper:
         date_from: date = None,
         date_to: date = None,
         last_sync: datetime = None,
+        message_box: str = None,
         folder: int = None,
         params: dict = None,
         **kwargs,
@@ -65,6 +75,10 @@ class ApiHelper:
         elif filter_type == FilterType.BY_PERIOD:
             query["periodId"] = period.id
             query["pupilId"] = student.pupil.id
+        elif filter_type == FilterType.BY_MESSAGEBOX:
+            if not message_box:
+                raise AttributeError("No message box specified.")
+            query["box"] = message_box
 
         if date_from:
             query["dateFrom"] = date_from.strftime("%Y-%m-%d")
