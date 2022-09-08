@@ -6,7 +6,7 @@ import platform
 import time
 import urllib
 import uuid as _uuid
-from datetime import datetime
+from datetime import datetime, timezone
 
 import aiohttp
 
@@ -27,16 +27,16 @@ TIME_FORMAT_H_M = "%H:%M"
 
 
 def default_device_model():
-    return "Vulcan API (Python {})".format(platform.python_version())
+    return f"Vulcan API (Python {platform.python_version()})"
 
 
 async def get_base_url(token):
-    code = token[0:3]
+    code = token[:3]
     components = await get_components()
     try:
         return components[code]
-    except KeyError:
-        raise InvalidTokenException()
+    except KeyError as e:
+        raise InvalidTokenException() from e
 
 
 async def get_components():
@@ -51,7 +51,7 @@ async def get_components():
                 components = {a[0]: a[1] for a in components}
             else:
                 components = {}
-            components.update({"FK1": "http://api.fakelog.tk"})
+            components["FK1"] = "http://api.fakelog.tk"
             return components
 
 
@@ -61,7 +61,6 @@ async def get_firebase_token():
         aid = "4609707972546570896:3626695765779152704"
         device = aid.split(":")[0]
         app = "pl.edu.vulcan.hebe"
-
         data = {
             "sender": "987828170337",
             "X-scope": "*",
@@ -71,7 +70,7 @@ async def get_firebase_token():
         }
 
         headers = {
-            "Authorization": "AidLogin {}".format(aid),
+            "Authorization": f"AidLogin {aid}",
             "User-Agent": "Android-GCM/1.5",
             "app": app,
         }
@@ -89,16 +88,16 @@ def millis():
     return math.floor(time.time() * 1000)
 
 
-def now_datetime():  # UTC+0
-    return datetime.utcnow()
+def now_datetime():
+    return datetime.now(timezone.utc)
 
 
 def now_iso(dt=None):  # ISO 8601, local timezone
     return (dt or datetime.now()).strftime("%Y-%m-%d %H:%M:%S")
 
 
-def now_gmt(dt=None):  # RFC 2822, UTC+0
-    return (dt or datetime.utcnow()).strftime("%a, %d %b %Y %H:%M:%S GMT")
+def now_gmt(dt=None):
+    return (dt or datetime.now(timezone.utc)).strftime("%a, %d %b %Y %H:%M:%S GMT")
 
 
 def uuid(seed=None):

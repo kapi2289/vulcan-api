@@ -56,21 +56,18 @@ class ApiHelper:
                 "Getting deleted data IDs is not implemented yet."
             )
         if filter_type and filter_type != FilterType.BY_LOGIN_ID:
-            url = "{}/{}/{}".format(DATA_ROOT, endpoint, filter_type.get_endpoint())
+            url = f"{DATA_ROOT}/{endpoint}/{filter_type.get_endpoint()}"
         else:
-            url = "{}/{}".format(DATA_ROOT, endpoint)
+            url = f"{DATA_ROOT}/{endpoint}"
         query = {}
         account = self._api.account
         student = self._api.student
         period = self._api.period
-
         if filter_type == FilterType.BY_PUPIL:
             query["unitId"] = student.unit.id
             query["pupilId"] = student.pupil.id
             query["periodId"] = period.id
-        elif (
-            filter_type == FilterType.BY_PERSON or filter_type == FilterType.BY_LOGIN_ID
-        ):
+        elif filter_type in [FilterType.BY_PERSON, FilterType.BY_LOGIN_ID]:
             query["loginId"] = account.login_id
         elif filter_type == FilterType.BY_PERIOD:
             query["periodId"] = period.id
@@ -79,34 +76,25 @@ class ApiHelper:
             if not message_box:
                 raise AttributeError("No message box specified.")
             query["box"] = message_box
-
         if date_from:
             query["dateFrom"] = date_from.strftime("%Y-%m-%d")
         if date_to:
             query["dateTo"] = date_to.strftime("%Y-%m-%d")
-
         if folder is not None:
             query["folder"] = folder
-
-        query["lastId"] = "-2147483648"  # don't ask, it's just Vulcan
+        query["lastId"] = "-2147483648"
         query["pageSize"] = 500
         query["lastSyncDate"] = (last_sync or datetime(1970, 1, 1, 0, 0, 0)).strftime(
             "%Y-%m-%d %H:%m:%S"
         )
 
         if params:
-            query.update(params)
-
+            query |= params
         return await self._api.get(url, query, **kwargs)
 
     async def get_object(
-        self,
-        cls,
-        endpoint: str,
-        query: dict = None,
-        **kwargs,
+        self, cls, endpoint: str, query: dict = None, **kwargs
     ) -> object:
-        url = "{}/{}".format(DATA_ROOT, endpoint)
-
+        url = f"{DATA_ROOT}/{endpoint}"
         data = await self._api.get(url, query, **kwargs)
         return cls.load(data)

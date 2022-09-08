@@ -41,10 +41,9 @@ class Keystore(Serializable):
         log.info("Generating key pair...")
         keystore = Keystore(
             *generate_key_pair(),
-            firebase_token if firebase_token else await get_firebase_token(),
-            device_model
+            firebase_token or await get_firebase_token(),
+            device_model,
         )
-        log.info(
-            "Generated for {}, sha1: {}".format(device_model, keystore.fingerprint)
-        )
+
+        log.info(f"Generated for {device_model}, sha1: {keystore.fingerprint}")
         return keystore

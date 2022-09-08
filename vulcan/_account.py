@@ -28,9 +28,9 @@ class Account(Serializable):
     async def register(
         keystore: Keystore, token: str, symbol: str, pin: str
     ) -> "Account":
-        token = str(token).upper()
-        symbol = str(symbol).lower()
-        pin = str(pin)
+        token = token.upper()
+        symbol = symbol.lower()
+        pin = pin
 
         body = {
             "OS": APP_OS,
@@ -46,12 +46,12 @@ class Account(Serializable):
         base_url = await get_base_url(token)
         full_url = "/".join([base_url, symbol, DEVICE_REGISTER])
 
-        log.info("Registering to {}...".format(symbol))
+        log.info(f"Registering to {symbol}...")
 
         api = Api(keystore)
         response = await api.post(full_url, body)
         await api.close()
 
-        log.info("Successfully registered as {}".format(response["UserName"]))
+        log.info(f'Successfully registered as {response["UserName"]}')
 
         return Account.load(response)
