@@ -120,8 +120,8 @@ class Api:
         # a workaround for aiohttp incorrectly re-encoding the full URL
         full_url = URL(full_url, encoded=True)
         async with self._session.request(
-                method, full_url, data=payload, headers=headers, **kwargs
-            ) as r:
+            method, full_url, data=payload, headers=headers, **kwargs
+        ) as r:
             try:
                 response = await r.json()
                 status = response["Status"]

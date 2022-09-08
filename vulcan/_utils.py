@@ -43,8 +43,8 @@ async def get_components():
     log.info("Getting Vulcan components...")
     async with aiohttp.ClientSession() as session:
         async with session.get(
-                    "http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt"
-                ) as r:
+            "http://komponenty.vulcan.net.pl/UonetPlusMobile/RoutingRules.txt"
+        ) as r:
             if r.headers["Content-Type"] == "text/plain":
                 r_txt = await r.text()
                 components = (c.split(",") for c in r_txt.split())
@@ -74,7 +74,6 @@ async def get_firebase_token():
             "User-Agent": "Android-GCM/1.5",
             "app": app,
         }
-
 
         async with session.post(
             "https://android.clients.google.com/c2dm/register3",
