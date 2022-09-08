@@ -88,7 +88,7 @@ def millis():
     return math.floor(time.time() * 1000)
 
 
-def now_datetime():
+def now_datetime():  # RFC 2822, UTC+0
     return datetime.now(timezone.utc)
 
 
@@ -96,7 +96,7 @@ def now_iso(dt=None):  # ISO 8601, local timezone
     return (dt or datetime.now()).strftime("%Y-%m-%d %H:%M:%S")
 
 
-def now_gmt(dt=None):
+def now_gmt(dt=None):  # RFC 2822, UTC+0
     return (dt or datetime.now(timezone.utc)).strftime("%a, %d %b %Y %H:%M:%S GMT")
 
 

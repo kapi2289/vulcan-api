@@ -8,12 +8,12 @@ from ..model import Serializable
 
 
 @immutable
-class Messagebox(Serializable):
+class MessageBox(Serializable):
     """A messagebox.
 
-    :var int ~.id: Messagebox id
-    :var str ~.global_key: Messagebox Global Key
-    :var str ~.name: Messagebox name
+    :var int ~.id: MessageBox id
+    :var str ~.global_key: MessageBox Global Key
+    :var str ~.name: MessageBox name
     """
 
     id: int = IntegerField(key="Id")
@@ -21,11 +21,11 @@ class Messagebox(Serializable):
     name: str = StringField(key="Name")
 
     @classmethod
-    async def get(cls, api, **kwargs) -> Union[AsyncIterator["Messagebox"], List[int]]:
+    async def get(cls, api, **kwargs) -> AsyncIterator["MessageBox"]:
         """
-        :rtype: Union[AsyncIterator[:class:`~vulcan.data.Messagebox`], List[int]]
+        :rtype: Union[AsyncIterator[:class:`~vulcan.data.MessageBox`]
         """
         data = await api.helper.get_list(DATA_MESSAGEBOX, None, **kwargs)
 
         for messagebox in data:
-            yield Messagebox.load(messagebox)
+            yield MessageBox.load(messagebox)

@@ -132,27 +132,27 @@ class Api:
                     raise InvalidSignatureValuesException()
 
                 elif status["Code"] == 108:
-                    log.debug(f" ! {str(status)}")
+                    log.debug(f" ! {status}")
                     raise UnauthorizedCertificateException()
 
                 elif status["Code"] == 200:
-                    log.debug(f" ! {str(status)}")
+                    log.debug(f" ! {status}")
                     raise InvalidTokenException()
 
                 elif status["Code"] == 203:
-                    log.debug(f" ! {str(status)}")
+                    log.debug(f" ! {status}")
                     raise InvalidPINException()
 
                 elif status["Code"] == 204:
-                    log.debug(f" ! {str(status)}")
+                    log.debug(f" ! {status}")
                     raise ExpiredTokenException()
 
                 elif status["Code"] == -1:
-                    log.debug(f" ! {str(status)}")
+                    log.debug(f" ! {status}")
                     raise InvalidSymbolException()
 
                 elif status["Code"] != 0:
-                    log.debug(f" ! {str(status)}")
+                    log.debug(f" ! {status}")
                     raise VulcanAPIException(status["Message"])
 
                 log.debug(f" < {str(envelope)}")
