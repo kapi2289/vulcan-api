@@ -63,6 +63,7 @@ class ApiHelper:
         account = self._api.account
         student = self._api.student
         period = self._api.period
+
         if filter_type == FilterType.BY_PUPIL:
             query["unitId"] = student.unit.id
             query["pupilId"] = student.pupil.id
@@ -76,20 +77,22 @@ class ApiHelper:
             if not message_box:
                 raise AttributeError("No message box specified.")
             query["box"] = message_box
+
         if date_from:
             query["dateFrom"] = date_from.strftime("%Y-%m-%d")
         if date_to:
             query["dateTo"] = date_to.strftime("%Y-%m-%d")
         if folder is not None:
             query["folder"] = folder
-        query["lastId"] = "-2147483648"
+
+        query["lastId"] = "-2147483648"  # don't ask, it's just Vulcan
         query["pageSize"] = 500
         query["lastSyncDate"] = (last_sync or datetime(1970, 1, 1, 0, 0, 0)).strftime(
             "%Y-%m-%d %H:%m:%S"
         )
 
         if params:
-            query |= params
+            query.update(params)
         return await self._api.get(url, query, **kwargs)
 
     async def get_object(

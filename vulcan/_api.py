@@ -99,6 +99,7 @@ class Api:
     ) -> Union[dict, list]:
         if self._session.closed:
             raise RuntimeError("The AioHttp session is already closed.")
+
         full_url = (
             url
             if url.startswith("http")
@@ -109,10 +110,14 @@ class Api:
 
         if not full_url:
             raise ValueError("Relative URL specified but no account loaded")
+
         payload = self._build_payload(body) if body and method == "POST" else None
         payload = json.dumps(payload) if payload else None
         headers = self._build_headers(full_url, payload)
+
         log.debug(f" > {method} to {full_url}")
+
+        # a workaround for aiohttp incorrectly re-encoding the full URL
         full_url = URL(full_url, encoded=True)
         async with self._session.request(
             method, full_url, data=payload, headers=headers, **kwargs
@@ -121,26 +126,35 @@ class Api:
                 response = await r.json()
                 status = response["Status"]
                 envelope = response["Envelope"]
+
+                # check for the presence of a b64 string preceded with ': '
                 if status["Code"] == 100 and ": " in status["Message"]:
                     raise InvalidSignatureValuesException()
+
                 elif status["Code"] == 108:
                     log.debug(f" ! {str(status)}")
                     raise UnauthorizedCertificateException()
+
                 elif status["Code"] == 200:
                     log.debug(f" ! {str(status)}")
                     raise InvalidTokenException()
+
                 elif status["Code"] == 203:
                     log.debug(f" ! {str(status)}")
                     raise InvalidPINException()
+
                 elif status["Code"] == 204:
                     log.debug(f" ! {str(status)}")
                     raise ExpiredTokenException()
+
                 elif status["Code"] == -1:
                     log.debug(f" ! {str(status)}")
                     raise InvalidSymbolException()
+
                 elif status["Code"] != 0:
                     log.debug(f" ! {str(status)}")
                     raise VulcanAPIException(status["Message"])
+
                 log.debug(f" < {str(envelope)}")
                 return envelope
             except ValueError as e:
