@@ -130,27 +130,21 @@ class Api:
                 # check for the presence of a b64 string preceded with ': '
                 if status["Code"] == 100 and ": " in status["Message"]:
                     raise InvalidSignatureValuesException()
-
                 elif status["Code"] == 108:
                     log.debug(f" ! {status}")
                     raise UnauthorizedCertificateException()
-
                 elif status["Code"] == 200:
                     log.debug(f" ! {status}")
                     raise InvalidTokenException()
-
                 elif status["Code"] == 203:
                     log.debug(f" ! {status}")
                     raise InvalidPINException()
-
                 elif status["Code"] == 204:
                     log.debug(f" ! {status}")
                     raise ExpiredTokenException()
-
                 elif status["Code"] == -1:
                     log.debug(f" ! {status}")
                     raise InvalidSymbolException()
-
                 elif status["Code"] != 0:
                     log.debug(f" ! {status}")
                     raise VulcanAPIException(status["Message"])
