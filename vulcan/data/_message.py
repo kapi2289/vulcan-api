@@ -45,13 +45,13 @@ class Message(Serializable):
     subject: str = StringField(key="Subject")
     content: str = StringField(key="Content")
     sent_date: DateTime = ChildField(DateTime, key="DateSent")
-    read_date: DateTime = ChildField(DateTime, key="DateRead", required=False)
     status: int = IntegerField(key="Status")
     sender: Address = ChildField(Address, key="Sender")
     receivers: List[Address] = SequenceField(Address, key="Receiver", repr=True)
     attachments: List[Attachment] = SequenceField(
         Attachment, key="Attachments", repr=True
     )
+    read_date: DateTime = ChildField(DateTime, key="DateRead", required=False)
 
     @classmethod
     async def get(
