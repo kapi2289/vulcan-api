@@ -13,7 +13,7 @@ from ._exceptions import (
 )
 from ._keystore import Keystore
 
-__version__ = "2.2.0"
+__version__ = "2.2.1"
 __doc__ = "Unofficial API for UONET+ e-register"
 
 __all__ = [
