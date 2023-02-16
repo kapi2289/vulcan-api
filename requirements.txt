@@ -1,6 +1,6 @@
 related~=0.7.3
 aenum~=3.1.11
-aiohttp~=3.8.1
+aiohttp~=3.8.4
 yarl~=1.8.1
 pytz~=2022.2
 uonet-request-signer-hebe==0.1.1
