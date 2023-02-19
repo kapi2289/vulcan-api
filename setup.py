@@ -35,7 +35,6 @@ setup(
         "aenum",
         "related",
         "aiohttp",
-        "faust-cchardet",
         "aiodns",
         "yarl",
     ],
