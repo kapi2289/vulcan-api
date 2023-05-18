@@ -79,6 +79,7 @@ class Api:
         )
 
         headers = {
+            "content-type": "application/json",
             "User-Agent": APP_USER_AGENT,
             "vOS": APP_OS,
             "vDeviceModel": self._keystore.device_model,
