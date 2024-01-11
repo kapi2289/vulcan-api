@@ -31,6 +31,9 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - test
+    environment:
+      name: pypi
+      url: https://pypi.org/p/vulcan-api
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -54,10 +57,7 @@ jobs:
         .
     - name: Publish distribution 📦 to PyPI
       if: startsWith(github.ref, 'refs/tags')
-      uses: pypa/gh-action-pypi-publish@master
-      with:
-        user: ${{ secrets.PYPI_USERNAME }}
-        password: ${{ secrets.PYPI_PASSWORD }}
+      uses: pypa/gh-action-pypi-publish@release/v1
     - name: Add GitHub release assets
       uses: softprops/action-gh-release@v1
       with:
