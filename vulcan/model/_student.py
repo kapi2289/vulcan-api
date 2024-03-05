@@ -76,4 +76,6 @@ class Student(Serializable):
         :rtype: List[:class:`~vulcan.model.Student`]
         """
         data = await api.get(STUDENT_LIST, **kwargs)
-        return [Student.load(student) for student in data if student["State"] == 0] # Ignore old student profiles that Vulcan started returning in their API
+        return [
+            Student.load(student) for student in data if student["State"] == 0
+        ]  # Ignore old student profiles that Vulcan started returning in their API
