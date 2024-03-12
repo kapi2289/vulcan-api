@@ -4,6 +4,7 @@ from typing import List
 from related import ChildField, SequenceField, StringField, immutable
 
 from .._endpoints import STUDENT_LIST
+from ._messagebox import MessageBox
 from ._period import Period
 from ._pupil import Pupil
 from ._school import School
@@ -24,6 +25,7 @@ class Student(Serializable):
          (e.g. several school buildings)
     :var `~vulcan.model.School` ~.school: info about the school
          (a single building of the unit)
+    :var `~vulcan.model.MessageBox` ~.message_box: the student's message box
     :var List[`~vulcan.model.Period`] ~.periods: a list of
          the student's school year periods
     """
@@ -35,6 +37,7 @@ class Student(Serializable):
     pupil: Pupil = ChildField(Pupil, key="Pupil")
     unit: Unit = ChildField(Unit, key="Unit")
     school: School = ChildField(School, key="ConstituentUnit")
+    message_box: MessageBox = ChildField(MessageBox, key="MessageBox")
     periods: List[Period] = SequenceField(Period, key="Periods")
 
     @property

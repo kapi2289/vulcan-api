@@ -2,6 +2,7 @@
 
 from ._attachment import Attachment
 from ._datetime import DateTime
+from ._messagebox import MessageBox
 from ._period import Period
 from ._pupil import Gender, Pupil
 from ._school import School

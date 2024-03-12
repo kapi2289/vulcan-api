@@ -13,9 +13,8 @@ from .data import (
     Lesson,
     LuckyNumber,
     Message,
-    MessageBox,
 )
-from .model import DateTime
+from .model import DateTime, MessageBox
 
 
 class VulcanData:

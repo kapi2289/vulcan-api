@@ -4,7 +4,7 @@ from typing import AsyncIterator, List, Union
 from related import IntegerField, StringField, immutable
 
 from .._endpoints import DATA_MESSAGEBOX
-from ..model import Serializable
+from ._serializable import Serializable
 
 
 @immutable
