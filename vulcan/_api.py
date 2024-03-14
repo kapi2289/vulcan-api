@@ -103,9 +103,7 @@ class Api:
         full_url = (
             url
             if url.startswith("http")
-            else self._rest_url + url
-            if self._rest_url
-            else None
+            else self._rest_url + url if self._rest_url else None
         )
 
         if not full_url:
