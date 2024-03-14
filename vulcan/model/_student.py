@@ -12,7 +12,7 @@ from ._serializable import Serializable
 from ._unit import Unit
 
 
-class State(Enum):
+class StudentState(Enum):
     """Student state enumeration.
 
     :cvar int ACTIVE: active student
@@ -43,7 +43,7 @@ class Student(Serializable):
     class_: str = StringField(key="ClassDisplay")
     symbol: str = StringField(key="TopLevelPartition")
     symbol_code: str = StringField(key="Partition")
-    state: State = ChildField(State, key="State")
+    state: StudentState = ChildField(StudentState, key="State")
 
     pupil: Pupil = ChildField(Pupil, key="Pupil")
     unit: Unit = ChildField(Unit, key="Unit")

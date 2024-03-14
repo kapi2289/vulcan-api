@@ -4,7 +4,7 @@ from typing import List
 from ._api import Api
 from ._data import VulcanData
 from ._utils import log
-from .model import State, Student
+from .model import Student, StudentState
 
 
 class Vulcan:
@@ -51,7 +51,7 @@ class Vulcan:
         log.setLevel(logging_level)
 
     async def get_students(
-        self, state: State = State.ACTIVE, cached=True
+        self, state: StudentState = StudentState.ACTIVE, cached=True
     ) -> List[Student]:
         """Gets students assigned to this account.
 
