@@ -4,7 +4,7 @@ from typing import List
 from ._api import Api
 from ._data import VulcanData
 from ._utils import log
-from .model import Student
+from .model import State, Student
 
 
 class Vulcan:
@@ -50,15 +50,18 @@ class Vulcan:
         """
         log.setLevel(logging_level)
 
-    async def get_students(self, cached=True) -> List[Student]:
+    async def get_students(
+        self, state: State = State.ACTIVE, cached=True
+    ) -> List[Student]:
         """Gets students assigned to this account.
 
+        :param state: the state of the students to get
         :param bool cached: whether to allow returning the cached list
         :rtype: List[:class:`~vulcan.model.Student`]
         """
         if self._students and cached:
             return self._students
-        self._students = await Student.get(self._api)
+        self._students = await Student.get(self._api, state)
         return self._students
 
     @property

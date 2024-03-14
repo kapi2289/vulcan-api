@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from enum import Enum
 from typing import List
 
 from related import ChildField, SequenceField, StringField, immutable
@@ -9,6 +10,17 @@ from ._pupil import Pupil
 from ._school import School
 from ._serializable import Serializable
 from ._unit import Unit
+
+
+class State(Enum):
+    """Student state enumeration.
+
+    :cvar int ACTIVE: active student
+    :cvar int INACTIVE: inactive student
+    """
+
+    ACTIVE = 0
+    INACTIVE = 3
 
 
 @immutable
@@ -31,6 +43,7 @@ class Student(Serializable):
     class_: str = StringField(key="ClassDisplay")
     symbol: str = StringField(key="TopLevelPartition")
     symbol_code: str = StringField(key="Partition")
+    state: State = ChildField(State, key="State")
 
     pupil: Pupil = ChildField(Pupil, key="Pupil")
     unit: Unit = ChildField(Unit, key="Unit")
@@ -71,11 +84,11 @@ class Student(Serializable):
         return next((period for period in self.periods if period.id == period_id), None)
 
     @classmethod
-    async def get(cls, api, **kwargs) -> List["Student"]:
+    async def get(cls, api, state, **kwargs) -> List["Student"]:
         """
         :rtype: List[:class:`~vulcan.model.Student`]
         """
         data = await api.get(STUDENT_LIST, **kwargs)
         return [
-            Student.load(student) for student in data if student["State"] == 0
-        ]  # Ignore old student profiles that Vulcan started returning in their API
+            Student.load(student) for student in data if student["State"] == state.value
+        ]
