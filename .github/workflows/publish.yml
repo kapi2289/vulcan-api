@@ -1,8 +1,5 @@
 name: Publish Python Package
 
-permissions:
-  id-token: write
-
 on:
   release:
     types: [created]
@@ -37,6 +34,9 @@ jobs:
     environment:
       name: pypi
       url: https://pypi.org/p/vulcan-api
+    permissions:
+      id-token: write
+      contents: write
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -62,13 +62,11 @@ jobs:
       if: startsWith(github.ref, 'refs/tags')
       uses: pypa/gh-action-pypi-publish@release/v1
     - name: Add GitHub release assets
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
         files: |
           dist/*.whl
           dist/*.tar.gz
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload workflow artifact
       uses: actions/upload-artifact@v3
       with:
