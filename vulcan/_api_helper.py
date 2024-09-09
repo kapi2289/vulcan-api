@@ -77,6 +77,7 @@ class ApiHelper:
             if not message_box:
                 raise AttributeError("No message box specified.")
             query["box"] = message_box
+            query["pupilId"] = student.pupil.id
 
         if date_from:
             query["dateFrom"] = date_from.strftime("%Y-%m-%d")
