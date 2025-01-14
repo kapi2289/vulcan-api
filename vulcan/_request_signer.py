@@ -61,11 +61,9 @@ def get_signature_values(fingerprint, private_key, body, full_url, timestamp):
     signature = get_signature(values, private_key)
 
     return (
-        "SHA-256={}".format(digest) if digest else None,
+        f"SHA-256={digest}" if digest else None,
         canonical_url,
-        'keyId="{}",headers="{}",algorithm="sha256withrsa",signature=Base64(SHA256withRSA({}))'.format(
-            fingerprint, headers, signature
-        ),
+        f'keyId="{fingerprint}",headers="{headers}",algorithm="sha256withrsa",signature=Base64(SHA256withRSA({signature}))',
     )
 
 
