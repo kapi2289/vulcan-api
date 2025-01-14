@@ -4,7 +4,6 @@ import json
 from typing import Union
 
 import aiohttp
-from uonet_request_signer_hebe import get_signature_values
 from yarl import URL
 
 from ._api_helper import ApiHelper
@@ -18,6 +17,7 @@ from ._exceptions import (
     VulcanAPIException,
 )
 from ._keystore import Keystore
+from ._request_signer import get_signature_values
 from ._utils import (
     APP_NAME,
     APP_OS,

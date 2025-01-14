@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from related import StringField, immutable
-from uonet_request_signer_hebe import generate_key_pair
 
+from ._request_signer import generate_key_pair
 from ._utils import default_device_model, get_firebase_token, log
 from .model import Serializable
 
